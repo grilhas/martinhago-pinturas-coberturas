@@ -1,0 +1,105 @@
+---
+import { getImage } from "astro:assets";
+import ServiceLayout from "@layouts/ServiceLayout.astro";
+import { buildServiceSchema, buildFaqSchema, buildBreadcrumbSchema } from "@js/serviceSchema.js";
+
+import bannerImage from "@assets/images/pinturas/trabalhadores-telhas-instalacao.jpg";
+import introImage from "@assets/images/pinturas/trabalhadores-telhas-instalacao.jpg";
+import whyImageOne from "@assets/images/pinturas/telhas-barro-detalhe.jpg";
+import whyImageTwo from "@assets/images/pinturas/equipa-telhado-reparacao.jpg";
+import processImageOne from "@assets/images/pinturas/reparacao-telhado-altura.jpg";
+import processImageTwo from "@assets/images/pinturas/tecnico-plataforma-telhado.jpg";
+
+const optimizedBanner = await getImage({ src: bannerImage, format: "webp" });
+
+const meta = {
+	title: "Lavagem e Pintura de Telhados | Martinhago Pinturas & Coberturas",
+	seoDescription:
+		"Lavagem profissional de telhados e pintura de telhas em Lisboa e região. Remove musgo, protege a cobertura e prolonga a vida do telhado.",
+};
+
+const banner = {
+	title: "Lavagem e Pintura de Telhados",
+	description: "Telhas limpas, tratadas e pintadas para durarem mais.",
+	image: optimizedBanner,
+};
+
+const intro = {
+	titleHighlight: "Lavagem e Pintura",
+	titleSuffix: " de Telhados",
+	intro: [
+		"Um telhado com musgo e sujidade acumulada não é só uma questão de estética — retém humidade e acelera o desgaste das telhas. Fazemos a lavagem completa com produtos próprios para exterior, sem danificar a telha.",
+		"Depois de limpo, aplicamos tinta ou impermeabilizante próprio para telha, que devolve cor à cobertura e protege da chuva e do sol pelos anos seguintes.",
+	],
+	listIntro: "O que inclui este serviço:",
+	listItems: [
+		{ label: "Inspeção do telhado", description: "Identificamos telhas partidas ou deslocadas antes de lavar." },
+		{ label: "Lavagem profissional", description: "Remove musgo e sujidade acumulada sem danificar a telha." },
+		{ label: "Substituição de telhas", description: "Telhas partidas ou deslocadas são substituídas antes da pintura." },
+		{ label: "Pintura ou impermeabilização", description: "Acabamento que protege a cobertura da chuva e do sol." },
+	],
+	image: introImage,
+	imageAlt: "Trabalhadores a instalar telhas num telhado",
+};
+
+const whyChoose = {
+	title: "Porque Escolher a Martinhago",
+	introPara: "Um telhado tratado a tempo evita infiltrações caras mais tarde.",
+	reasons: [
+		{ heading: "Inspeção antes de lavar", description: "Identificamos telhas partidas antes de começar a lavagem." },
+		{ heading: "Produtos próprios para telha", description: "Removem musgo sem danificar a superfície da telha." },
+		{ heading: "Substituição incluída", description: "Telhas partidas ou deslocadas são substituídas no mesmo trabalho." },
+		{ heading: "Trabalho em altura seguro", description: "Equipamento de segurança adequado para cada tipo de telhado." },
+	],
+	imageOne: whyImageOne,
+	imageOneAlt: "Detalhe de telhas de barro sobrepostas",
+	imageTwo: whyImageTwo,
+	imageTwoAlt: "Equipa a reparar um telhado",
+};
+
+const process = {
+	title: "Como Fazemos",
+	paragraph: "Lavagem e pintura de um telhado de telha em Loures",
+	headingThree: "Como Fizemos",
+	bullets: [
+		{ label: "Inspeção", description: "Verificámos o estado geral das telhas e identificámos as danificadas." },
+		{ label: "Substituição", description: "Substituímos as telhas partidas ou deslocadas." },
+		{ label: "Lavagem", description: "Removemos o musgo e a sujidade acumulada com produto próprio." },
+		{ label: "Pintura", description: "Aplicámos tinta própria para telha, protegendo a cobertura." },
+	],
+	imageOne: processImageOne,
+	imageOneAlt: "Trabalhador a reparar um telhado em altura",
+	imageTwo: processImageTwo,
+	imageTwoAlt: "Técnico numa plataforma elevatória junto a um telhado",
+};
+
+const faq = {
+	title: "Perguntas Frequentes sobre Lavagem e Pintura de Telhados",
+	questions: [
+		{ question: "De quanto em quanto tempo deve lavar-se um telhado?", answer: "Em geral, a cada 3 a 5 anos, dependendo da exposição à sombra e à humidade. Telhados com muito musgo acumulado devem ser tratados mais cedo." },
+		{ question: "A lavagem danifica as telhas?", answer: "Não, usamos produtos e técnicas próprias para telha que removem musgo e sujidade sem danificar a superfície nem soltar as telhas." },
+		{ question: "Substituem telhas partidas durante o trabalho?", answer: "Sim, identificamos telhas partidas ou deslocadas na inspeção inicial e substituímo-las antes de lavar e pintar." },
+		{ question: "A pintura do telhado ajuda a evitar infiltrações?", answer: "Ajuda a proteger a telha da chuva e do sol, mas se já existir infiltração ativa, tratamos também da impermeabilização e vedação das zonas afetadas." },
+	],
+};
+
+const serviceSchema = buildServiceSchema({
+	name: meta.title,
+	description: meta.seoDescription,
+	slug: "lavagem-pintura-telhados",
+});
+const faqSchema = buildFaqSchema(faq.questions);
+const breadcrumbSchema = buildBreadcrumbSchema([
+	{ name: "Início", url: "/" },
+	{ name: "Serviços", url: "/services/" },
+	{ name: "Lavagem e Pintura de Telhados", url: "/services/lavagem-pintura-telhados/" },
+]);
+---
+
+<ServiceLayout meta={meta} banner={banner} intro={intro} whyChoose={whyChoose} process={process} faq={faq}>
+	<Fragment slot="schema">
+		<script is:inline type="application/ld+json" set:html={JSON.stringify(serviceSchema)} />
+		<script is:inline type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+		<script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+	</Fragment>
+</ServiceLayout>

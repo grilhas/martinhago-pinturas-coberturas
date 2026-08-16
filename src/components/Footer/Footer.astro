@@ -1,0 +1,303 @@
+---
+// Utils
+import { Icon } from "astro-icon/components";
+import { getCurrentYear } from "@js/utils";
+
+// Data
+import { BUSINESS } from "@data/client";
+
+const currentYear = getCurrentYear();
+
+const quickLinks = [
+  { label: "Sobre Nós", href: "/about/" },
+  { label: "Áreas de Serviço", href: "/lisboa/" },
+  { label: "Contactos", href: "/contact/" },
+];
+
+const services = [
+  { label: "Pintura Interior e Exterior", href: "/services/pintura-interior-exterior/" },
+  { label: "Lavagem e Pintura de Telhados", href: "/services/lavagem-pintura-telhados/" },
+  { label: "Impermeabilização e Vedação Especializada", href: "/services/impermeabilizacao-vedacao/" },
+  { label: "Recuperação de Algerozes", href: "/services/recuperacao-algerozes/" },
+  { label: "Substituição de Vidros de Claraboia", href: "/services/substituicao-vidros-claraboia/" },
+];
+---
+
+<footer id="cs-footer-1110">
+  <div class="cs-container">
+    <!-- Quick Links -->
+    <ul class="cs-nav">
+      <li class="cs-nav-li">
+        <span class="cs-header">Ligações Rápidas</span>
+      </li>
+      {
+        quickLinks.map((link) => (
+          <li class="cs-nav-li">
+            <a class="cs-nav-link" href={link.href}>
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <!-- Services -->
+    <ul class="cs-nav">
+      <li class="cs-nav-li">
+        <span class="cs-header">Serviços</span>
+      </li>
+      {
+        services.map((service) => (
+          <li class="cs-nav-li">
+            <a class="cs-nav-link" href={service.href}>
+              {service.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <!-- Contact Info -->
+    <ul class="cs-nav">
+      <li class="cs-nav-li">
+        <span class="cs-header">Contactos</span>
+      </li>
+      <li class="cs-nav-li">
+        <Icon
+          class="cs-icon"
+          name="footer-phone"
+          width="24"
+          height="24"
+          aria-hidden="true"
+        />
+        <a class="cs-nav-link cs-phone" href={`tel:${BUSINESS.phoneForTel}`}
+          >{BUSINESS.phoneFormatted}</a
+        >
+      </li>
+      <li class="cs-nav-li">
+        <Icon
+          class="cs-icon"
+          name="footer-mail"
+          width="24"
+          height="24"
+          aria-hidden="true"
+        />
+        <a class="cs-nav-link cs-email" href={`mailto:${BUSINESS.email}`}
+          >{BUSINESS.email}</a
+        >
+      </li>
+      <li class="cs-nav-li">
+        <Icon
+          class="cs-icon"
+          name="footer-pin"
+          width="24"
+          height="24"
+          aria-hidden="true"
+        />
+        <a
+          class="cs-nav-link cs-address"
+          href={BUSINESS.address.mapLink}
+          target="_blank"
+          rel="noopener"
+        >
+          {BUSINESS.address.lineOne}<br />{BUSINESS.address.city}, {
+            BUSINESS.address.state
+          }
+          {BUSINESS.address.zip}
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="cs-bottom">
+    <span class="cs-copyright"
+      >© Copyright {currentYear} - {BUSINESS.name}</span
+    >
+    <span class="cs-copyright">Concebido e codificado por Flow Lab</span>
+  </div>
+</footer>
+
+<style lang="less">
+  /*-- -------------------------- -->
+<---          Footer            -->
+<--- -------------------------- -*/
+
+  /* Mobile - 360px */
+  @media only screen and (min-width: 0rem) {
+    #cs-footer-1110 {
+      padding: var(--sectionPadding);
+      /* Near-black brand footer with subtle vignette */
+      background:
+        linear-gradient(
+          -73.74deg,
+          rgba(0, 0, 0, 0) 8.97%,
+          rgba(0, 0, 0, 0.5) 83.86%
+        ),
+        var(--headerColor);
+      position: relative;
+      z-index: 10;
+
+      .cs-container {
+        width: 100%;
+        /* reset on desktop */
+        max-width: (700/16rem);
+        margin: auto;
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: (40/16rem);
+      }
+
+      /* Navigation Links */
+      .cs-nav {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        gap: (12/16rem);
+      }
+
+      .cs-nav-li {
+        list-style: none;
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+      }
+
+      .cs-header {
+        font-size: (20/16rem);
+        font-weight: 600;
+        line-height: 1.2em;
+        text-transform: uppercase;
+        margin-bottom: (12/16rem);
+        color: #f7f7f7;
+        font-family: var(--headerFont);
+        display: block;
+        position: relative;
+      }
+
+      .cs-nav-link {
+        font-size: (16/16rem);
+        line-height: 1.5em;
+        text-decoration: none;
+        color: #f7f7f7;
+        font-family: var(--bodyFont);
+        display: inline-block;
+        position: relative;
+        transition: color 0.3s;
+
+        &:before {
+          /* underline */
+          content: "";
+          width: 0%;
+          height: (2/16rem);
+          background: currentColor;
+          opacity: 1;
+          display: block;
+          position: absolute;
+          bottom: (-2/16rem);
+          left: 0;
+          transition: width 0.3s;
+        }
+
+        &:hover {
+          color: var(--primary);
+          &:before {
+            width: 100%;
+          }
+        }
+      }
+
+      .cs-icon {
+        width: (24/16rem);
+        height: (24/16rem);
+        margin-right: (12/16rem);
+        color: #f7f7f7;
+        flex-shrink: 0;
+      }
+
+      .cs-bottom {
+        max-width: (1280/16rem);
+        margin: auto;
+        margin-top: (32/16rem);
+        padding-top: (24/16rem);
+        border-top: 1px solid #484848;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: (8/16rem);
+        text-align: center;
+      }
+
+      .cs-copyright,
+      .cs-copyright-link {
+        font-size: (16/16rem);
+        line-height: 1.5em;
+        color: #f7f7f7;
+        font-family: var(--bodyFont);
+      }
+
+      .cs-copyright-link {
+        text-decoration: none;
+        transition: color 0.3s;
+        &:hover {
+          color: var(--primary);
+        }
+      }
+    }
+  }
+
+  /* Tablet - 768px */
+  @media only screen and (min-width: 48rem) {
+    #cs-footer-1110 {
+      .cs-container {
+        flex-direction: row;
+        justify-content: space-between;
+        row-gap: (40/16rem);
+      }
+
+      .cs-nav {
+        width: auto;
+      }
+
+      .cs-bottom {
+        flex-direction: row;
+        justify-content: space-between;
+        text-align: left;
+      }
+    }
+  }
+
+  /* Small Desktop - 1024px */
+  @media only screen and (min-width: 64rem) {
+    #cs-footer-1110 {
+      .cs-container {
+        max-width: (1440/16rem);
+        justify-content: flex-start;
+        flex-wrap: nowrap;
+        column-gap: clamp(2.5rem, 6vw, 5.25rem);
+      }
+    }
+  }
+
+  /* Dark Mode — drop the primary-blue base to near-black */
+  @media only screen and (min-width: 0rem) {
+    body.dark-mode {
+      #cs-footer-1110 {
+        background:
+          linear-gradient(
+            -73.74deg,
+            rgba(0, 0, 0, 0) 8.97%,
+            rgba(0, 0, 0, 0.6) 83.86%
+          ),
+          #0a0a0a;
+
+        .cs-bottom {
+          border-top-color: rgba(255, 255, 255, 0.1);
+        }
+      }
+    }
+  }
+</style>

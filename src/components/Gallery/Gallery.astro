@@ -1,0 +1,370 @@
+---
+// Utils
+import { Picture } from "astro:assets";
+
+// Real photos
+import fachadaAndaimeTrabalhador from "@assets/images/pinturas/fachada-andaime-trabalhador.jpg";
+import fachadasColoridasCeu from "@assets/images/pinturas/fachadas-coloridas-ceu.jpg";
+import pintorEscadaFachada from "@assets/images/pinturas/pintor-escada-fachada.jpg";
+import equipaPintoresFachada from "@assets/images/pinturas/equipa-pintores-fachada.jpg";
+import trabalhadoresTelhasInstalacao from "@assets/images/pinturas/trabalhadores-telhas-instalacao.jpg";
+import reparacaoTelhadoAltura from "@assets/images/pinturas/reparacao-telhado-altura.jpg";
+import tecnicoPlataformaTelhado from "@assets/images/pinturas/tecnico-plataforma-telhado.jpg";
+import equipaTelhadoReparacao from "@assets/images/pinturas/equipa-telhado-reparacao.jpg";
+import telhasBarroDetalhe from "@assets/images/pinturas/telhas-barro-detalhe.jpg";
+import algerozBrancoParede from "@assets/images/pinturas/algeroz-branco-parede.jpg";
+import claraboiaTelhadoTerracota from "@assets/images/pinturas/claraboia-telhado-terracota.jpg";
+import tecnicoChecklistInspecao from "@assets/images/pinturas/tecnico-checklist-inspecao.jpg";
+
+type GalleryCategory = {
+	key: string;
+	label: string;
+	images: { src: ImageMetadata; alt: string }[];
+};
+
+const galleries: GalleryCategory[] = [
+	{
+		key: "before-after",
+		label: "Antes e Depois",
+		images: [
+			{ src: fachadaAndaimeTrabalhador, alt: "Fachada em andaime durante os trabalhos" },
+			{ src: fachadasColoridasCeu, alt: "Fachadas pintadas com cor viva sob céu azul" },
+			{ src: pintorEscadaFachada, alt: "Pintor numa escada a pintar a fachada de um edifício" },
+			{ src: equipaPintoresFachada, alt: "Equipa de pintores a trabalhar numa fachada" },
+		],
+	},
+	{
+		key: "installs",
+		label: "No Terreno",
+		images: [
+			{ src: trabalhadoresTelhasInstalacao, alt: "Trabalhadores a instalar telhas num telhado" },
+			{ src: reparacaoTelhadoAltura, alt: "Reparação de telhado em altura" },
+			{ src: tecnicoPlataformaTelhado, alt: "Técnico numa plataforma elevatória junto a um telhado" },
+			{ src: equipaTelhadoReparacao, alt: "Equipa a reparar um telhado" },
+		],
+	},
+	{
+		key: "details",
+		label: "Trabalho de Pormenor",
+		images: [
+			{ src: telhasBarroDetalhe, alt: "Detalhe de telhas de barro sobrepostas" },
+			{ src: algerozBrancoParede, alt: "Algeroz branco numa parede exterior" },
+			{ src: claraboiaTelhadoTerracota, alt: "Claraboia numa cobertura de telha de terracota" },
+			{ src: tecnicoChecklistInspecao, alt: "Checklist de inspeção preenchida no local" },
+		],
+	},
+];
+---
+
+<!-- ============================================ --><!--                   Gallery                    --><!-- ============================================ -->
+<section id="gallery-453">
+	<div class="cs-container">
+		<div class="cs-content">
+			<div class="cs-flex">
+				<span class="cs-topper">Trabalhos Recentes</span>
+				<h2 class="cs-title">Pinturas e Reparações</h2>
+			</div>
+			<div class="cs-button-group">
+				<button class="cs-button cs-active" data-filter="all">Todos</button>
+				{
+					galleries.map((g) => (
+						<button class="cs-button" data-filter={g.key}>
+							{g.label}
+						</button>
+					))
+				}
+			</div>
+		</div>
+		<div class="cs-wrapper">
+			{
+				galleries.map((g, i) => (
+					<div class:list={["cs-gallery", { "cs-hidden": i !== 0 }]} data-category={g.key}>
+						{g.images.map((img) => (
+							<Picture
+								src={img.src}
+								alt={img.alt}
+								widths={[305, 610]}
+								sizes="(min-width: 48rem) 305px, 50vw"
+								formats={["avif", "webp"]}
+								pictureAttributes={{ class: "cs-image" }}
+								loading="lazy"
+							/>
+						))}
+					</div>
+				))
+			}
+		</div>
+		<a href="/contact/" class="cs-button-solid">Pedir Orçamento</a>
+	</div>
+</section>
+
+<script>
+	class CS_GalleryFilter {
+		private filtersSelector = ".cs-button";
+		private galleriesSelector = ".cs-gallery";
+		private activeClass = "cs-active";
+		private hiddenClass = "cs-hidden";
+
+		private $galleries: NodeListOf<HTMLElement>;
+		private $activeFilter?: HTMLElement;
+
+		constructor() {
+			this.$galleries = document.querySelectorAll(this.galleriesSelector);
+			const $filters = document.querySelectorAll<HTMLElement>(this.filtersSelector);
+
+			if (!$filters.length) return;
+
+			this.onClick($filters[0]);
+
+			for (const $filter of $filters) {
+				$filter.addEventListener("click", () => this.onClick($filter));
+			}
+		}
+
+		private onClick($filter: HTMLElement) {
+			const filter = $filter.dataset.filter;
+			if (!filter) return;
+
+			this.filter(filter);
+			this.$activeFilter?.classList.remove(this.activeClass);
+			$filter.classList.add(this.activeClass);
+			this.$activeFilter = $filter;
+		}
+
+		private filter(filter: string) {
+			const showAll = filter === "all";
+			for (const $gallery of this.$galleries) {
+				const show = showAll || $gallery.dataset.category === filter;
+				$gallery.classList.toggle(this.hiddenClass, !show);
+			}
+		}
+	}
+
+	const initGalleryFilter = () => new CS_GalleryFilter();
+	initGalleryFilter();
+	document.addEventListener("astro:after-swap", initGalleryFilter);
+</script>
+
+<style lang="less">
+	/*-- -------------------------- -->
+<---          Gallery           -->
+<--- -------------------------- -*/
+
+	@media only screen and (min-width: 0rem) {
+		#gallery-453 {
+			text-align: center;
+			padding: var(--sectionPadding);
+
+			.cs-container {
+				width: 100%;
+				max-width: (550/16rem);
+				margin: auto;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				gap: clamp(3rem, 6vw, 4rem);
+				position: relative;
+			}
+
+			.cs-content {
+				text-align: left;
+				width: 100%;
+				display: flex;
+				flex-direction: column;
+				align-items: flex-start;
+				gap: (32/16rem);
+			}
+
+			.cs-button-group {
+				width: 100%;
+				max-width: (600/16rem);
+				margin: 0;
+				display: flex;
+				justify-content: flex-start;
+				align-items: center;
+				flex-wrap: wrap;
+				row-gap: (8/16rem);
+				column-gap: (24/16rem);
+			}
+
+			.cs-button {
+				font-size: (16/16rem);
+				line-height: 1.5em;
+				padding: 0 0 0 (16/16rem);
+				color: var(--bodyTextColor);
+				background-color: transparent;
+				border: none;
+				position: relative;
+				transition: color 0.3s;
+
+				&:before {
+					content: "";
+					width: (8/16rem);
+					height: (8/16rem);
+					border-radius: 50%;
+					background: var(--primary);
+					opacity: 0;
+					pointer-events: none;
+					position: absolute;
+					display: block;
+					top: 50%;
+					left: (-20/16rem);
+					transform: translateY(-50%);
+					transition:
+						opacity 0.3s,
+						left 0.3s;
+				}
+
+				&:hover {
+					color: var(--primary);
+					cursor: pointer;
+					&:before {
+						left: 0;
+						opacity: 1;
+					}
+				}
+
+				&.cs-active {
+					font-weight: 700;
+					color: var(--primary);
+					&:before {
+						left: 0;
+						opacity: 1;
+					}
+				}
+			}
+
+			.cs-wrapper {
+				width: 100%;
+				position: relative;
+				overflow: hidden;
+				z-index: 1;
+			}
+
+			.cs-gallery {
+				width: 100%;
+				padding: 0;
+				margin: 0;
+				margin-bottom: clamp(3rem, 3vw, 4rem);
+				opacity: 1;
+				visibility: visible;
+				position: relative;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				flex-wrap: wrap;
+				left: 0;
+				gap: clamp(1rem, 1vw, 1.25rem);
+				transition:
+					transform 0.7s,
+					opacity 0.3s,
+					visibility 0.5s,
+					top 0.3s,
+					left 0.3s;
+				transform-origin: left top;
+
+				&.cs-hidden {
+					position: absolute;
+					visibility: hidden;
+					pointer-events: none;
+					opacity: 0;
+					bottom: 0;
+					left: 0;
+					transform: scaleY(0) scaleX(0);
+
+					.cs-image {
+						transform: translateY(2.1875rem);
+						opacity: 0;
+					}
+				}
+			}
+
+			.cs-image {
+				border-radius: (4/16rem);
+				width: clamp(47%, 42.5vw, 48.5%);
+				aspect-ratio: 154/211;
+				overflow: hidden;
+				display: block;
+				position: relative;
+				transform: translateY(0rem);
+				opacity: 1;
+				transition:
+					opacity 0.6s,
+					transform 0.6s;
+
+				&:nth-of-type(1) { transition-delay: 0.10s; }
+				&:nth-of-type(2) { transition-delay: 0.20s; }
+				&:nth-of-type(3) { transition-delay: 0.30s; }
+				&:nth-of-type(4) { transition-delay: 0.40s; }
+				&:nth-of-type(5) { transition-delay: 0.50s; }
+				&:nth-of-type(6) { transition-delay: 0.60s; }
+				&:nth-of-type(7) { transition-delay: 0.70s; }
+				&:nth-of-type(8) { transition-delay: 0.80s; }
+
+				img {
+					position: absolute;
+					top: 0;
+					left: 0;
+					height: 100%;
+					width: 100%;
+					object-fit: cover;
+				}
+			}
+		}
+	}
+
+	@media only screen and (min-width: 48rem) {
+		#gallery-453 {
+			.cs-container {
+				max-width: (1280/16rem);
+			}
+
+			.cs-content {
+				flex-direction: row;
+				justify-content: space-between;
+				align-items: flex-end;
+				gap: (24/16rem);
+			}
+
+			.cs-flex {
+				width: 50%;
+			}
+
+			.cs-title {
+				margin: 0;
+			}
+
+			.cs-button-group {
+				width: auto;
+			}
+
+			.cs-gallery {
+				justify-content: flex-start;
+			}
+
+			.cs-image {
+				width: ~"clamp(10.6875rem, 23.3%, 19.0625rem)";
+				aspect-ratio: 304/425;
+			}
+		}
+	}
+
+	@media only screen and (min-width: 0rem) {
+		body.dark-mode {
+			#gallery-453 {
+				.cs-topper {
+					color: var(--primaryLight);
+				}
+				.cs-title,
+				.cs-text,
+				.cs-button {
+					color: var(--bodyTextColorWhite);
+
+					&.cs-active {
+						color: var(--primaryLight);
+					}
+				}
+			}
+		}
+	}
+</style>

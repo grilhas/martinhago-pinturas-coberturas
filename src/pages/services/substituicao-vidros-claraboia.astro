@@ -1,0 +1,105 @@
+---
+import { getImage } from "astro:assets";
+import ServiceLayout from "@layouts/ServiceLayout.astro";
+import { buildServiceSchema, buildFaqSchema, buildBreadcrumbSchema } from "@js/serviceSchema.js";
+
+import bannerImage from "@assets/images/pinturas/claraboia-telhado-terracota.jpg";
+import introImage from "@assets/images/pinturas/claraboia-telhado-terracota.jpg";
+import whyImageOne from "@assets/images/pinturas/claraboia-telhado-plantas.jpg";
+import whyImageTwo from "@assets/images/pinturas/reparacao-telhado-altura.jpg";
+import processImageOne from "@assets/images/pinturas/tecnico-plataforma-telhado.jpg";
+import processImageTwo from "@assets/images/pinturas/claraboia-telhado-terracota.jpg";
+
+const optimizedBanner = await getImage({ src: bannerImage, format: "webp" });
+
+const meta = {
+	title: "Substituição de Vidros de Claraboia | Martinhago Pinturas & Coberturas",
+	seoDescription:
+		"Substituição de vidros de claraboia partidos, riscados ou com infiltração na vedação, em Lisboa e região. Trabalho em altura feito com segurança.",
+};
+
+const banner = {
+	title: "Substituição de Vidros de Claraboia",
+	description: "Vidros de claraboia partidos ou baços substituídos com segurança.",
+	image: optimizedBanner,
+};
+
+const intro = {
+	titleHighlight: "Substituição de Vidros",
+	titleSuffix: " de Claraboia",
+	intro: [
+		"Um vidro de claraboia partido, riscado ou com a vedação degradada deixa entrar água e frio, além de ser um risco de segurança se estiver rachado. Substituímos o vidro e revemos sempre a vedação à volta.",
+		"Trabalhamos com o equipamento de segurança adequado para aceder à cobertura, e medimos o vidro certo para cada modelo de claraboia antes de fechar orçamento.",
+	],
+	listIntro: "O que inclui este serviço:",
+	listItems: [
+		{ label: "Avaliação da claraboia", description: "Verificamos o modelo e o estado da vedação existente." },
+		{ label: "Substituição do vidro", description: "Vidro novo medido para o modelo exato da claraboia." },
+		{ label: "Revisão da vedação", description: "A vedação é revista, para não voltar a haver infiltração." },
+		{ label: "Trabalho em segurança", description: "Equipamento próprio para trabalho em altura na cobertura." },
+	],
+	image: introImage,
+	imageAlt: "Claraboia numa cobertura de telha de terracota",
+};
+
+const whyChoose = {
+	title: "Porque Escolher a Martinhago",
+	introPara: "Um vidro de claraboia mal substituído volta a infiltrar-se em poucos meses.",
+	reasons: [
+		{ heading: "Medição certa do vidro", description: "Cada modelo de claraboia pede uma medida e espessura próprias." },
+		{ heading: "Vedação sempre revista", description: "Grande parte das infiltrações vem da vedação, não só do vidro." },
+		{ heading: "Trabalho em altura seguro", description: "Equipamento de segurança adequado para cada tipo de cobertura." },
+		{ heading: "Orçamento por escrito", description: "Sem surpresas — o preço reflete o vidro e a vedação combinados." },
+	],
+	imageOne: whyImageOne,
+	imageOneAlt: "Claraboia com plantas numa cobertura de telha",
+	imageTwo: whyImageTwo,
+	imageTwoAlt: "Trabalhador a reparar uma cobertura em altura",
+};
+
+const process = {
+	title: "Como Fazemos",
+	paragraph: "Substituição de um vidro de claraboia numa casa antiga em Sintra",
+	headingThree: "Como Fizemos",
+	bullets: [
+		{ label: "Avaliação", description: "Confirmámos que o vidro estava rachado e a vedação degradada." },
+		{ label: "Medição", description: "Medimos o vidro exato para o modelo da claraboia." },
+		{ label: "Substituição", description: "Substituímos o vidro partido pelo novo, com o encaixe correto." },
+		{ label: "Vedação", description: "Revimos toda a vedação à volta da claraboia antes de terminar." },
+	],
+	imageOne: processImageOne,
+	imageOneAlt: "Técnico numa plataforma junto a um telhado",
+	imageTwo: processImageTwo,
+	imageTwoAlt: "Claraboia numa cobertura de telha de terracota",
+};
+
+const faq = {
+	title: "Perguntas Frequentes sobre Substituição de Vidros de Claraboia",
+	questions: [
+		{ question: "Quanto tempo demora a substituição de um vidro de claraboia?", answer: "Na maioria dos casos, um dia é suficiente, incluindo a revisão da vedação. Pode variar consoante o acesso à cobertura." },
+		{ question: "Só substituem o vidro, ou também a vedação?", answer: "Revemos sempre a vedação à volta do vidro novo — é a causa mais comum de infiltração voltar a acontecer pouco depois de trocar só o vidro." },
+		{ question: "O vidro novo é do mesmo tipo do original?", answer: "Medimos e escolhemos um vidro compatível com o modelo exato da claraboia, mantendo as mesmas propriedades de isolamento e segurança." },
+		{ question: "É seguro trabalhar numa claraboia partida?", answer: "Sim, usamos sempre o equipamento de segurança adequado para o trabalho em altura, tanto para nós como para não danificar mais a cobertura." },
+	],
+};
+
+const serviceSchema = buildServiceSchema({
+	name: meta.title,
+	description: meta.seoDescription,
+	slug: "substituicao-vidros-claraboia",
+});
+const faqSchema = buildFaqSchema(faq.questions);
+const breadcrumbSchema = buildBreadcrumbSchema([
+	{ name: "Início", url: "/" },
+	{ name: "Serviços", url: "/services/" },
+	{ name: "Substituição de Vidros de Claraboia", url: "/services/substituicao-vidros-claraboia/" },
+]);
+---
+
+<ServiceLayout meta={meta} banner={banner} intro={intro} whyChoose={whyChoose} process={process} faq={faq}>
+	<Fragment slot="schema">
+		<script is:inline type="application/ld+json" set:html={JSON.stringify(serviceSchema)} />
+		<script is:inline type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+		<script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+	</Fragment>
+</ServiceLayout>

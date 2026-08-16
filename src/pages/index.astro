@@ -1,0 +1,85 @@
+---
+// Utils
+import { getImage } from "astro:assets";
+
+// Components
+import BaseLayout from "@layouts/BaseLayout.astro";
+import Hero from "@components/Hero/Hero.astro";
+import Services from "@components/Services/Services.astro";
+import WhyChoose from "@components/WhyChoose/WhyChoose.astro";
+import Process from "@components/Process/OurProcess.astro";
+import CTASimple from "@components/CTA/CTASimple.astro";
+import Gallery from "@components/Gallery/Gallery.astro";
+import Reviews from "@components/Reviews/Reviews.astro";
+import FAQ from "@components/FAQ/FAQ.astro";
+
+// Data
+import { SITE, BUSINESS } from "@data/client";
+import { buildFaqSchema } from "@js/serviceSchema.js";
+
+// Hero photo
+import heroImage from "@assets/images/pinturas/pintor-escada-fachada.jpg";
+const optimizedHeroImage = await getImage({ src: heroImage, format: "webp" });
+
+const homeFaq = {
+	title: "Perguntas Frequentes",
+	questions: [
+		{
+			question: "Em que zonas trabalha a Martinhago Pinturas & Coberturas?",
+			answer:
+				"Trabalhamos em Lisboa, Amadora, Odivelas, Loures, Oeiras, Sintra e arredores — em toda a região de Lisboa.",
+		},
+		{
+			question: "Com que rapidez fazem a visita para orçamento?",
+			answer:
+				"Normalmente conseguimos marcar a visita em poucos dias. Avaliamos o espaço no local e enviamos o orçamento por escrito, sem compromisso.",
+		},
+		{
+			question: "Como funciona a formação de preço?",
+			answer:
+				"Depende da área a pintar ou reparar, do estado atual da superfície e do tipo de trabalho — pintura, lavagem de telhado ou impermeabilização. O orçamento é sempre escrito e detalhado antes de começar qualquer trabalho.",
+		},
+		{
+			question: "Fazem só pintura, ou também telhados e impermeabilização?",
+			answer:
+				"Fazemos tudo. Pintura interior e exterior, lavagem e pintura de telhados, impermeabilização e vedação especializada, recuperação de algerozes e substituição de vidros de claraboia.",
+		},
+		{
+			question: "Resolvem infiltrações, ou só pintam por cima?",
+			answer:
+				"Resolvemos a origem da infiltração — algeroz, telhado ou junta mal vedada — antes de qualquer pintura. Pintar por cima de um problema ativo só adia o mesmo trabalho.",
+		},
+		{
+			question: "Trabalham com espaços comerciais, ou só casas?",
+			answer:
+				"Fazemos os dois. Pintura e reparação residencial, e também trabalhos em lojas, escritórios e outros espaços comerciais.",
+		},
+		{
+			question: "Têm seguro?",
+			answer:
+				"Sim. Trabalhamos com seguro de responsabilidade civil adequado à atividade e enviamos prova de seguro sempre que necessário.",
+		},
+	],
+};
+
+const faqSchema = buildFaqSchema(homeFaq.questions);
+---
+
+<BaseLayout
+	title="Pinturas e Reparação de Telhados em Lisboa e Região"
+	description={SITE.description}
+	heroImage={optimizedHeroImage}
+>
+	<Fragment slot="schema">
+		<script is:inline type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+	</Fragment>
+
+	<Hero image={optimizedHeroImage} />
+	<Services />
+	<WhyChoose />
+	<Process />
+	<CTASimple />
+	<Gallery />
+	<Reviews />
+	<FAQ {...homeFaq} />
+</BaseLayout>

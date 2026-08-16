@@ -1,0 +1,635 @@
+---
+// Página dinâmica de área de serviço - /<city>/
+// Generates one page per entry in src/data/cities.json
+import { getImage, Picture } from "astro:assets";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import Banner from "@components/Banner/Banner.astro";
+import CTASimple from "@components/CTA/CTASimple.astro";
+import Reviews from "@components/Reviews/Reviews.astro";
+import FAQ from "@components/FAQ/FAQ.astro";
+import { BUSINESS, SITE } from "@data/client";
+import { SERVICES } from "@data/services";
+import { buildBreadcrumbSchema, buildFaqSchema } from "@js/serviceSchema.js";
+import cities from "@data/cities.json";
+
+// Static banner image registry — Astro requires statically analyzable imports
+import lisboaTelhadosRio from "@assets/images/pinturas/lisboa-telhados-rio.jpg";
+import equipaPinturaInterior from "@assets/images/pinturas/equipa-pintura-interior.jpg";
+import fachadaAndaimeTrabalhador from "@assets/images/pinturas/fachada-andaime-trabalhador.jpg";
+import trabalhadoresTelhasInstalacao from "@assets/images/pinturas/trabalhadores-telhas-instalacao.jpg";
+import fachadasColoridasCeu from "@assets/images/pinturas/fachadas-coloridas-ceu.jpg";
+import lisboaVistaAereaTelhados from "@assets/images/pinturas/lisboa-vista-aerea-telhados.jpg";
+
+const bannerImages: Record<string, ImageMetadata> = {
+	"lisboa-telhados-rio": lisboaTelhadosRio,
+	"equipa-pintura-interior": equipaPinturaInterior,
+	"fachada-andaime-trabalhador": fachadaAndaimeTrabalhador,
+	"trabalhadores-telhas-instalacao": trabalhadoresTelhasInstalacao,
+	"fachadas-coloridas-ceu": fachadasColoridasCeu,
+	"lisboa-vista-aerea-telhados": lisboaVistaAereaTelhados,
+};
+
+type Scenario = { title: string; description: string };
+
+type City = {
+	slug: string;
+	name: string;
+	state: string;
+	isHomeBase?: boolean;
+	isCounty?: boolean;
+	banner: string;
+	lead: string;
+	body: string[];
+	commonJobs?: string[];
+	scenarios?: Scenario[];
+	neighborhoods: string[];
+};
+
+export async function getStaticPaths() {
+	return (cities as City[]).map((city) => ({
+		params: { city: city.slug },
+		props: { city },
+	}));
+}
+
+const { city } = Astro.props as { city: City };
+const bannerImage = bannerImages[city.banner] ?? lisboaTelhadosRio;
+const optimizedBanner = await getImage({ src: bannerImage, format: "webp" });
+
+const pageTitle = `Pinturas e Reparação de Telhados em ${city.name}`;
+
+const seoDescription = `${BUSINESS.name} faz pintura interior e exterior, lavagem e pintura de telhados, impermeabilização e reparação de algerozes em ${city.name}. Orçamento rápido.`;
+
+const cityFaq = {
+	title: `Perguntas Frequentes sobre Pinturas e Coberturas em ${city.name}`,
+	questions: [
+		{
+			question: `Fazem trabalhos em toda a zona de ${city.name}?`,
+			answer: `Sim. A ${BUSINESS.name} trabalha em toda a zona de ${city.name}. ${city.isHomeBase ? "Como estamos baseados aqui, a maioria das visitas consegue ser marcada rapidamente." : "Trabalhamos com regularidade em toda a região de Lisboa, incluindo esta zona."}`,
+		},
+		{
+			question: `Em quanto tempo fazem a visita ao imóvel?`,
+			answer: `Na maioria dos casos, fazemos a visita em poucos dias. Avaliamos o espaço no local e enviamos o orçamento por escrito, sem compromisso.`,
+		},
+		{
+			question: `Quanto custa pintar a fachada ou o telhado em ${city.name}?`,
+			answer: `Depende da área, do estado atual da superfície e do tipo de trabalho — pintura, lavagem de telhado ou impermeabilização. Damos sempre um orçamento escrito antes de começar, sem compromisso.`,
+		},
+		{
+			question: `Também tratam de infiltrações e algerozes entupidos?`,
+			answer: `Sim. Reparação de algerozes e impermeabilização de zonas com infiltração fazem parte do nosso trabalho do dia a dia, não só a pintura.`,
+		},
+		{
+			question: `Fazem pintura interior, ou só exteriores e telhados?`,
+			answer: `Fazemos os dois: pintura interior de casas e escritórios, e trabalhos exteriores — fachadas, telhados, impermeabilização e coberturas.`,
+		},
+		{
+			question: `Substituem vidros de claraboia partidos?`,
+			answer: `Sim. Substituição de vidros de claraboia partidos ou com infiltração na vedação também faz parte do que tratamos.`,
+		},
+	],
+};
+
+const breadcrumbSchema = buildBreadcrumbSchema([
+	{ name: "Início", url: "/" },
+	{ name: "Áreas de Serviço", url: "/lisboa/" },
+	{ name: `${city.name}, ${city.state}`, url: `/${city.slug}/` },
+]);
+const faqSchema = buildFaqSchema(cityFaq.questions);
+
+const localBusinessForCity = {
+	"@context": "https://schema.org",
+	"@type": "LocalBusiness",
+	"name": `${BUSINESS.name} — A servir ${city.name}`,
+	"description": seoDescription,
+	"url": `${SITE.url}/${city.slug}/`,
+	"telephone": BUSINESS.phoneForTel,
+	"email": BUSINESS.email,
+	"address": {
+		"@type": "PostalAddress",
+		"streetAddress": BUSINESS.address.lineOne,
+		"addressLocality": BUSINESS.address.city,
+		"addressRegion": BUSINESS.address.state,
+		"postalCode": BUSINESS.address.zip,
+	},
+	"areaServed": {
+		"@type": "City",
+		"name": `${city.name}, ${city.state}`,
+	},
+};
+---
+
+<BaseLayout
+	title={pageTitle}
+	description={seoDescription}
+	heroImage={optimizedBanner}
+>
+	<Fragment slot="schema">
+		<script is:inline type="application/ld+json" set:html={JSON.stringify(localBusinessForCity)} />
+		<script is:inline type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+		<script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+	</Fragment>
+
+	<Banner
+		title={`${city.name}, ${city.state}`}
+		description={city.lead}
+		image={optimizedBanner}
+	/>
+
+	<!-- Intro -->
+	<section id="city-intro">
+		<div class="cs-container">
+			<span class="cs-topper">Área de Serviço</span>
+			<h2 class="cs-title">
+				Pinturas e Coberturas em <span class="cs-title-highlight">{city.name}</span>
+			</h2>
+			{city.body.map((p) => <p class="cs-text">{p}</p>)}
+			{city.neighborhoods?.length > 0 && (
+				<>
+					<h3 class="cs-h3">Bairros que servimos</h3>
+					<ul class="cs-neighborhood-list">
+						{city.neighborhoods.map((n) => <li>{n}</li>)}
+					</ul>
+				</>
+			)}
+			<a href="/contact/" class="cs-button-solid">Pedir Orçamento para {city.name}</a>
+		</div>
+	</section>
+
+	<!-- What we do -->
+	{city.commonJobs && city.commonJobs.length > 0 && (
+		<section id="city-haul-list">
+			<div class="cs-container">
+				<div class="cs-content">
+					<span class="cs-topper">O Que Fazemos</span>
+					<h2 class="cs-title">Trabalhos comuns em {city.name}</h2>
+					<p class="cs-text">
+						Estes são os trabalhos que fazemos com mais frequência em {city.name}. Se precisar de algo que não esteja na lista, fale connosco.
+					</p>
+				</div>
+				<ul class="cs-haul-list">
+					{city.commonJobs.map((item) => (
+						<li class="cs-haul-item">{item}</li>
+					))}
+				</ul>
+			</div>
+		</section>
+	)}
+
+	<!-- Recent jobs / scenarios -->
+	{city.scenarios && city.scenarios.length > 0 && (
+		<section id="city-scenarios">
+			<div class="cs-container">
+				<div class="cs-content">
+					<span class="cs-topper">Trabalhos Recentes</span>
+					<h2 class="cs-title">Trabalhos feitos em {city.name}</h2>
+					<p class="cs-text">
+						Alguns exemplos reais dos últimos meses - a mesma abordagem que usamos no seu imóvel.
+					</p>
+				</div>
+				<div class="cs-scenario-grid">
+					{city.scenarios.map((s) => (
+						<article class="cs-scenario">
+							<h3 class="cs-scenario-title">{s.title}</h3>
+							<p class="cs-scenario-text">{s.description}</p>
+						</article>
+					))}
+				</div>
+			</div>
+		</section>
+	)}
+
+	<!-- Services grid -->
+	<section id="city-services">
+		<div class="cs-container">
+			<div class="cs-content">
+				<span class="cs-topper">Serviços em {city.name}</span>
+				<h2 class="cs-title">Tudo o que tratamos</h2>
+				<p class="cs-text">
+					Cinco serviços, um só contacto. Desde pintura interior e exterior a telhados, impermeabilização e algerozes.
+				</p>
+			</div>
+			<ul class="cs-card-group">
+				{SERVICES.map((s) => (
+					<li class="cs-item">
+						<a href={s.href} class="cs-link">
+							<h3 class="cs-h3">{s.title}</h3>
+							<p class="cs-item-text">{s.tagline}</p>
+						</a>
+						<Picture
+							src={s.image}
+							alt={s.title}
+							widths={[400, 800]}
+							sizes="(min-width: 48rem) 33vw, 100vw"
+							formats={["avif", "webp"]}
+							pictureAttributes={{ class: "cs-item-background" }}
+							loading="lazy"
+						/>
+					</li>
+				))}
+			</ul>
+		</div>
+	</section>
+
+	<CTASimple />
+	<Reviews />
+	<FAQ {...cityFaq} />
+</BaseLayout>
+
+<style lang="less">
+	#city-intro {
+		padding: var(--sectionPadding);
+		background-color: #fff;
+
+		.cs-container {
+			width: 100%;
+			max-width: (1100/16rem);
+			margin: auto;
+			display: flex;
+			flex-direction: column;
+			align-items: flex-start;
+			gap: (16/16rem);
+		}
+
+		.cs-topper {
+			color: var(--primary);
+		}
+
+		.cs-title {
+			font-size: clamp(2rem, 4vw, 3rem);
+			font-family: var(--headerFont);
+			font-weight: 700;
+			text-transform: uppercase;
+			line-height: 1.2em;
+			margin: 0 0 (16/16rem) 0;
+			color: var(--headerColor);
+		}
+
+		.cs-title-highlight {
+			color: var(--primary);
+		}
+
+		.cs-text {
+			font-size: var(--bodyFontSize);
+			line-height: 1.5em;
+			color: var(--bodyTextColor);
+			margin: 0;
+		}
+
+		.cs-h3 {
+			margin-top: (24/16rem);
+			color: var(--headerColor);
+		}
+
+		.cs-neighborhood-list {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+			display: flex;
+			flex-wrap: wrap;
+			gap: (8/16rem) (16/16rem);
+
+			li {
+				font-size: (16/16rem);
+				line-height: 1.5em;
+				color: var(--bodyTextColor);
+				padding: (4/16rem) (12/16rem);
+				background-color: var(--bgLight);
+				border: 1px solid #e3e6e1;
+				border-radius: (4/16rem);
+			}
+		}
+
+		.cs-button-solid {
+			margin-top: (24/16rem);
+		}
+	}
+
+	#city-haul-list {
+		padding: var(--sectionPadding);
+		background-color: var(--bgLight);
+
+		.cs-container {
+			width: 100%;
+			max-width: (1100/16rem);
+			margin: auto;
+			display: flex;
+			flex-direction: column;
+			gap: clamp(2rem, 4vw, 3rem);
+		}
+
+		.cs-content {
+			max-width: (740/16rem);
+		}
+
+		.cs-topper {
+			color: var(--primary);
+		}
+
+		.cs-title {
+			font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+			font-family: var(--headerFont);
+			font-weight: 700;
+			text-transform: uppercase;
+			line-height: 1.2em;
+			margin: (8/16rem) 0 (16/16rem) 0;
+			color: var(--headerColor);
+		}
+
+		.cs-text {
+			font-size: var(--bodyFontSize);
+			line-height: 1.5em;
+			color: var(--bodyTextColor);
+			margin: 0;
+		}
+
+		.cs-haul-list {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+			display: grid;
+			grid-template-columns: 1fr;
+			gap: (12/16rem);
+		}
+
+		.cs-haul-item {
+			padding: (16/16rem) (20/16rem);
+			background-color: #fff;
+			border-left: 4px solid var(--primary);
+			color: var(--bodyTextColor);
+			font-size: (16/16rem);
+			line-height: 1.5em;
+		}
+	}
+
+	@media (min-width: 48rem) {
+		#city-haul-list .cs-haul-list {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+
+	#city-scenarios {
+		padding: var(--sectionPadding);
+		background-color: #fff;
+
+		.cs-container {
+			width: 100%;
+			max-width: (1280/16rem);
+			margin: auto;
+			display: flex;
+			flex-direction: column;
+			gap: clamp(2rem, 4vw, 3rem);
+		}
+
+		.cs-content {
+			max-width: (740/16rem);
+		}
+
+		.cs-topper {
+			color: var(--primary);
+		}
+
+		.cs-title {
+			font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+			font-family: var(--headerFont);
+			font-weight: 700;
+			text-transform: uppercase;
+			line-height: 1.2em;
+			margin: (8/16rem) 0 (16/16rem) 0;
+			color: var(--headerColor);
+		}
+
+		.cs-text {
+			font-size: var(--bodyFontSize);
+			line-height: 1.5em;
+			color: var(--bodyTextColor);
+			margin: 0;
+		}
+
+		.cs-scenario-grid {
+			display: grid;
+			grid-template-columns: 1fr;
+			gap: (20/16rem);
+		}
+
+		.cs-scenario {
+			padding: clamp(1.25rem, 3vw, 2rem);
+			background-color: var(--bgLight);
+			border-top: 4px solid var(--primary);
+		}
+
+		.cs-scenario-title {
+			font-size: (20/16rem);
+			font-family: var(--headerFont);
+			font-weight: 700;
+			text-transform: uppercase;
+			line-height: 1.3em;
+			margin: 0 0 (12/16rem) 0;
+			color: var(--headerColor);
+		}
+
+		.cs-scenario-text {
+			font-size: (16/16rem);
+			line-height: 1.55em;
+			margin: 0;
+			color: var(--bodyTextColor);
+		}
+	}
+
+	@media (min-width: 48rem) {
+		#city-scenarios .cs-scenario-grid {
+			grid-template-columns: repeat(3, 1fr);
+		}
+	}
+
+	#city-services {
+		padding: var(--sectionPadding);
+		background-color: var(--bgLight);
+		position: relative;
+		z-index: 10;
+
+		.cs-container {
+			width: 100%;
+			max-width: (1280/16rem);
+			margin: auto;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: clamp(3rem, 6vw, 4rem);
+		}
+
+		.cs-content {
+			text-align: center;
+			width: 100%;
+			max-width: (740/16rem);
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+
+		.cs-card-group {
+			margin: 0;
+			padding: 0;
+			width: 100%;
+			display: grid;
+			grid-template-columns: repeat(12, 1fr);
+			gap: clamp(1rem, 2.5vw, 1.25rem);
+		}
+
+		.cs-item {
+			width: 100%;
+			text-align: left;
+			list-style: none;
+			margin: 0;
+			padding: 0;
+			background-color: #000;
+			overflow: hidden;
+			box-shadow: 0 4px 14px 0 rgba(0, 0, 0, 0.1);
+			box-sizing: border-box;
+			grid-column: span 12;
+			display: flex;
+			flex-direction: column;
+			align-items: flex-start;
+			justify-content: flex-end;
+			position: relative;
+			z-index: 1;
+
+			&:hover {
+				.cs-item-background img {
+					opacity: 0.4;
+					transform: scale(1.1);
+				}
+				.cs-h3 {
+					color: var(--primary);
+				}
+			}
+		}
+
+		.cs-link {
+			text-decoration: none;
+			padding: clamp(7rem, 16vw, 11rem) (24/16rem) (24/16rem);
+		}
+
+		.cs-h3 {
+			font-size: clamp(1.125rem, 2vw, 1.4rem);
+			line-height: 1.2em;
+			font-weight: bold;
+			margin: 0 0 (8/16rem) 0;
+			color: var(--bodyTextColorWhite);
+			transition: color 0.3s;
+		}
+
+		.cs-item-text {
+			font-size: clamp(0.875rem, 1.5vw, 1rem);
+			line-height: 1.5em;
+			margin: 0;
+			color: var(--bodyTextColorWhite);
+			opacity: 0.9;
+		}
+
+		.cs-item-background {
+			width: 100%;
+			height: 100%;
+			display: block;
+			position: absolute;
+			top: 0;
+			left: 0;
+			z-index: -1;
+
+			&:before {
+				content: "";
+				position: absolute;
+				display: block;
+				height: 100%;
+				width: 100%;
+				background: var(--headerColor);
+				opacity: 0.3;
+				top: 0;
+				left: 0;
+				z-index: 1;
+			}
+
+			&:after {
+				content: "";
+				position: absolute;
+				display: block;
+				height: 100%;
+				width: 100%;
+				background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%);
+				opacity: 0.5;
+				bottom: 0;
+				left: 0;
+				z-index: 2;
+			}
+
+			img {
+				position: absolute;
+				top: 0;
+				left: 0;
+				height: 100%;
+				width: 100%;
+				object-fit: cover;
+				transition: transform 0.6s, opacity 0.3s;
+			}
+		}
+	}
+
+	@media only screen and (min-width: 48rem) {
+		#city-services .cs-item {
+			grid-column: span 6;
+		}
+	}
+
+	@media only screen and (min-width: 64rem) {
+		#city-services .cs-item {
+			grid-column: span 4;
+		}
+	}
+
+	/* Dark mode */
+	body.dark-mode {
+		#city-intro {
+			background-color: var(--dark);
+			.cs-title,
+			.cs-h3 {
+				color: var(--bodyTextColorWhite);
+			}
+			.cs-text {
+				color: var(--bodyTextColorWhite);
+				opacity: 0.85;
+			}
+			.cs-neighborhood-list li {
+				background-color: rgba(255, 255, 255, 0.05);
+				border-color: rgba(255, 255, 255, 0.1);
+				color: var(--bodyTextColorWhite);
+			}
+		}
+		#city-haul-list {
+			background-color: rgba(0, 0, 0, 0.3);
+			.cs-title { color: var(--bodyTextColorWhite); }
+			.cs-text { color: var(--bodyTextColorWhite); opacity: 0.85; }
+			.cs-haul-item {
+				background-color: var(--medium);
+				color: var(--bodyTextColorWhite);
+			}
+		}
+		#city-scenarios {
+			background-color: var(--dark);
+			.cs-title { color: var(--bodyTextColorWhite); }
+			.cs-text { color: var(--bodyTextColorWhite); opacity: 0.85; }
+			.cs-scenario {
+				background-color: var(--medium);
+			}
+			.cs-scenario-title { color: var(--bodyTextColorWhite); }
+			.cs-scenario-text { color: var(--bodyTextColorWhite); opacity: 0.85; }
+		}
+		#city-services {
+			background-color: rgba(0, 0, 0, 0.3);
+			.cs-title,
+			.cs-text {
+				color: var(--bodyTextColorWhite);
+			}
+			.cs-text { opacity: 0.85; }
+		}
+	}
+</style>

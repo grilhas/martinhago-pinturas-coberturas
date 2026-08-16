@@ -1,0 +1,246 @@
+---
+interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  questions: FAQItem[];
+  title?: string; // optional — defaults to "Frequently Asked Questions"
+}
+
+const { questions, title = "Perguntas Frequentes" } = Astro.props;
+---
+
+<section id="faq-326">
+  <div class="cs-container">
+    <div class="cs-content">
+      <span class="cs-topper">Perguntas</span>
+      <h2 class="cs-title">{title}</h2>
+    </div>
+    <div class="cs-flex-group">
+      {
+        questions && questions.length > 0 && (
+          <ul class="cs-faq-group">
+            {questions.map((item, i) => (
+              <li class:list={["cs-faq-item", { active: i === 0 }]}>
+                <button class="cs-button">
+                  <span class="cs-button-text">{item.question}</span>
+                </button>
+                <p class="cs-item-p">{item.answer}</p>
+              </li>
+            ))}
+          </ul>
+        )
+      }
+    </div>
+  </div>
+</section>
+
+<style lang="less">
+  /*-- -------------------------- -->
+<---            FAQ             -->
+<--- -------------------------- -*/
+
+  /* Mobile - 360px */
+  @media only screen and (min-width: 0rem) {
+    #faq-326 {
+      padding: var(--sectionPadding);
+
+      .cs-container {
+        width: 100%;
+        max-width: (700/16rem);
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        /* 48px - 64px */
+        gap: clamp(3rem, 6vw, 4rem);
+      }
+
+      .cs-content {
+        text-align: center;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .cs-title {
+        margin: 0;
+      }
+
+      .cs-faq-group {
+        width: 100%;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: (12/16rem);
+      }
+
+      .cs-faq-item {
+        list-style: none;
+        width: 100%;
+        background-color: #f7f7f7;
+        overflow: hidden;
+        transition: border-bottom 0.3s;
+
+        &.active {
+          .cs-button {
+            background-color: var(--primary);
+            color: var(--headerColor);
+
+            &:before {
+              background-color: var(--headerColor);
+              transform: rotate(315deg);
+            }
+            &:after {
+              background-color: var(--headerColor);
+              transform: rotate(-315deg);
+            }
+          }
+
+          .cs-item-p {
+            height: auto;
+            padding: clamp(1.25rem, 1.3vw, 1.5rem) clamp(1rem, 2vw, 1.5rem);
+            opacity: 1;
+          }
+        }
+      }
+
+      .cs-button {
+        font-size: (16/16rem);
+        line-height: 1.2em;
+        text-align: left;
+        font-weight: bold;
+        padding: clamp(1rem, 1.3vw, 1.25rem);
+        background-color: #f7f7f7;
+        border: none;
+        font-family: var(--headerFont);
+        text-transform: uppercase;
+        color: var(--headerColor);
+        display: block;
+        width: 100%;
+        position: relative;
+        transition:
+          background-color 0.3s,
+          color 0.3s;
+
+        &:hover {
+          cursor: pointer;
+        }
+
+        &:before {
+          /* left line */
+          content: "";
+          width: (8/16rem);
+          height: (2/16rem);
+          background-color: var(--headerColor);
+          opacity: 1;
+          border-radius: 50%;
+          position: absolute;
+          display: block;
+          top: 50%;
+          right: (24/16rem);
+          transform: rotate(45deg);
+          transform-origin: left center;
+          transition: transform 0.5s;
+        }
+
+        &:after {
+          /* right line */
+          content: "";
+          width: (8/16rem);
+          height: (2/16rem);
+          background-color: var(--headerColor);
+          opacity: 1;
+          border-radius: 50%;
+          position: absolute;
+          display: block;
+          top: 50%;
+          right: (21/16rem);
+          transform: rotate(-45deg);
+          transform-origin: right center;
+          transition: transform 0.5s;
+        }
+      }
+
+      .cs-button-text {
+        width: 80%;
+        display: block;
+      }
+
+      .cs-item-p {
+        font-size: clamp(0.875rem, 1.5vw, 1rem);
+        line-height: 1.5em;
+        width: 90%;
+        height: 0;
+        margin: 0;
+        padding: 0 clamp(1rem, 2vw, 1.5rem);
+        opacity: 0;
+        color: var(--bodyTextColor);
+        overflow: hidden;
+        transition:
+          opacity 0.3s,
+          padding-bottom 0.3s;
+      }
+    }
+  }
+
+  /* Dark Mode */
+  @media only screen and (min-width: 0rem) {
+    body.dark-mode {
+      #faq-326 {
+        .cs-topper {
+          color: var(--secondaryLight);
+        }
+
+        .cs-title,
+        .cs-item-p {
+          color: var(--bodyTextColorWhite);
+        }
+
+        .cs-faq-item {
+          background-color: var(--accent);
+          &.active {
+            .cs-button {
+              background-color: var(--primary);
+              color: var(--headerColor);
+
+              &:before,
+              &:after {
+                background-color: var(--headerColor);
+              }
+            }
+          }
+        }
+
+        .cs-button {
+          background-color: var(--accent);
+          color: var(--bodyTextColorWhite);
+
+          &:before,
+          &:after {
+            background-color: var(--bodyTextColorWhite);
+          }
+        }
+      }
+    }
+  }
+</style>
+
+<script>
+  // Wrapped in astro:page-load for View Transitions
+  document.addEventListener("astro:page-load", () => {
+    const faqItems = Array.from(document.querySelectorAll(".cs-faq-item"));
+    for (const item of faqItems) {
+      const onClick = () => {
+        item.classList.toggle("active");
+      };
+      item.addEventListener("click", onClick);
+    }
+  });
+</script>

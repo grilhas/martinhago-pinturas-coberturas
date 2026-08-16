@@ -1,0 +1,321 @@
+---
+/**
+ * * The hero component used on the homepage.
+ * * Takes a pre-optimized image as a prop.
+ */
+
+import { Picture } from "astro:assets";
+import type { GetImageResult } from "astro";
+import { BUSINESS } from "@data/client";
+
+interface Props {
+  image: GetImageResult;
+}
+
+const { image } = Astro.props as Props;
+---
+
+<section id="hero-1618">
+  <div class="cs-container">
+    <div class="cs-content">
+      <span class="cs-topper">Pinturas e Coberturas</span>
+      <h1 class="cs-title">
+        Pinturas e Telhados em Lisboa
+      </h1>
+      <p class="cs-text">
+        A Martinhago Pinturas & Coberturas faz pintura interior e exterior, lavagem e
+        pintura de telhados, impermeabilização e reparação de algerozes. Orçamento
+        rápido e sem compromisso, em Lisboa e região.
+      </p>
+      <a href="/contact/" class="cs-button-solid">Pedir Orçamento</a>
+    </div>
+    <ul class="cs-card-group">
+      <li class="cs-item">
+        <h3 class="cs-h3">Avaliação no Local</h3>
+        <p class="cs-item-text">
+          Vemos o estado da superfície ou do telhado antes de recomendar o trabalho,
+          para o orçamento refletir o que realmente precisa.
+        </p>
+      </li>
+      <li class="cs-item">
+        <h3 class="cs-h3">Orçamento Rápido</h3>
+        <p class="cs-item-text">
+          Avaliamos o espaço no local e entregamos um orçamento escrito antes de começar
+          qualquer trabalho. O valor combinado é o valor final.
+        </p>
+      </li>
+      <li class="cs-item">
+        <h3 class="cs-h3">Infiltrações Tratadas na Origem</h3>
+        <p class="cs-item-text">
+          Impermeabilização e reparação de algerozes para resolver humidades onde
+          começam, não só na superfície.
+        </p>
+      </li>
+    </ul>
+  </div>
+
+  <Picture
+    src={image.src}
+    alt=""
+    width={image.attributes.width}
+    height={image.attributes.height}
+    formats={["avif", "webp"]}
+    priority
+    pictureAttributes={{ class: "cs-background" }}
+  />
+</section>
+
+<style lang="less" define:vars={{ heroBgUrl: `url(${image.src})` }}>
+  /*-- -------------------------- -->
+<---           Hero             -->
+<--- -------------------------- -*/
+
+  @media only screen and (min-width: 0rem) {
+    #hero-1618 {
+      padding: var(--sectionPadding);
+      padding-top: clamp(12.5rem, 31.95vw, 18.75rem);
+      position: relative;
+      z-index: 1;
+
+      .cs-container {
+        width: 100%;
+        max-width: (1280/16rem);
+        margin: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: clamp(3.75rem, 13vw, 11.25rem);
+      }
+
+      .cs-content {
+        text-align: left;
+        width: 100%;
+        max-width: (780/16rem);
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .cs-topper {
+        font-size: clamp(0.8125rem, 1.5vw, 1rem);
+        line-height: 1.2em;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--primary);
+        margin-bottom: (8/16rem);
+      }
+
+      .cs-title {
+        font-size: clamp(2.4375rem, 6.4vw, 3.8125rem);
+        font-weight: 700;
+        line-height: 1.2em;
+        text-align: left;
+        width: 100%;
+        max-width: 100%;
+        margin: 0 0 (24/16rem) 0;
+        color: #fff;
+        position: relative;
+        font-family: var(--headerFont);
+        text-transform: uppercase;
+      }
+
+      .cs-text {
+        font-size: clamp(1rem, 1.95vw, 1.25rem);
+        line-height: 1.5em;
+        width: 100%;
+        max-width: clamp(29rem, 60vw, 38.785rem);
+        margin: 0 0 (32/16rem) 0;
+        color: #fff;
+      }
+
+      .cs-button-solid {
+        font-size: (16/16rem);
+        line-height: clamp(2.875rem, 5.5vw, 3.5rem);
+        text-decoration: none;
+        font-weight: 700;
+        margin: 0;
+        color: #fff;
+        padding: 0 (24/16rem);
+        background-color: var(--primary);
+        display: inline-block;
+        position: relative;
+        z-index: 1;
+
+        &:before {
+          content: "";
+          position: absolute;
+          display: block;
+          height: 100%;
+          width: 0%;
+          background: var(--headerColor);
+          opacity: 1;
+          top: 0;
+          left: 0;
+          z-index: -1;
+          transition: width 0.3s;
+        }
+
+        &:hover {
+          &:before {
+            width: 100%;
+          }
+        }
+      }
+
+      .cs-card-group {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: clamp(1rem, 2.3vw, 1.25rem);
+      }
+
+      .cs-item {
+        width: 100%;
+        text-align: left;
+        list-style: none;
+        margin: 0;
+        padding: clamp(1.5rem, 3vw, 2rem);
+        background-color: #fff;
+        box-shadow: 0 4px 14px 0 rgba(0, 0, 0, 0.05);
+        box-sizing: border-box;
+        grid-column: span 12;
+        grid-row: span 1;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        position: relative;
+        z-index: 1;
+        transition: box-shadow 0.3s;
+        border-top: 4px solid var(--primary);
+
+        &:hover {
+          box-shadow: 0 4px 24px 5px rgba(69, 68, 68, 0.25);
+        }
+      }
+
+      .cs-h3 {
+        font-size: clamp(1.25rem, 2.5vw, 1.5625rem);
+        line-height: 1.2em;
+        font-weight: bold;
+        margin: 0 0 (16/16rem) 0;
+        color: var(--headerColor);
+      }
+
+      .cs-item-text {
+        font-size: clamp(0.875rem, 1.5vw, 1rem);
+        line-height: 1.5em;
+        max-width: (450/16rem);
+        margin: 0;
+        color: var(--bodyTextColor);
+      }
+
+      .cs-background {
+        width: 100%;
+        height: 55%;
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -2;
+
+        &:before {
+          content: "";
+          width: 100%;
+          height: 100%;
+          background: var(--headerColor);
+          opacity: 0.7;
+          position: absolute;
+          display: block;
+          top: 0;
+          left: 0;
+          z-index: 1;
+          pointer-events: none;
+        }
+
+        img {
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 100%;
+          width: 100%;
+          object-fit: cover;
+          object-position: center;
+        }
+      }
+    }
+  }
+
+  @media only screen and (min-width: 48rem) {
+    #hero-1618 {
+      padding-bottom: 0;
+      .cs-container {
+        align-items: flex-start;
+      }
+
+      .cs-content {
+        align-items: flex-start;
+      }
+
+      .cs-item {
+        grid-column: span 4;
+      }
+
+      .cs-background {
+        height: 87%;
+        &:before {
+          background: linear-gradient(
+            90deg,
+            rgba(15, 17, 19, 0.92) 21.41%,
+            rgba(15, 17, 19, 0.7) 34.98%,
+            rgba(15, 17, 19, 0.1) 62.53%
+          );
+          opacity: 1;
+        }
+      }
+    }
+  }
+
+  @media only screen and (min-width: 100rem) {
+    #hero-1618 {
+      .cs-background {
+        background: var(--heroBgUrl);
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        img {
+          display: none;
+        }
+      }
+    }
+  }
+
+  @media only screen and (min-width: 0rem) {
+    body.dark-mode {
+      #hero-1618 {
+        .cs-item {
+          background-color: var(--medium);
+          box-shadow: 0 4px 14px 0 rgba(0, 0, 0, 0.3);
+
+          &:hover {
+            box-shadow: 0 4px 24px 5px rgba(0, 0, 0, 0.5);
+          }
+
+          .cs-h3 {
+            color: var(--bodyTextColorWhite);
+          }
+
+          .cs-item-text {
+            color: var(--bodyTextColorWhite);
+            opacity: 0.85;
+          }
+        }
+      }
+    }
+  }
+</style>

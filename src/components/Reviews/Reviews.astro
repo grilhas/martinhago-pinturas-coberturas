@@ -1,0 +1,279 @@
+---
+// Utils
+import { Icon } from "astro-icon/components";
+import { BUSINESS } from "@data/client";
+
+// NOTE: testemunhos ilustrativos escritos por nós para preencher o layout — não são
+// avaliações reais de clientes. Substituir por avaliações verdadeiras (ou remover a
+// secção) antes de publicar o site, para não passar como real algo que não é.
+const reviews = [
+  {
+    title: "Resolveram uma infiltração que já durava anos",
+    body: "Já tínhamos pintado a parede duas vezes e a mancha voltava sempre. A Martinhago encontrou um algeroz entupido, reparou e a humidade nunca mais voltou.",
+    name: "Inês P.",
+    location: "Lisboa",
+  },
+  {
+    title: "Fachada com acabamento impecável",
+    body: "Explicaram por que era preciso reparar o reboco antes de pintar, em vez de pintarem logo por cima. O resultado ficou muito melhor do que esperava.",
+    name: "Tiago S.",
+    location: "Amadora",
+  },
+  {
+    title: "Telhado limpo e pintado antes do inverno",
+    body: "O telhado tinha musgo acumulado há anos. Fizeram a lavagem completa e a pintura em dois dias, e as primeiras chuvas do inverno não trouxeram problema nenhum.",
+    name: "Joana R.",
+    location: "Loures",
+  },
+  {
+    title: "Vidro de claraboia substituído sem stress",
+    body: "O vidro estava rachado e entrava água sempre que chovia. Substituíram o vidro e reviram toda a vedação à volta, rápido e sem complicações.",
+    name: "Diogo M.",
+    location: "Sintra",
+  },
+];
+
+const reviewLink = BUSINESS.socials.googleBusiness || "/contact/";
+---
+
+<section id="reviews-2290">
+  <div class="cs-container">
+    <div class="cs-content">
+      <span class="cs-topper">Avaliações 5 Estrelas</span>
+      <h2 class="cs-title">O que dizem os nossos clientes</h2>
+    </div>
+    <ul class="cs-card-group">
+      {
+        reviews.map((review) => (
+          <li class="cs-item">
+            <Icon
+              name="quote"
+              class="cs-quote"
+              width="40"
+              height="38"
+              aria-hidden="true"
+            />
+            <h3 class="cs-header">{review.title}</h3>
+            <p class="cs-item-text">{review.body}</p>
+            <div class="cs-flex-group">
+              <span class="cs-name">
+                {review.name}
+                <span class="cs-job">{review.location}</span>
+              </span>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+    <a class="cs-button-solid" href={reviewLink} target="_blank" rel="noopener">
+      Ler mais no Google
+    </a>
+  </div>
+</section>
+
+<style lang="less">
+  /*-- -------------------------- -->
+<---        Reviews 2290        -->
+<--- -------------------------- -*/
+
+  @media only screen and (min-width: 0px) {
+    #reviews-2290 {
+      text-align: center;
+      padding: var(--sectionPadding);
+      overflow: hidden;
+      position: relative;
+      z-index: 1;
+      background-color: #ebebeb;
+
+      .cs-container {
+        width: 100%;
+        max-width: (824/16rem);
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: clamp(3rem, 6vw, 4rem);
+      }
+
+      .cs-content {
+        text-align: center;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .cs-title {
+        font-family: var(--headerFont);
+        font-size: clamp(1.9375rem, 3.9vw, (49/16rem));
+        font-weight: 600;
+        line-height: 1.2em;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        max-width: 20ch;
+        margin: 0;
+        color: var(--headerColor);
+      }
+
+      .cs-card-group {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: clamp(0.5rem, 2vw, 1.25rem);
+      }
+
+      .cs-item {
+        text-align: left;
+        list-style: none;
+        box-sizing: border-box;
+        padding: clamp(1rem, 2vw, 2rem);
+        background-color: #fff;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        grid-column: span 12;
+        gap: clamp(1rem, 3vw, 1.5rem);
+        position: relative;
+        z-index: 1;
+        transition:
+          transform 0.3s,
+          box-shadow 0.3s,
+          border-color 0.3s;
+        border-bottom: 4px solid transparent;
+
+        &:hover {
+          transform: translateY(-0.5rem);
+          box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.25);
+          border-bottom-color: var(--primary);
+
+          .cs-quote {
+            color: var(--primary);
+          }
+        }
+      }
+
+      .cs-quote {
+        width: (40/16rem);
+        height: auto;
+        display: block;
+        color: var(--primary);
+        transition: color 0.3s;
+      }
+
+      .cs-header {
+        font-family: var(--headerFont);
+        font-size: (20/16rem);
+        font-weight: 600;
+        line-height: 1.2em;
+        text-transform: uppercase;
+        margin: 0;
+        padding-bottom: clamp(1rem, 3vw, 1.5rem);
+        color: var(--headerColor);
+        border-bottom: 1px solid #e7e7e8;
+      }
+
+      .cs-item-text {
+        font-family: var(--bodyFont);
+        font-size: (16/16rem);
+        line-height: 1.5em;
+        margin: 0;
+        color: #585b5d;
+      }
+
+      .cs-flex-group {
+        margin-top: auto;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        gap: clamp(0.8rem, 1.5vw, 1rem);
+      }
+
+      .cs-name {
+        font-family: var(--bodyFont);
+        font-size: (16/16rem);
+        font-weight: 700;
+        line-height: 1.5em;
+        margin: 0;
+        color: var(--headerColor);
+        display: block;
+      }
+
+      .cs-job {
+        font-family: var(--bodyFont);
+        font-size: (16/16rem);
+        font-weight: 400;
+        line-height: 1.5em;
+        margin: 0;
+        color: var(--secondary);
+        display: block;
+      }
+    }
+  }
+
+  @media only screen and (min-width: 48rem) {
+    #reviews-2290 {
+      .cs-item {
+        grid-column: span 6;
+      }
+    }
+  }
+
+  @media only screen and (min-width: 81.25rem) {
+    #reviews-2290 {
+      .cs-container {
+        max-width: (1280/16rem);
+      }
+
+      .cs-item {
+        grid-column: span 3;
+      }
+    }
+  }
+
+  @media only screen and (min-width: 0em) {
+    body.dark-mode {
+      #reviews-2290 {
+        background-color: var(--dark);
+
+        .cs-title,
+        .cs-header,
+        .cs-name {
+          color: var(--bodyTextColorWhite);
+        }
+
+        .cs-item {
+          background-color: var(--medium);
+        }
+
+        .cs-item-text {
+          color: var(--bodyTextColorWhite);
+          opacity: 0.85;
+        }
+
+        .cs-header {
+          border-bottom-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .cs-job {
+          color: var(--primaryLight);
+        }
+
+        .cs-quote {
+          color: var(--primaryLight);
+        }
+
+        .cs-item:hover .cs-quote {
+          color: var(--primary);
+        }
+
+        .cs-item:hover {
+          border-bottom-color: var(--primary);
+          box-shadow: 0px 4px 24px 0px rgba(0, 0, 0, 0.5);
+        }
+      }
+    }
+  }
+</style>

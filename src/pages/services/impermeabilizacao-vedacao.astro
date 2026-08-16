@@ -1,0 +1,105 @@
+---
+import { getImage } from "astro:assets";
+import ServiceLayout from "@layouts/ServiceLayout.astro";
+import { buildServiceSchema, buildFaqSchema, buildBreadcrumbSchema } from "@js/serviceSchema.js";
+
+import bannerImage from "@assets/images/pinturas/chuva-telhado-terracota.jpg";
+import introImage from "@assets/images/pinturas/chuva-telhado-terracota.jpg";
+import whyImageOne from "@assets/images/pinturas/agua-telhado-textura.jpg";
+import whyImageTwo from "@assets/images/pinturas/fachada-plataforma-elevatoria.jpg";
+import processImageOne from "@assets/images/pinturas/tubo-drenagem-parede.jpg";
+import processImageTwo from "@assets/images/pinturas/fachada-andaime-trabalhador.jpg";
+
+const optimizedBanner = await getImage({ src: bannerImage, format: "webp" });
+
+const meta = {
+	title: "Impermeabilização e Vedação Especializada | Martinhago Pinturas & Coberturas",
+	seoDescription:
+		"Impermeabilização de telhados, terraços e zonas de infiltração em Lisboa e região. Resolvemos humidades na origem, com vedação especializada.",
+};
+
+const banner = {
+	title: "Impermeabilização e Vedação Especializada",
+	description: "Vedação de infiltrações antes que se tornem um problema maior.",
+	image: optimizedBanner,
+};
+
+const intro = {
+	titleHighlight: "Impermeabilização",
+	titleSuffix: " e Vedação Especializada",
+	intro: [
+		"Uma infiltração raramente aparece onde começa — a mancha de humidade dentro de casa é muitas vezes o sintoma final de um problema que começou no telhado, num terraço ou numa junta mal vedada.",
+		"Fazemos impermeabilização de telhados, terraços e coberturas planas, e vedação especializada de juntas e remates, tratando a causa da infiltração e não só o sintoma visível.",
+	],
+	listIntro: "O que inclui este serviço:",
+	listItems: [
+		{ label: "Identificação da origem", description: "Localizamos de onde vem a infiltração antes de intervir." },
+		{ label: "Impermeabilização de superfícies", description: "Telhados, terraços e coberturas planas tratados com produto adequado." },
+		{ label: "Vedação de juntas e remates", description: "Zonas de encontro entre superfícies, onde a água costuma entrar." },
+		{ label: "Verificação final", description: "Confirmamos que a infiltração foi resolvida antes de dar o trabalho por concluído." },
+	],
+	image: introImage,
+	imageAlt: "Chuva a escorrer sobre um telhado de telha de terracota",
+};
+
+const whyChoose = {
+	title: "Porque Escolher a Martinhago",
+	introPara: "Tratar a origem da infiltração evita repetir o trabalho passado um ano.",
+	reasons: [
+		{ heading: "Diagnóstico antes de intervir", description: "Não vedamos às cegas — procuramos de onde vem a água primeiro." },
+		{ heading: "Produtos próprios para cada superfície", description: "Telhado, terraço ou parede pedem impermeabilizantes diferentes." },
+		{ heading: "Vedação de juntas incluída", description: "Grande parte das infiltrações começa numa junta mal vedada, não na superfície." },
+		{ heading: "Garantia do trabalho", description: "Voltamos se a infiltração não ficar resolvida." },
+	],
+	imageOne: whyImageOne,
+	imageOneAlt: "Água acumulada sobre um telhado, mostrando textura da telha",
+	imageTwo: whyImageTwo,
+	imageTwoAlt: "Trabalhador numa plataforma elevatória a intervir numa fachada",
+};
+
+const process = {
+	title: "Como Fazemos",
+	paragraph: "Impermeabilização de um terraço com infiltração em Odivelas",
+	headingThree: "Como Fizemos",
+	bullets: [
+		{ label: "Diagnóstico", description: "Localizámos a zona exata por onde a água entrava." },
+		{ label: "Preparação", description: "Limpámos e reparámos a superfície antes de impermeabilizar." },
+		{ label: "Impermeabilização", description: "Aplicámos produto impermeabilizante em toda a área afetada." },
+		{ label: "Vedação de remates", description: "Reforçámos as juntas junto às paredes, onde a infiltração começou." },
+	],
+	imageOne: processImageOne,
+	imageOneAlt: "Tubo de drenagem numa parede exterior",
+	imageTwo: processImageTwo,
+	imageTwoAlt: "Trabalhador em andaime numa fachada",
+};
+
+const faq = {
+	title: "Perguntas Frequentes sobre Impermeabilização e Vedação",
+	questions: [
+		{ question: "Como sei se preciso de impermeabilização ou só de pintura?", answer: "Se há manchas de humidade, bolhas na pintura ou água visível durante a chuva, o problema é de infiltração, não só estético. Avaliamos no local e dizemos exatamente o que é preciso." },
+		{ question: "Quanto tempo dura uma impermeabilização?", answer: "Depende do produto e da exposição, mas em geral entre 8 a 15 anos com boa aplicação. Explicamos as opções e prazos no orçamento." },
+		{ question: "Também resolvem infiltrações em paredes, não só em telhados?", answer: "Sim. Tratamos infiltrações em telhados, terraços, coberturas planas e juntas de paredes exteriores." },
+		{ question: "Fazem o trabalho mesmo com a casa habitada?", answer: "Sim, a maioria dos trabalhos de impermeabilização é feita pelo exterior e não obriga a sair de casa." },
+	],
+};
+
+const serviceSchema = buildServiceSchema({
+	name: meta.title,
+	description: meta.seoDescription,
+	slug: "impermeabilizacao-vedacao",
+});
+const faqSchema = buildFaqSchema(faq.questions);
+const breadcrumbSchema = buildBreadcrumbSchema([
+	{ name: "Início", url: "/" },
+	{ name: "Serviços", url: "/services/" },
+	{ name: "Impermeabilização e Vedação Especializada", url: "/services/impermeabilizacao-vedacao/" },
+]);
+---
+
+<ServiceLayout meta={meta} banner={banner} intro={intro} whyChoose={whyChoose} process={process} faq={faq}>
+	<Fragment slot="schema">
+		<script is:inline type="application/ld+json" set:html={JSON.stringify(serviceSchema)} />
+		<script is:inline type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+		<script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+	</Fragment>
+</ServiceLayout>

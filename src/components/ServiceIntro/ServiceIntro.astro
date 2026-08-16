@@ -1,0 +1,310 @@
+---
+/**
+ * * ServiceIntro — "content-heavy" intro section for each service page.
+ * * Image on the right, two-tone title on the left, optional ordered list for process/steps.
+ * * Blue dog mascot is a static brand decoration bottom-left (not a prop).
+ */
+
+import { Picture } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+interface ListItem {
+  label: string;
+  description: string;
+}
+
+interface Props {
+  /** Colored (secondary/red) portion of the title, e.g. "Kitchen Remodeling" */
+  titleHighlight: string;
+  /** Remaining (dark) portion of the title, e.g. " em Lisboa" */
+  titleSuffix?: string;
+  /** Lead intro paragraphs (rendered before the emphasis line) */
+  intro: string[];
+  /** Optional bold standout quote between the intro and list */
+  emphasis?: string;
+  /** Optional lead-in paragraph before the ordered list */
+  listIntro?: string;
+  /** Optional ordered list of steps/features with bold label + body */
+  listItems?: ListItem[];
+  /** Right-side image (raw import from @assets) */
+  image: ImageMetadata;
+  imageAlt: string;
+}
+
+const {
+  titleHighlight,
+  titleSuffix,
+  intro,
+  emphasis,
+  listIntro,
+  listItems,
+  image,
+  imageAlt,
+} = Astro.props;
+---
+
+<section id="service-intro">
+  <div class="cs-container">
+    <!-- Left Content -->
+    <div class="cs-content">
+      <h2 class="cs-title">
+        <span class="cs-title-highlight">{titleHighlight}</span>{titleSuffix}
+      </h2>
+      {intro.map((paragraph) => <p class="cs-text">{paragraph}</p>)}
+      {emphasis && <p class="cs-emphasis">{emphasis}</p>}
+      {listIntro && <p class="cs-text cs-text-tight">{listIntro}</p>}
+      {
+        listItems && listItems.length > 0 && (
+          <ol class="cs-list">
+            {listItems.map((item) => (
+              <li class="cs-li">
+                <strong class="cs-li-label">{item.label}</strong>
+                <span class="cs-li-desc"> — {item.description}</span>
+              </li>
+            ))}
+          </ol>
+        )
+      }
+    </div>
+
+    <!-- Right Image -->
+    <div class="cs-image-group">
+      <Picture
+        src={image}
+        alt={imageAlt}
+        widths={[542, 1084]}
+        sizes="(min-width: 64rem) 542px, 90vw"
+        formats={["avif", "webp"]}
+        pictureAttributes={{ class: "cs-picture" }}
+        loading="lazy"
+      />
+    </div>
+  </div>
+</section>
+
+<style lang="less">
+  /*-- -------------------------- -->
+<---       Service Intro        -->
+<--- -------------------------- -*/
+
+  /* Mobile - 360px */
+  @media only screen and (min-width: 0rem) {
+    #service-intro {
+      padding: var(--sectionPadding);
+      background-color: #fff;
+      overflow: hidden;
+      position: relative;
+      z-index: 1;
+
+      .cs-container {
+        width: 100%;
+        max-width: (1280/16rem);
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        /* 40px - 64px */
+        gap: clamp(2.5rem, 4vw, 4rem);
+        position: relative;
+        z-index: 2; /* sit above the mascot */
+      }
+
+      .cs-content {
+        text-align: left;
+        width: 100%;
+        max-width: (674/16rem);
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: (16/16rem);
+      }
+
+      .cs-title {
+        /* 32px - 48px — Figma: 48px Sora Bold */
+        font-size: clamp(2rem, 4vw, 3rem);
+        font-family: var(--headerFont);
+        font-weight: 700;
+        line-height: 1.2em;
+        text-transform: uppercase;
+        margin: 0 0 (8/16rem) 0;
+        color: #1a1a1a;
+      }
+
+      .cs-title-highlight {
+        color: var(--secondary);
+      }
+
+      .cs-text {
+        font-size: var(--bodyFontSize);
+        line-height: 1.5em;
+        margin: 0;
+        color: #4e4b66;
+        font-family: var(--bodyFont);
+      }
+
+      .cs-text-tight {
+        /* when introducing the ordered list, keep tight to it */
+        margin-top: (8/16rem);
+      }
+
+      .cs-emphasis {
+        /* Figma: 22.4px Sora SemiBold uppercase */
+        font-size: (22/16rem);
+        font-family: var(--headerFont);
+        font-weight: 600;
+        line-height: 1.2em;
+        text-transform: uppercase;
+        margin: (16/16rem) 0 0 0;
+        color: #1a1a1a;
+      }
+
+      .cs-list {
+        padding-left: (24/16rem);
+        margin: 0;
+        color: #1a1a1a;
+        font-family: var(--bodyFont);
+        display: flex;
+        flex-direction: column;
+        gap: (8/16rem);
+
+        .cs-li {
+          font-size: var(--bodyFontSize);
+          line-height: 1.5em;
+          color: #1a1a1a;
+        }
+
+        .cs-li-label {
+          font-weight: 700;
+        }
+
+        .cs-li-desc {
+          font-weight: 400;
+          color: #4e4b66;
+        }
+      }
+
+      .cs-image-group {
+        width: 100%;
+        max-width: (542/16rem);
+        position: relative;
+        z-index: 2;
+      }
+
+      .cs-picture {
+        width: 100%;
+        display: block;
+
+        img {
+          width: 100%;
+          height: auto;
+          display: block;
+          object-fit: cover;
+        }
+      }
+
+      .cs-mascot {
+        display: none; /* hidden on mobile/tablet — shown on desktop */
+      }
+    }
+  }
+
+  /* Tablet - 768px: content left, image right in a row */
+  @media only screen and (min-width: 48rem) {
+    #service-intro {
+      .cs-container {
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: clamp(2rem, 4vw, 4rem);
+      }
+
+      .cs-content {
+        width: 55%;
+        flex: none;
+      }
+
+      .cs-image-group {
+        width: 42%;
+        max-width: (542/16rem);
+      }
+
+      .cs-mascot {
+        /* Reserved for an optional brand decoration bottom-left */
+        display: block;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: clamp(10rem, 18vw, 16.6875rem);
+        height: auto;
+        overflow: hidden;
+        border-top-left-radius: (300/16rem);
+        border-top-right-radius: (50/16rem);
+        z-index: 1;
+        pointer-events: none;
+        /* subtle watermark until viewport is wide enough for the dog to breathe */
+        opacity: 0.15;
+        transition: opacity 0.3s;
+
+        img {
+          width: 100%;
+          height: auto;
+          display: block;
+          object-fit: cover;
+        }
+      }
+    }
+  }
+
+  /* Desktop - 1024px: mascot back to the left, capped smaller so it doesn't cover text */
+  @media only screen and (min-width: 64rem) {
+    #service-intro .cs-mascot {
+      left: 0;
+      right: auto; /* resets the tablet-rule right: 0 so left wins cleanly */
+      max-width: (150/16rem);
+      height: auto;
+    }
+  }
+
+  /* Full-width Desktop - ~1840px (accounts for scrollbar on 1920 monitors) */
+  @media only screen and (min-width: 115rem) {
+    #service-intro .cs-mascot {
+      opacity: 1;
+      max-width: none; /* release the 150px cap */
+    }
+  }
+
+  /* Dark Mode */
+  @media only screen and (min-width: 0rem) {
+    body.dark-mode {
+      #service-intro {
+        background-color: var(--dark);
+
+        .cs-title {
+          color: var(--bodyTextColorWhite);
+        }
+
+        .cs-text,
+        .cs-emphasis {
+          color: var(--bodyTextColorWhite);
+        }
+
+        .cs-text {
+          opacity: 0.85;
+        }
+
+        /* Nested to match light-mode specificity so these overrides always win */
+        .cs-list,
+        .cs-list .cs-li,
+        .cs-list .cs-li-label,
+        .cs-list .cs-li-desc {
+          color: var(--bodyTextColorWhite);
+        }
+
+        /* Explicitly color the <ol> numbers so they render in dark mode */
+        .cs-list .cs-li::marker {
+          color: var(--bodyTextColorWhite);
+        }
+      }
+    }
+  }
+</style>

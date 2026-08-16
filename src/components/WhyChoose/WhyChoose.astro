@@ -1,0 +1,308 @@
+---
+// Utils
+import { Picture } from "astro:assets";
+
+// Assets
+import whyChoose from "@assets/images/pinturas/fachada-plataforma-elevatoria.jpg";
+---
+
+<section id="sbsr-2289">
+  <div class="cs-container">
+    <!-- Left Content Section-->
+    <div class="cs-content">
+      <span class="cs-topper">Porque a Martinhago</span>
+      <h2 class="cs-title">Feito bem à primeira</h2>
+      <p class="cs-text">
+        A Martinhago Pinturas & Coberturas faz pintura, telhados e impermeabilização em
+        Lisboa e região, com uma ideia simples: avaliar bem a superfície antes de
+        intervir, para o trabalho durar e não haver surpresas no orçamento.
+      </p>
+      <div class="cs-features">
+        <h3 class="cs-h3">O que nos distingue:</h3>
+        <ul class="cs-ul">
+          <li class="cs-li">Avaliação da superfície antes de recomendar o trabalho</li>
+          <li class="cs-li">Orçamentos escritos e discriminados - sem extras surpresa</li>
+          <li class="cs-li">Tratamos infiltrações na origem, não só na superfície</li>
+          <li class="cs-li">Trabalho em altura feito com equipamento de segurança</li>
+        </ul>
+      </div>
+      <a
+        class="cs-button-solid"
+        aria-label="pedir orçamento"
+        href="/contact/">Pedir Orçamento</a
+      >
+    </div>
+    <!-- Right Image Section -->
+    <div class="cs-image-group">
+      <!--Floating Box-->
+      <div class="cs-box">
+        <span class="cs-number">24 Horas</span>
+        <div class="cs-flex">
+          <h3 class="cs-heading">Até Respondermos ao Seu Pedido</h3>
+          <span class="cs-desc"
+            >Avaliamos o espaço no local e entregamos um orçamento escrito antes de
+            qualquer trabalho começar.</span
+          >
+        </div>
+      </div>
+      <!--Image-->
+      <Picture
+        src={whyChoose}
+        alt="Trabalhador numa plataforma elevatória a intervir numa fachada"
+        widths={[630, 1260]}
+        sizes="(min-width: 601px) 630px, 100vw"
+        formats={["avif", "webp"]}
+        pictureAttributes={{ class: "cs-picture" }}
+        loading="lazy"
+        decoding="async"
+      />
+    </div>
+  </div>
+</section>
+
+<style lang="less">
+  /*-- -------------------------- -->
+<---   Side By Side Reverse     -->
+<--- -------------------------- -*/
+
+  /* Mobile - 360px */
+  @media only screen and (min-width: 0rem) {
+    #sbsr-2289 {
+      padding: var(--sectionPadding);
+      overflow: hidden;
+      background-color: #f7f7f7;
+
+      .cs-container {
+        width: 100%;
+        /* changes to 1280px at desktop */
+        max-width: (584/16rem);
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        gap: (48/16rem);
+      }
+
+      .cs-content {
+        /* set text align to left if content needs to be left aligned */
+        text-align: left;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        /* centers content horizontally, set to flex-start to left align */
+        align-items: flex-start;
+        position: relative;
+        z-index: 10;
+      }
+
+      .cs-text {
+        margin-bottom: (16/16rem);
+        &:last-of-type {
+          margin-bottom: (32/16rem);
+        }
+      }
+
+      .cs-features {
+        width: 100%;
+        margin: 0 0 (32/16rem);
+        /* 24px - 32px */
+        padding: clamp(1.5rem, 4vw, 2rem);
+        background-color: var(--bgLight);
+        border-left: (4/16rem) solid var(--primary);
+      }
+
+      .cs-h3 {
+        font-size: (16/16rem);
+        font-weight: 700;
+        line-height: 1.5em;
+        margin: 0 0 (12/16rem);
+        color: var(--headerColor);
+      }
+
+      .cs-ul {
+        font-size: (12/16rem);
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: (12/16rem);
+      }
+
+      .cs-li {
+        font-size: (16/16rem);
+        line-height: 1.5em;
+        list-style: none;
+        /* 20px - 24px */
+        padding-left: clamp(1.25rem, 3vw, 1.5rem);
+        color: var(--bodyTextColor);
+        position: relative;
+
+        &::before {
+          content: "";
+          width: (8/16rem);
+          height: (8/16rem);
+          margin-top: (8/16rem);
+          background-color: var(--secondary);
+          display: block;
+          position: absolute;
+          top: 0;
+          left: 0;
+          transform: rotate(45deg);
+        }
+      }
+
+      .cs-image-group {
+        width: 100%;
+        height: 126vw;
+        max-height: (626/16rem);
+        display: block;
+        order: -1;
+        position: relative;
+        z-index: 1;
+      }
+
+      .cs-picture {
+        /* big background image */
+        width: 100%;
+        display: block;
+        position: absolute;
+        top: 0;
+        bottom: (95/16rem);
+        left: 0;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          position: absolute;
+          top: 0;
+          left: 0;
+        }
+      }
+
+      .cs-box {
+        text-align: left;
+        width: 91%;
+        max-width: (450/16rem);
+        /* prevents padding and border from affecting height and width */
+        box-sizing: border-box;
+        /* 24px - 32px */
+        padding: clamp(1.5rem, 3vw, 2rem);
+        background-color: #fffcf3;
+        display: inline-flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        column-gap: (24/16rem);
+        row-gap: (8/16rem);
+        position: absolute;
+        right: 50%;
+        bottom: 0;
+        z-index: 10;
+        transform: translate(50%);
+      }
+
+      .cs-number {
+        /* 31px - 49px */
+        font-size: clamp(1.9375rem, 4vw, 3.0625rem);
+        font-weight: 700;
+        line-height: 1.2em;
+        text-transform: uppercase;
+        margin: 0;
+        color: var(--secondary);
+      }
+
+      .cs-heading {
+        font-size: (20/16rem);
+        font-weight: 700;
+        line-height: 1.2em;
+        margin: 0 0 (8/16rem);
+        color: var(--headerColor);
+      }
+
+      .cs-desc {
+        font-size: (16/16rem);
+        line-height: 1.5em;
+        color: var(--bodyTextColor);
+      }
+
+      .cs-graphic {
+        width: 150%;
+        height: auto;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        z-index: -1;
+        transform: translate(-50%, -50%);
+      }
+    }
+  }
+
+  /* Tablet - 768px */
+  @media only screen and (min-width: 48rem) {
+    #sbsr-2289 {
+      .cs-box {
+        flex-direction: row;
+        align-items: center;
+      }
+    }
+  }
+
+  /* Desktop - 1024px */
+  @media only screen and (min-width: 64rem) {
+    #sbsr-2289 {
+      .cs-container {
+        max-width: (1280/16rem);
+        flex-direction: row;
+        align-items: stretch;
+        gap: (20/16rem);
+      }
+
+      .cs-content {
+        padding-right: (52/16rem);
+        padding-bottom: (108/16rem);
+      }
+
+      .cs-image-group {
+        height: auto;
+        min-height: (642/16rem);
+        max-height: 100%;
+        order: initial;
+      }
+
+      .cs-picture {
+        bottom: (64/16rem);
+      }
+    }
+  }
+
+  /* Dark Mode */
+  @media only screen and (min-width: 0rem) {
+    body.dark-mode {
+      #sbsr-2289 {
+        background-color: var(--dark);
+
+        .cs-title,
+        .cs-text,
+        .cs-h3,
+        .cs-li,
+        .cs-heading,
+        .cs-desc {
+          color: var(--bodyTextColorWhite);
+        }
+
+        .cs-text,
+        .cs-li,
+        .cs-desc {
+          opacity: 0.8;
+        }
+
+        .cs-features,
+        .cs-box {
+          background-color: var(--medium);
+        }
+      }
+    }
+  }
+</style>

@@ -1,0 +1,392 @@
+---
+// Utils
+import { getImage } from "astro:assets";
+
+// Components
+import BaseLayout from "@layouts/BaseLayout.astro";
+import Banner from "@components/Banner/Banner.astro";
+
+// Data
+import { BUSINESS } from "@data/client";
+import { SERVICES } from "@data/services";
+
+// Images
+import bannerImage from "@assets/images/pinturas/tecnico-checklist-inspecao.jpg";
+import bgImage from "@assets/images/pinturas/equipa-pintores-fachada.jpg";
+const optimizedImage = await getImage({ src: bannerImage, format: "webp" });
+---
+
+<BaseLayout
+  title="Contactos | Martinhago Pinturas & Coberturas"
+  description="Peça um orçamento rápido para pintura, telhado ou impermeabilização. Ligue ou envie uma mensagem com o que precisa."
+  heroImage={optimizedImage}
+>
+  <Banner
+    title="Contacte-nos"
+    description="Orçamento rápido por telefone ou mensagem. Avaliamos o espaço no local em poucos dias."
+    image={optimizedImage}
+  />
+
+  <!-- ============================================ -->
+  <!--                   Contact form                -->
+  <!-- ============================================ -->
+  <section id="contact-2320">
+    <div class="cs-container">
+      <div class="cs-content">
+        <span class="cs-topper">Orçamento Rápido</span>
+        <h2 class="cs-title">Conte-nos o que precisa</h2>
+        <p class="cs-text">
+          A forma mais rápida de obter orçamento é uma chamada ou mensagem com algumas
+          fotografias da fachada, telhado ou divisão a tratar. Ou preencha o formulário
+          abaixo e respondemos assim que possível.
+        </p>
+        <form
+          class="cs-form"
+          id="cs-form-323-2320"
+          name="Contact Form"
+          method="post"
+          {...{ netlify: "" }}
+        >
+          <input type="hidden" name="form-name" value="Contact Form" />
+          <label class="cs-label">
+            Nome
+            <input
+              class="cs-input"
+              required
+              type="text"
+              name="name"
+              placeholder="O seu nome"
+            />
+          </label>
+          <label class="cs-label cs-email">
+            Email
+            <input
+              class="cs-input"
+              required
+              type="email"
+              name="email"
+              placeholder="you@email.com"
+            />
+          </label>
+          <label class="cs-label cs-phone">
+            Telefone
+            <input
+              class="cs-input"
+              required
+              type="tel"
+              name="phone"
+              placeholder="+351 21 050 0000"
+            />
+          </label>
+          <label class="cs-label cs-services">
+            Serviço pretendido
+            <select class="cs-input" name="service">
+              <option value="" disabled selected>Escolha um serviço</option>
+              {SERVICES.map((s) => <option value={s.title}>{s.title}</option>)}
+              <option value="Other">Não tenho a certeza / Outro</option>
+            </select>
+          </label>
+          <label class="cs-label">
+            Conte-nos o projeto
+            <textarea
+              class="cs-input cs-textarea"
+              required
+              name="message"
+              placeholder="Tipo de trabalho, área aproximada, morada e notas de acesso. Fotografias ajudam - envie-as para +351 21 050 0000."></textarea>
+          </label>
+          <button class="cs-button-solid cs-submit" type="submit"
+            >Enviar Mensagem</button
+          >
+        </form>
+      </div>
+      <!-- Mapa — área de serviço de Lisboa -->
+      <div class="cs-map">
+        <div class="cs-iframe-wrapper">
+          <iframe
+            src="https://www.google.com/maps?q=Lisboa+Portugal&output=embed"
+            width="600"
+            height="450"
+            style="border:0;"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Mapa da área de serviço da Martinhago Pinturas & Coberturas"></iframe>
+        </div>
+      </div>
+    </div>
+
+    <!-- Working hours band -->
+    <div class="cs-container2">
+      <picture class="cs-background">
+        <img
+          src={bgImage.src}
+          alt=""
+          width={bgImage.width}
+          height={bgImage.height}
+          aria-hidden="true"
+          loading="lazy"
+          decoding="async"
+        />
+      </picture>
+      <div class="cs-hours">
+        <div class="cs-topper">Horário de Funcionamento</div>
+        <span class="cs-hours-info">{BUSINESS.hours.display}</span>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style lang="less">
+  /*-- -------------------------- -->
+<---          Contact           -->
+<--- -------------------------- -*/
+
+  @media only screen and (min-width: 0rem) {
+    #contact-2320 {
+      padding: var(--sectionPadding);
+      display: flex;
+      flex-direction: column;
+      gap: clamp(3rem, 6vw, 4rem);
+      position: relative;
+      z-index: 1;
+
+      .cs-container {
+        width: 100%;
+        max-width: (580/16rem);
+        margin: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: clamp(3rem, 6vw, 4rem);
+      }
+
+      .cs-container2 {
+        width: 100%;
+        max-width: (580/16rem);
+        padding: (80/16rem) (48/16rem);
+        margin: auto;
+        position: relative;
+        z-index: 1;
+
+        .cs-topper {
+          color: #fff;
+        }
+      }
+
+      .cs-content {
+        text-align: left;
+      }
+
+      .cs-title {
+        margin-bottom: (16/16rem);
+      }
+
+      .cs-text {
+        margin-bottom: (24/16rem);
+      }
+
+      .cs-form {
+        border-radius: (16/16rem);
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: (12/16rem);
+      }
+
+      .cs-label {
+        font-size: clamp(0.875rem, 1.5vw, 1rem);
+        width: 100%;
+        color: var(--headerColor);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        gap: (4/16rem);
+      }
+
+      .cs-input {
+        font-size: (16/16rem);
+        width: 100%;
+        height: (56/16rem);
+        padding: 0;
+        padding-left: (24/16rem);
+        color: var(--headerColor);
+        background-color: var(--bgLight);
+        border: 1px solid #e3e6e1;
+        box-sizing: border-box;
+        &::placeholder {
+          color: #7d799c;
+          opacity: 0.6;
+        }
+      }
+
+      .cs-textarea {
+        min-height: (120/16rem);
+        padding-top: (24/16rem);
+        margin-bottom: (12/16rem);
+        font-family: inherit;
+      }
+
+      .cs-submit {
+        text-transform: uppercase;
+        background-color: var(--primary);
+        color: var(--bodyTextColorWhite);
+        border: none;
+        transition: color 0.3s;
+        &:hover {
+          cursor: pointer;
+        }
+      }
+
+      .cs-map {
+        width: 100%;
+        max-width: (630/16rem);
+        height: (400/16rem);
+        position: relative;
+        z-index: 1;
+        display: block;
+      }
+
+      .cs-iframe-wrapper {
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: clamp(2.5rem, 5vw, 3.5rem);
+
+        iframe {
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 100%;
+          width: 100%;
+          object-fit: cover;
+        }
+      }
+
+      .cs-hours {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .cs-hours-info {
+        font-size: clamp(1.25rem, 3vw, 1.5625rem);
+        line-height: 1.2em;
+        font-weight: 700;
+        width: 60%;
+        max-width: 28ch;
+        margin: 0;
+        color: var(--bodyTextColorWhite);
+      }
+
+      .cs-background {
+        width: 100%;
+        height: 100%;
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
+
+        &:before {
+          content: "";
+          position: absolute;
+          display: block;
+          height: 100%;
+          width: 100%;
+          background: var(--headerColor);
+          opacity: 0.72;
+          top: 0;
+          left: 0;
+          z-index: 1;
+        }
+
+        img {
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 100%;
+          width: 100%;
+          object-fit: cover;
+        }
+      }
+    }
+  }
+
+  @media only screen and (min-width: 64rem) {
+    #contact-2320 {
+      .cs-container {
+        max-width: (1280/16rem);
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: stretch;
+        gap: (52/16rem);
+      }
+
+      .cs-container2 {
+        max-width: (1280/16rem);
+      }
+
+      .cs-content {
+        max-width: (522/16rem);
+        padding: clamp(2rem, 5vw, 5rem) 0;
+      }
+
+      .cs-title,
+      .cs-topper,
+      .cs-text {
+        text-align: left;
+        margin-left: 0;
+      }
+
+      .cs-services,
+      .cs-phone {
+        width: 47%;
+      }
+
+      .cs-map {
+        max-width: (630/16rem);
+        height: auto;
+        order: -1;
+      }
+    }
+  }
+
+  /* Dark Mode */
+  @media only screen and (min-width: 0rem) {
+    body.dark-mode {
+      #contact-2320 {
+        .cs-topper {
+          color: var(--primaryLight);
+        }
+
+        .cs-title {
+          color: var(--bodyTextColorWhite);
+        }
+
+        .cs-text {
+          color: var(--bodyTextColorWhite);
+          opacity: 0.85;
+        }
+
+        .cs-label {
+          color: var(--bodyTextColorWhite);
+        }
+
+        .cs-input {
+          background-color: rgba(255, 255, 255, 0.05);
+          color: var(--bodyTextColorWhite);
+          border-color: rgba(255, 255, 255, 0.1);
+          &::placeholder {
+            color: #fff;
+            opacity: 0.5;
+          }
+        }
+      }
+    }
+  }
+</style>

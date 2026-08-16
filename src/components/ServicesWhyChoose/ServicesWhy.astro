@@ -1,0 +1,415 @@
+---
+/**
+ * * ServicesWhy — "Why choose us" section for service pages.
+ * * Left: intro + CTA. Right: two stacked images with an overlay title, plus a list of reasons.
+ */
+
+import { Picture } from "astro:assets";
+import { Icon } from "astro-icon/components";
+import type { ImageMetadata } from "astro";
+
+interface Reason {
+  heading: string;
+  description: string;
+}
+
+interface Props {
+  introPara: string;
+  title?: string;
+  reasons: Reason[];
+  imageOne: ImageMetadata;
+  imageOneAlt: string;
+  imageTwo: ImageMetadata;
+  imageTwoAlt: string;
+  ctaHref?: string;
+  ctaText?: string;
+}
+
+const {
+  introPara,
+  title = "Porque Escolher-nos",
+  reasons,
+  imageOne,
+  imageOneAlt,
+  imageTwo,
+  imageTwoAlt,
+  ctaHref = "/contact/",
+  ctaText = "Pedir Orçamento",
+} = Astro.props;
+---
+
+<section id="why-2360">
+  <div class="cs-container">
+    <div class="cs-content">
+      <p class="cs-text">{introPara}</p>
+      <a href={ctaHref} class="cs-button-solid">{ctaText}</a>
+    </div>
+
+    <div class="cs-flex">
+      <div class="cs-image-group">
+        <Picture
+          src={imageOne}
+          alt={imageOneAlt}
+          widths={[517, 1034]}
+          sizes="(min-width: 64rem) 517px, 90vw"
+          formats={["avif", "webp"]}
+          pictureAttributes={{ class: "cs-picture cs-picture1" }}
+          loading="lazy"
+        />
+
+        <div class="cs-wrapper">
+          <Picture
+            src={imageTwo}
+            alt={imageTwoAlt}
+            widths={[517, 1034]}
+            sizes="(min-width: 64rem) 517px, 90vw"
+            formats={["avif", "webp"]}
+            pictureAttributes={{ class: "cs-picture cs-picture2" }}
+            loading="lazy"
+          />
+          <h2 class="cs-title">{title}</h2>
+        </div>
+      </div>
+
+      <ul class="cs-card-group">
+        {
+          reasons.map((reason) => (
+            <li class="cs-item">
+              <h3 class="cs-h3">
+                {reason.heading}
+                <Icon
+                  class="cs-icon"
+                  name="why-arrow-right"
+                  width="24"
+                  height="24"
+                  aria-hidden="true"
+                />
+              </h3>
+              <p class="cs-item-text">{reason.description}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style lang="less">
+  /*-- -------------------------- -->
+<---         Why Choose         -->
+<--- -------------------------- -*/
+
+  /* Mobile */
+  @media only screen and (min-width: 0rem) {
+    #why-2360 {
+      padding: var(--sectionPadding);
+      background-color: #fbf7f2;
+      overflow: hidden;
+
+      .cs-container {
+        width: 100%;
+        /* changes to 1280px at tablet */
+        max-width: (584/16rem);
+        margin: auto;
+      }
+
+      .cs-content {
+        width: 100%;
+        margin: auto;
+        /* 48px - 64px */
+        margin-bottom: clamp(3rem, 7vw, 4rem);
+      }
+
+      .cs-flex {
+        /* lets the children of this div act as though this div doesnt exist and are free to arrange themselves with the elements outside of its parent div */
+        display: contents;
+      }
+
+      .cs-card-group {
+        width: 100%;
+        /* changes to 1280px at tablet */
+        max-width: (584/16rem);
+        margin: auto;
+      }
+
+      .cs-title {
+        max-width: (944/16rem);
+      }
+
+      .cs-text {
+        max-width: (944/16rem);
+        margin-bottom: (16/16rem);
+
+        &:last-of-type {
+          margin-bottom: (32/16rem);
+        }
+      }
+
+      .cs-card-group {
+        margin: 0 auto;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        /* 16px - 20px */
+        column-gap: clamp(1rem, 2.5vw, 1.25rem);
+        /* 32px - 40px */
+        row-gap: clamp(2rem, 2.5vw, 2.5rem);
+      }
+
+      .cs-item {
+        text-align: left;
+        list-style: none;
+        display: flex;
+        grid-column: span 12;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .cs-icon {
+        width: (24/16rem);
+        height: auto;
+        display: block;
+      }
+
+      .cs-h3 {
+        /* 20px - 25px */
+        font-size: clamp(1.25rem, 2.4vw, 1.5625rem);
+        line-height: 1.2em;
+        font-weight: 700;
+        width: 100%;
+        margin: 0 0 (16/16rem);
+        padding-bottom: (16/16rem);
+        color: var(--headerColor);
+        border-bottom: 1px solid #e3ddd9;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+      }
+
+      .cs-item-text {
+        font-size: var(--bodyFontSize);
+        line-height: 1.5em;
+        margin: 0;
+        color: var(--bodyTextColor);
+      }
+
+      .cs-button-solid {
+        font-size: (16/16rem);
+        /* 46px - 56px */
+        line-height: clamp(2.875rem, 5vw, 3.5rem);
+        font-weight: 700;
+        text-decoration: none;
+        text-align: center;
+        margin: 0;
+        padding: 0 (48/16rem);
+        background-color: var(--primary);
+        color: var(--bodyTextColorWhite);
+        display: inline-block;
+        position: relative;
+        z-index: 1;
+
+        &:hover {
+          &:before {
+            width: 100%;
+          }
+        }
+
+        &:before {
+          content: "";
+          width: 0%;
+          height: 100%;
+          background: #000;
+          opacity: 1;
+          display: block;
+          position: absolute;
+          top: 0;
+          left: 0;
+          z-index: -1;
+          transition: width 0.3s;
+        }
+      }
+
+      .cs-image-group {
+        width: 100%;
+      }
+
+      .cs-picture {
+        width: 100%;
+        height: 90vw;
+        display: block;
+        position: relative;
+        z-index: 1;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          position: absolute;
+          top: 0;
+          left: 0;
+        }
+      }
+
+      .cs-picture1 {
+        margin-bottom: (16/16rem);
+      }
+
+      .cs-picture2 {
+        height: 66vw;
+        margin-bottom: (48/16rem);
+      }
+    }
+  }
+
+  /* In-between - 600px */
+  @media only screen and (min-width: 37.5rem) {
+    #why-2360 {
+      .cs-image-group {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        /* 16px - 20px */
+        column-gap: clamp(1rem, 2.5vw, 1.25rem);
+      }
+
+      .cs-wrapper {
+        /* lets the children of this div act as though this div doesnt exist and are free to arrange themselves with the elements outside of its parent div */
+        display: contents;
+      }
+
+      .cs-picture {
+        height: 50vw;
+        margin-bottom: (48/16rem);
+        grid-column: span 6;
+      }
+
+      .cs-picture2 {
+        height: 50vw;
+      }
+
+      .cs-title {
+        grid-column: span 12;
+      }
+    }
+  }
+
+  /* Tablet - 768px */
+  @media only screen and (min-width: 48rem) {
+    #why-2360 {
+      .cs-container {
+        max-width: (1280/16rem);
+      }
+
+      .cs-content {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: (48/16rem);
+      }
+
+      .cs-text {
+        margin: 0;
+
+        &:last-of-type {
+          margin-bottom: 0;
+        }
+      }
+
+      .cs-button-solid {
+        flex: none;
+      }
+
+      .cs-card-group {
+        max-width: (400/16rem);
+      }
+
+      .cs-h3 {
+        height: 100%;
+      }
+
+      .cs-image-group {
+        width: 55%;
+        max-width: (743/16rem);
+        display: flex;
+        flex: none;
+        position: relative;
+        z-index: 1;
+      }
+
+      .cs-wrapper {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .cs-flex {
+        display: flex;
+        align-items: flex-start;
+        /* 32px - 64px */
+        gap: clamp(2rem, 7vw, 4rem);
+      }
+
+      .cs-title {
+        text-align: right;
+        margin-bottom: (140/16rem);
+        order: -1;
+      }
+
+      .cs-picture1 {
+        width: 55%;
+        height: auto;
+        /* 80px - 120px */
+        margin-bottom: clamp(5rem, 6vw, 7.5rem);
+        flex: none;
+      }
+
+      .cs-picture2 {
+        margin: 0;
+        height: auto;
+        /* 238px - 400px */
+        min-height: clamp(14.875rem, 35vw, 25rem);
+      }
+    }
+  }
+
+  /* Desktop - 1024px */
+  @media only screen and (min-width: 64rem) {
+    #why-2360 {
+      .cs-card-group {
+        padding-bottom: (40/16rem);
+      }
+
+      .cs-flex {
+        align-items: stretch;
+      }
+
+      .cs-image-group {
+        height: auto;
+      }
+
+      .cs-picture2 {
+        height: 100%;
+      }
+    }
+  }
+
+  /* Dark Mode */
+  @media only screen and (min-width: 0rem) {
+    body.dark-mode {
+      #why-2360 {
+        background-color: rgba(0, 0, 0, 0.2);
+        .cs-h3,
+        .cs-item-text {
+          color: var(--bodyTextColorWhite);
+        }
+
+        .cs-h3 {
+          border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .cs-item-text {
+          opacity: 0.8;
+        }
+      }
+    }
+  }
+</style>

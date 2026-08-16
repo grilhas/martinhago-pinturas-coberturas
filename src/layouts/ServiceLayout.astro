@@ -1,0 +1,108 @@
+---
+/**
+ * * ServiceLayout — shared page shell for every /services/<slug>/ page.
+ * * Service pages should pass a single `service` prop object containing content
+ * * for each section. As new sections are built out, wire them in here and every
+ * * service page picks them up automatically.
+ */
+
+import type { GetImageResult, ImageMetadata } from "astro";
+
+// Layouts & Components
+import BaseLayout from "@layouts/BaseLayout.astro";
+import Banner from "@components/Banner/Banner.astro";
+import ServiceIntro from "@components/ServiceIntro/ServiceIntro.astro";
+import ServicesWhy from "@components/ServicesWhyChoose/ServicesWhy.astro";
+import OurProcessAlt from "@components/Process/OurProcessAlt.astro";
+import FAQ from "@components/FAQ/FAQ.astro";
+import CTA from "@components/CTA/CTASimple.astro";
+import Gallery from "@components/Gallery/Gallery.astro";
+import type { ACTION_ERROR_CODES, ACTION_QUERY_PARAMS } from "astro:actions";
+import Reviews from "@components/Reviews/Reviews.astro";
+
+interface Meta {
+  title: string;
+  seoDescription: string;
+}
+
+interface BannerContent {
+  title: string;
+  description: string;
+  image: GetImageResult; // pre-optimized via getImage()
+}
+
+interface IntroContent {
+  titleHighlight: string;
+  titleSuffix?: string;
+  intro: string[];
+  emphasis?: string;
+  listIntro?: string;
+  listItems?: { label: string; description: string }[];
+  image: ImageMetadata;
+  imageAlt: string;
+}
+
+interface WhyContent {
+  title?: string;
+  introPara: string;
+  reasons: { heading: string; description: string }[];
+  imageOne: ImageMetadata;
+  imageOneAlt: string;
+  imageTwo: ImageMetadata;
+  imageTwoAlt: string;
+  ctaHref?: string;
+  ctaText?: string;
+}
+
+interface ProcessContent {
+  title: string;
+  paragraph: string;
+  headingThree: string;
+  bullets: { label: string; description: string }[];
+  imageOne: ImageMetadata;
+  imageOneAlt: string;
+  imageTwo: ImageMetadata;
+  imageTwoAlt: string;
+}
+
+interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+interface FAQContent {
+  questions: FAQItem[];
+  title?: string; // optional override, e.g. "Kitchen Remodeling FAQs"
+}
+
+interface Props {
+  meta: Meta;
+  banner: BannerContent;
+  intro: IntroContent;
+  whyChoose: WhyContent;
+  process: ProcessContent;
+  faq: FAQContent;
+}
+
+const { meta, banner, intro, whyChoose, process, faq } = Astro.props;
+---
+
+<BaseLayout
+  title={meta.title}
+  description={meta.seoDescription}
+  heroImage={banner.image}
+>
+  <slot name="schema" slot="schema" />
+  <Banner {...banner} />
+
+  <ServiceIntro {...intro} />
+
+  <ServicesWhy {...whyChoose} />
+
+  <OurProcessAlt {...process} />
+
+  <CTA />
+  <Gallery />
+  <Reviews />
+  <FAQ {...faq} />
+</BaseLayout>

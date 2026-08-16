@@ -1,0 +1,1051 @@
+---
+/**
+ * DYNAMIC HEADER COMPONENT — Floating pill navigation
+ * =====================================================
+ *
+ * This header uses data-driven navigation from src/data/navData.json.
+ * Visual style ported from Components-sections-pluandplay/Navigation/Dropdown/
+ * FloatingNav+Dropdown: a rounded, floating pill nav that docks into a flush
+ * full-width bar on scroll (body.scroll, toggled by the inline script below).
+ *
+ * Features:
+ * - Automatically generates nav items (incl. dropdowns) from navData.json
+ * - Helper functions from utils.js for cleaner code (isCurrentPage, getDropdownId)
+ * - Dropdown/hamburger behavior lives in src/js/nav.js (shared, already matches
+ *   this component's class names/selectors — no changes needed there)
+ */
+
+// Utils
+import { Icon } from "astro-icon/components";
+import { Image } from "astro:assets";
+import { isCurrentPage, getDropdownId } from "@js/utils.js";
+
+// Components
+import DarkModeToggle from "@components/DarkModeToggle/DarkModeToggle.astro";
+
+// Assets — this nav's background is always light, so the dark-recolored logo variant is the
+// one actually shown; the original silver/blue variant is kept only for parity with the template's
+// light/dark logo pair (unused here, same as the stock template ships it).
+import navLogoLight from "@assets/images/nav-logo-dark.png";
+import navLogoDark from "@assets/images/nav-logo.png";
+
+// Data
+import navData from "@data/navData.json";
+import { BUSINESS } from "@data/client";
+---
+
+<header id="cs-navigation">
+  <div class="cs-container">
+    <!--Nav Logo-->
+    <a href="/" class="cs-logo" aria-label="Voltar à página inicial da Martinhago Pinturas & Coberturas">
+      <Image src={navLogoLight} alt="" class="cs-logo-light" loading="eager" aria-hidden="true" />
+      <Image src={navLogoDark} alt="" class="cs-logo-dark" loading="eager" aria-hidden="true" />
+      <span class="cs-logo-text">
+        <span class="cs-logo-name">Martinhago</span>
+        <span class="cs-logo-tagline">Pinturas & Coberturas</span>
+      </span>
+    </a>
+    <!--Navigation List-->
+    <nav class="cs-nav" aria-label="main navigation">
+      <!--Mobile Nav Toggle-->
+      <button
+        class="cs-toggle"
+        id="cs-toggle"
+        aria-expanded="false"
+        aria-controls="cs-ul-wrapper"
+        aria-haspopup="menu"
+        aria-label="mobile menu toggle"
+      >
+        <span class="cs-box" aria-hidden="true">
+          <span class="cs-line cs-line1" aria-hidden="true"></span>
+          <span class="cs-line cs-line2" aria-hidden="true"></span>
+          <span class="cs-line cs-line3" aria-hidden="true"></span>
+        </span>
+      </button>
+      <!-- We need a wrapper div so we can set a fixed height on the cs-ul in case the nav list gets too long from too many dropdowns being opened and needs to have an overflow scroll. This wrapper acts as the background so it can go the full height of the screen and not cut off any overflowing nav items while the cs-ul stops short of the bottom of the screen, which keeps all nav items in view no matter how many there are-->
+      <div class="cs-ul-wrapper" id="cs-ul-wrapper">
+        <ul id="cs-expanded" class="cs-ul">
+          {
+            navData.map((entry) => (
+              <li
+                class:list={[
+                  "cs-li",
+                  { "cs-dropdown": entry.children?.length > 0 },
+                ]}
+              >
+                {entry.children?.length > 0 ? (
+                  // If entry has children in navData.json, create a button and a dropdown icon
+                  <button
+                    id={getDropdownId(entry.key)}
+                    aria-expanded="false"
+                    aria-haspopup="menu"
+                    class:list={[
+                      "cs-li-link cs-dropdown-toggle",
+                      { "cs-active": Astro.url.pathname.includes(entry.url) },
+                    ]}
+                  >
+                    {entry.key}
+                    <Icon name="mdi--caret" class="cs-drop-icon" />
+                  </button>
+                ) : (
+                  // If entry does not have children in navData.json, create an anchor
+                  <a
+                    href={entry.url}
+                    class:list={[
+                      "cs-li-link",
+                      { "cs-active": Astro.url.pathname === entry.url },
+                    ]}
+                    aria-current={isCurrentPage(Astro.url.pathname, entry.url)}
+                  >
+                    {entry.key}
+                  </a>
+                )}
+
+                {entry.children?.length > 0 && (
+                  // If entry has children in navData.json, create a drop down menu
+                  <ul
+                    class="cs-drop-ul"
+                    aria-labelledby={getDropdownId(entry.key)}
+                  >
+                    {entry.children.map((child) => (
+                      <li class="cs-drop-li">
+                        <a
+                          href={child.url}
+                          class="cs-li-link cs-drop-link"
+                          aria-current={isCurrentPage(
+                            Astro.url.pathname,
+                            child.url,
+                          )}
+                        >
+                          {child.key}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </nav>
+    <div class="cs-contact-group">
+      <a href={`tel:${BUSINESS.phoneForTel}`} class="cs-phone">
+        <Icon name="nav-phone" class="cs-phone-icon" aria-hidden="true" />
+        {BUSINESS.phoneFormatted}
+      </a>
+      <a href={`mailto:${BUSINESS.email}`} class="cs-social-link cs-email-link" aria-label="Enviar email">
+        <Icon name="nav-mail" class="cs-social-icon" aria-hidden="true" />
+      </a>
+      <div class="cs-social">
+        {BUSINESS.socials.facebook && (
+          <a
+            href={BUSINESS.socials.facebook}
+            class="cs-social-link"
+            target="_blank"
+            rel="noopener"
+            aria-label="Visite a nossa página de Facebook"
+          >
+            <Icon name="facebook" class="cs-social-icon" aria-hidden="true" />
+          </a>
+        )}
+        {BUSINESS.socials.instagram && (
+          <a
+            href={BUSINESS.socials.instagram}
+            class="cs-social-link"
+            target="_blank"
+            rel="noopener"
+            aria-label="Visite o nosso Instagram"
+          >
+            <Icon name="instagram" class="cs-social-icon" aria-hidden="true" />
+          </a>
+        )}
+      </div>
+    </div>
+    <!--Dark Mode toggle: remove component if you don't want to enable a dark mode toggle-->
+    <DarkModeToggle />
+  </div>
+</header>
+
+<script>
+  // Toggles body.scroll so the floating pill docks into a flush full-width bar on scroll
+  const setScrollListener = () => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        document.body.classList.add("scroll");
+      } else {
+        document.body.classList.remove("scroll");
+      }
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+  };
+
+  setScrollListener();
+  document.addEventListener("astro:after-swap", setScrollListener);
+</script>
+
+<style lang="less">
+  /* Not breakpoint-specific (unlike the rest of this file's rules, which are each
+     scoped to one @media block) — it needs to apply at every width, so it lives
+     outside the mobile/desktop @media blocks below rather than being split
+     between them. */
+
+  /* The browser's default underline/blue for <a> is drawn by the anchor itself —
+     setting text-decoration/color only on the nested .cs-logo-text span can't
+     cancel a decoration line the ancestor <a> already established. Reset it here,
+     on .cs-logo directly, not just on the text inside it. */
+  #cs-navigation .cs-logo {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  #cs-navigation .cs-logo-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: (2/16rem);
+  }
+
+  #cs-navigation .cs-logo-name {
+    /* 18px - 24px */
+    font-size: clamp(1.125rem, 1.9vw, 1.5rem);
+    font-family: var(--headerFont);
+    font-weight: 700;
+    line-height: 1.1em;
+    color: var(--headerColor);
+    white-space: nowrap;
+  }
+
+  #cs-navigation .cs-logo-tagline {
+    /* 12px - 14px */
+    font-size: clamp(0.75rem, 1.15vw, 0.875rem);
+    font-family: var(--bodyFont);
+    font-weight: 600;
+    line-height: 1.1em;
+    letter-spacing: 0.02em;
+    color: var(--secondary);
+    white-space: nowrap;
+  }
+
+  /* The email icon shows from Tablet (768px) but Facebook/Instagram only join at
+     Large Desktop (1300px) — this shared circle styling has to work at every
+     width in between, so (like the logo rules above) it can't live inside just
+     one breakpoint's block. */
+  #cs-navigation .cs-social-link {
+    text-decoration: none;
+    width: (32/16rem);
+    height: (32/16rem);
+    color: var(--headerColor);
+    background-color: var(--bgLight);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: none;
+    transition: background-color 0.3s, color 0.3s;
+
+    &:hover {
+      color: #fff;
+      background-color: var(--primary);
+    }
+  }
+
+  #cs-navigation .cs-social-icon {
+    width: (14/16rem);
+    height: auto;
+    display: block;
+  }
+
+  /*-- -------------------------- -->
+<---     Mobile Navigation      -->
+<--- -------------------------- -*/
+
+  /* Mobile - 1023px */
+  @media only screen and (max-width: 63.9375rem) {
+    body.cs-open {
+      overflow: hidden;
+    }
+
+    body.scroll #cs-navigation {
+      width: 100%;
+      max-width: 100%;
+      top: 0;
+
+      &:before {
+        border-radius: 0;
+      }
+
+      .cs-ul-wrapper {
+        top: 100%;
+      }
+    }
+
+    #cs-navigation {
+      width: 94%;
+      max-width: 80rem;
+      /* prevents padding from affecting height and width */
+      box-sizing: border-box;
+      /* 12px - 24px */
+      padding: clamp(0.75rem, 2vw, 1.5rem);
+      /* 12px - 24px */
+      border-radius: clamp(0.75rem, 2vw, 1.5rem);
+      position: fixed;
+      top: 2rem;
+      left: 50%;
+      z-index: 10000;
+      transform: translateX(-50%);
+      transition:
+        top 0.3s,
+        border-radius 0.3s,
+        width 0.3s,
+        max-width 0.3s;
+
+      &:before {
+        /* background color */
+        content: "";
+        width: 100%;
+        height: 100%;
+        background: #fff;
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+        opacity: 1;
+        /* 12px - 24px */
+        border-radius: clamp(0.75rem, 2vw, 1.5rem);
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        transition:
+          transform 0.2s,
+          border-radius 0.3s ease-in-out;
+      }
+
+      &.cs-active {
+        &:before {
+          transform: translateX(-50%) scale(1.03);
+        }
+
+        .cs-toggle {
+          transform: rotate(180deg);
+        }
+
+        .cs-ul-wrapper {
+          opacity: 1;
+          transform: scaleY(1);
+          transition-delay: 0.15s;
+        }
+
+        .cs-li {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .cs-container {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: (24/16rem);
+      }
+
+      .cs-logo {
+        width: auto;
+        height: (52/16rem);
+        margin: 0 auto 0 0;
+        /* prevents padding from affecting height and width */
+        box-sizing: border-box;
+        padding: 0;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        gap: (10/16rem);
+        z-index: 10;
+
+        img,
+        svg {
+          width: auto;
+          height: 100%;
+          /* ensures the image never overflows the container. It stays contained within it's width and height and expands to fill it then stops once it reaches an edge */
+          object-fit: contain;
+        }
+
+        /* Nav bg is always light, so always show the dark-recolored variant and hide the original one */
+        .cs-logo-dark {
+          display: none;
+        }
+      }
+
+      .cs-toggle {
+        width: (56/16rem);
+        height: (56/16rem);
+        margin: 0 0 0 auto;
+        background-color: var(--primary);
+        border: none;
+        border-radius: (4/16rem);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        z-index: 10;
+        transition: transform 0.6s;
+      }
+
+      .cs-nav {
+        /* sends it to the right in the 3rd position */
+        order: 3;
+      }
+
+      .cs-contact-group {
+        display: none;
+        position: relative;
+        z-index: 10;
+      }
+
+      .cs-phone {
+        font-size: 1rem;
+        line-height: 1.5em;
+        text-decoration: none;
+        margin: 0;
+        color: var(--headerColor);
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        gap: (8/16rem);
+        transition:
+          opacity 0.3s,
+          color 0.3s;
+      }
+
+      .cs-phone-icon {
+        width: (24/16rem);
+        height: auto;
+        display: block;
+      }
+
+      .cs-social {
+        display: none;
+      }
+
+      &.cs-active {
+        .cs-line1 {
+          top: 50%;
+          transform: translate(-50%, -50%) rotate(225deg);
+        }
+
+        .cs-line2 {
+          top: 50%;
+          transform: translate(-50%, -50%) translateY(0) rotate(-225deg);
+          transform-origin: center;
+        }
+
+        .cs-line3 {
+          opacity: 0;
+          bottom: 100%;
+        }
+      }
+
+      .cs-box {
+        /* 24px - 28px */
+        width: clamp(1.5rem, 2vw, 1.75rem);
+        height: (16/16rem);
+        position: relative;
+      }
+
+      .cs-line {
+        width: 100%;
+        height: 2px;
+        background-color: #fafbfc;
+        border-radius: 2px;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .cs-line1 {
+        top: 0;
+        transition:
+          transform 0.5s,
+          top 0.3s,
+          left 0.3s;
+        animation-duration: 0.7s;
+        animation-timing-function: ease;
+        animation-direction: normal;
+        animation-fill-mode: forwards;
+        transform-origin: center;
+      }
+
+      .cs-line2 {
+        top: 50%;
+        transform: translateX(-50%) translateY(-50%);
+        transition:
+          top 0.3s,
+          left 0.3s,
+          transform 0.5s;
+        animation-duration: 0.7s;
+        animation-timing-function: ease;
+        animation-direction: normal;
+        animation-fill-mode: forwards;
+      }
+
+      .cs-line3 {
+        bottom: 0;
+        transition:
+          bottom 0.3s,
+          opacity 0.3s;
+      }
+    }
+  }
+
+  /* Tablet - 768px */
+  @media only screen and (min-width: 48rem) {
+    #cs-navigation {
+      .cs-contact-group {
+        display: flex;
+        align-items: center;
+        gap: (16/16rem);
+      }
+    }
+  }
+
+  /*-- -------------------------- -->
+<---   Mobile Navigation Menu   -->
+<--- -------------------------- -*/
+
+  /* Small Desktop - 1024px */
+  @media only screen and (max-width: 63.9375rem) {
+    #cs-navigation {
+      .cs-ul-wrapper {
+        width: 100%;
+        height: auto;
+        padding-bottom: (38/16rem);
+        background-color: #fff;
+        border-radius: 0 0 (24/16rem) (24/16rem);
+        position: absolute;
+        top: 85%;
+        left: 0;
+        z-index: -1;
+        overflow: hidden;
+        transform: scaleY(0);
+        transition: transform 0.4s;
+        transform-origin: top;
+      }
+
+      .cs-ul {
+        width: 100%;
+        height: auto;
+        max-height: 65vh;
+        margin: 0;
+        padding: (64/16rem) 0 0 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        gap: (20/16rem);
+        overflow: auto;
+      }
+
+      .cs-li {
+        text-align: center;
+        list-style: none;
+        width: 100%;
+        margin-right: 0;
+        opacity: 0;
+        /* transition from these values */
+        transform: translateY(-4.375rem);
+        transition:
+          transform 0.6s,
+          opacity 0.9s;
+
+        &:nth-of-type(1) {
+          transition-delay: 0.05s;
+        }
+        &:nth-of-type(2) {
+          transition-delay: 0.1s;
+        }
+        &:nth-of-type(3) {
+          transition-delay: 0.15s;
+        }
+        &:nth-of-type(4) {
+          transition-delay: 0.2s;
+        }
+        &:nth-of-type(5) {
+          transition-delay: 0.25s;
+        }
+        &:nth-of-type(6) {
+          transition-delay: 0.3s;
+        }
+      }
+
+      .cs-li-link {
+        /* 16px - 24px */
+        font-size: clamp(1rem, 2.5vw, 1.5rem);
+        line-height: 1.2em;
+        text-decoration: none;
+        margin: 0;
+        color: var(--headerColor);
+        display: inline-block;
+        position: relative;
+        padding: (4/16rem);
+
+        &.cs-active {
+          color: var(--primary);
+        }
+
+        &:hover {
+          color: var(--primary);
+        }
+      }
+    }
+  }
+
+  /*-- -------------------------- -->
+<---     Navigation Dropdown    -->
+<--- -------------------------- -*/
+
+  /* Mobile - 1023px */
+  @media only screen and (max-width: 63.9375rem) {
+    #cs-navigation {
+      .cs-li {
+        text-align: center;
+        width: 100%;
+        display: block;
+      }
+
+      .cs-dropdown {
+        color: var(--bodyTextColorWhite);
+        position: relative;
+
+        .cs-dropdown-toggle {
+          /* Reset default button styles */
+          background: none;
+          border: none;
+          text-align: inherit;
+          cursor: pointer;
+          /* Remove any default focus styles */
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          appearance: none;
+        }
+
+        &.cs-active {
+          .cs-drop-ul {
+            height: auto;
+            margin: (12/16rem) 0 0 0;
+            padding: (12/16rem) 0;
+            opacity: 1;
+            visibility: visible;
+          }
+
+          .cs-drop-link {
+            opacity: 1;
+          }
+        }
+
+        .cs-li-link {
+          position: relative;
+          transition: opacity 0.3s;
+        }
+      }
+
+      .cs-drop-icon {
+        width: (15/16rem);
+        height: auto;
+        position: absolute;
+        top: 50%;
+        right: (-20/16rem);
+        transform: translateY(-50%);
+      }
+
+      .cs-drop-ul {
+        width: 100%;
+        height: 0;
+        margin: 0;
+        padding: 0;
+        background-color: var(--primary);
+        opacity: 0;
+        display: flex;
+        visibility: hidden;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        gap: (12/16rem);
+        overflow: hidden;
+        transition:
+          padding 0.3s,
+          margin 0.3s,
+          height 0.3s,
+          opacity 0.3s,
+          visibility 0.3s;
+      }
+
+      .cs-drop-li {
+        list-style: none;
+      }
+
+      .cs-li-link.cs-drop-link {
+        /* 14px - 16px */
+        font-size: clamp(0.875rem, 2vw, 1.25rem);
+        color: #fff;
+      }
+    }
+  }
+
+  /* Desktop - 1024px */
+  @media only screen and (min-width: 64rem) {
+    #cs-navigation {
+      .cs-dropdown {
+        position: relative;
+
+        .cs-dropdown-toggle {
+          /* Reset default button styles */
+          background: none;
+          border: none;
+          text-align: inherit;
+          cursor: pointer;
+          /* Remove any default focus styles */
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          appearance: none;
+        }
+
+        &:hover,
+        &.cs-active {
+          cursor: pointer;
+
+          .cs-drop-ul {
+            opacity: 1;
+            visibility: visible;
+            transform: scaleY(1);
+          }
+
+          .cs-drop-li {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      }
+
+      .cs-drop-icon {
+        width: (15/16rem);
+        height: auto;
+        display: inline-block;
+      }
+
+      .cs-drop-ul {
+        min-width: (200/16rem);
+        margin: 0;
+        padding: 0;
+        background-color: #fff;
+        box-shadow: inset rgba(149, 157, 165, 0.1) 0px 8px 10px;
+        opacity: 0;
+        border-bottom: 5px solid var(--primary);
+        border-radius: 0 0 (24/16rem) (24/16rem);
+        visibility: hidden;
+        position: absolute;
+        top: calc(100% - 2px);
+        z-index: 100;
+        overflow: hidden;
+        transform: scaleY(0);
+        transition:
+          transform 0.3s,
+          visibility 0.3s,
+          opacity 0.3s;
+        transform-origin: top;
+      }
+
+      .cs-drop-li {
+        font-size: 1rem;
+        text-decoration: none;
+        list-style: none;
+        width: 100%;
+        height: auto;
+        opacity: 0;
+        display: block;
+        transform: translateY(-0.625rem);
+        transition:
+          opacity 0.6s,
+          transform 0.6s;
+
+        &:nth-of-type(1) {
+          transition-delay: 0.05s;
+        }
+        &:nth-of-type(2) {
+          transition-delay: 0.1s;
+        }
+        &:nth-of-type(3) {
+          transition-delay: 0.15s;
+        }
+        &:nth-of-type(4) {
+          transition-delay: 0.2s;
+        }
+        &:nth-of-type(5) {
+          transition-delay: 0.25s;
+        }
+        &:nth-of-type(6) {
+          transition-delay: 0.3s;
+        }
+      }
+
+      .cs-li-link.cs-drop-link {
+        font-size: 1rem;
+        line-height: 1.5em;
+        text-transform: capitalize;
+        text-decoration: none;
+        white-space: nowrap;
+        width: 100%;
+        /* prevents padding from affecting height and width */
+        box-sizing: border-box;
+        padding: (12/16rem);
+        color: var(--headerColor);
+        display: block;
+        transition:
+          color 0.3s,
+          background-color 0.3s;
+
+        &:hover {
+          color: var(--bodyTextColorWhite);
+          background-color: var(--primary);
+        }
+
+        &:before {
+          display: none;
+        }
+
+        &:focus-visible {
+          outline-offset: -2px;
+        }
+      }
+    }
+  }
+
+  /*-- -------------------------- -->
+<---     Desktop Navigation     -->
+<--- -------------------------- -*/
+
+  /* Small Desktop - 1024px */
+  @media only screen and (min-width: 64rem) {
+    body.scroll #cs-navigation {
+      width: 100%;
+      max-width: 100%;
+      border-radius: 0;
+      top: 0;
+    }
+
+    #cs-navigation {
+      width: 94%;
+      max-width: 90rem;
+      height: (96/16rem);
+      /* prevents padding from affecting height and width */
+      box-sizing: border-box;
+      /* 12px - 24px */
+      padding: clamp(0.75rem, 2vw, 1.5rem) 0;
+      background-color: #fff;
+      box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+      /* 12px - 24px */
+      border-radius: clamp(0.75rem, 2vw, 1.5rem);
+      display: flex;
+      align-items: center;
+      position: fixed;
+      top: 2rem;
+      left: 50%;
+      z-index: 10000;
+      transform: translateX(-50%);
+      transition:
+        top 0.3s,
+        border-radius 0.3s,
+        width 0.3s,
+        max-width 0.3s;
+
+      .cs-container {
+        width: 100%;
+        max-width: 90rem;
+        height: 100%;
+        margin: auto;
+        /* prevents padding from affecting height and width */
+        box-sizing: border-box;
+        padding: 0 (24/16rem);
+        display: flex;
+        align-items: center;
+        gap: (24/16rem);
+      }
+
+      .cs-toggle {
+        display: none;
+      }
+
+      .cs-logo {
+        width: auto;
+        /* 52px - 60px, matches the mobile size */
+        height: clamp(3.25rem, 5vw, 3.75rem);
+        flex: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        gap: (12/16rem);
+        z-index: 100;
+
+        img,
+        svg {
+          width: auto;
+          height: 100%;
+          /* ensures the image never overflows the container. It stays contained within it's width and height and expands to fill it then stops once it reaches an edge */
+          object-fit: contain;
+        }
+
+        /* Nav bg is always light, so always show the dark-recolored variant and hide the original one */
+        .cs-logo-dark {
+          display: none;
+        }
+
+        /* The two-line wordmark is wide. With 5 nav items (2 of them dropdowns)
+           plus phone/email/socials also fighting for room in this same row, showing
+           it between 1024-1299px pushes the nav into the contact group — hide it
+           down to icon-only here, and bring it back once "Large Desktop" (1300px)
+           below gives everything room to breathe. */
+        .cs-logo-text {
+          display: none;
+        }
+      }
+
+      /* Takes up all the space between the logo and the contact group, so the
+         absolutely-centered .cs-ul-wrapper below centers within that leftover
+         space instead of the whole (much wider) pill — otherwise it can overlap
+         the phone/social/CTA cluster on the right once the nav has 5+ items. */
+      .cs-nav {
+        flex: 1;
+        height: 100%;
+        position: relative;
+      }
+
+      .cs-contact-group {
+        flex: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: (24/16rem);
+      }
+
+      .cs-phone {
+        font-size: 1rem;
+        line-height: 1.5em;
+        text-decoration: none;
+        margin: 0;
+        color: var(--headerColor);
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        gap: (8/16rem);
+        transition:
+          opacity 0.3s,
+          color 0.3s;
+
+        &:hover {
+          color: var(--primary);
+        }
+      }
+
+      .cs-phone-icon {
+        width: (24/16rem);
+        height: auto;
+        display: block;
+      }
+
+      .cs-social {
+        display: none;
+        height: (32/16rem);
+        opacity: 1;
+        visibility: visible;
+        justify-content: center;
+        align-items: center;
+        gap: (8/16rem);
+        transition:
+          opacity 0.3s,
+          visibility 0.3s,
+          height 0.3s;
+      }
+
+      .cs-ul-wrapper {
+        /* Fills .cs-nav's actual flex-allocated box exactly (rather than
+           shrink-to-fit + translate(-50%), which sized itself off the <ul>'s own
+           content and ignored how much room .cs-nav really had — the cause of the
+           nav overlapping the contact group once there were 5+ items to fit). */
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .cs-ul {
+        width: auto;
+        max-width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        /* 10px - 36px. Kept tighter than a purely aesthetic gap would be: .cs-ul's
+           max-width:100% only caps its CSS box, it doesn't shrink the <a> content —
+           if the 5 nav items' natural width exceeds .cs-nav's allocated space they
+           overflow uncontained into the phone/contact group. 1.5vw keeps that total
+           width inside the box through the tightest point of the range (~1024px). */
+        gap: clamp(0.625rem, 1.5vw, 2.25rem);
+      }
+
+      .cs-li {
+        list-style: none;
+        height: 100%;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        /* prevent flexbox from squishing it */
+        flex: none;
+      }
+
+      .cs-li-link {
+        font-size: 1rem;
+        line-height: 1.5em;
+        text-decoration: none;
+        margin: 0;
+        color: var(--headerColor);
+        display: block;
+        position: relative;
+        transition: color 0.3s;
+
+        &:hover {
+          color: var(--primary);
+        }
+
+        &.cs-active {
+          color: var(--primary);
+        }
+      }
+    }
+  }
+
+  /* Large Desktop - 1300px */
+  @media only screen and (min-width: 81.25rem) {
+    #cs-navigation {
+      .cs-social {
+        display: flex;
+      }
+
+      /* Matches the nesting of the "hide below 1300px" rule in the min-width:64rem
+         block above (#cs-navigation .cs-logo .cs-logo-text) — same specificity, so
+         source order decides and this later rule wins. A shallower selector here
+         would lose to that one regardless of order. */
+      .cs-logo .cs-logo-text {
+        display: flex;
+      }
+    }
+  }
+
+  /* The floating pill is always light, regardless of the site's dark-mode toggle —
+     this matches the component as supplied, and mirrors how the previous header
+     was always dark regardless of the toggle (same idea, inverted). */
+</style>

@@ -1,0 +1,105 @@
+---
+import { getImage } from "astro:assets";
+import ServiceLayout from "@layouts/ServiceLayout.astro";
+import { buildServiceSchema, buildFaqSchema, buildBreadcrumbSchema } from "@js/serviceSchema.js";
+
+import bannerImage from "@assets/images/pinturas/fachadas-coloridas-ceu.jpg";
+import introImage from "@assets/images/pinturas/pintor-escada-fachada.jpg";
+import whyImageOne from "@assets/images/pinturas/pintura-interior-cinza.jpg";
+import whyImageTwo from "@assets/images/pinturas/equipa-pintores-fachada.jpg";
+import processImageOne from "@assets/images/pinturas/pintura-brocha-parede.jpg";
+import processImageTwo from "@assets/images/pinturas/pintura-teto-escada.jpg";
+
+const optimizedBanner = await getImage({ src: bannerImage, format: "webp" });
+
+const meta = {
+	title: "Pintura Interior e Exterior | Martinhago Pinturas & Coberturas",
+	seoDescription:
+		"Pintura interior e exterior em Lisboa e região — fachadas, interiores e detalhes acabados com cuidado. Orçamento rápido, sem compromisso.",
+};
+
+const banner = {
+	title: "Pintura Interior e Exterior",
+	description: "Fachadas, interiores e detalhes acabados com cuidado.",
+	image: optimizedBanner,
+};
+
+const intro = {
+	titleHighlight: "Pintura",
+	titleSuffix: " Interior e Exterior",
+	intro: [
+		"Fazemos pintura de interiores e exteriores para casas, apartamentos e espaços comerciais. Cada trabalho começa com uma avaliação da superfície — não faz sentido pintar por cima de um problema que vai voltar a aparecer.",
+		"Usamos tintas de qualidade adequadas a cada superfície e exposição, com atenção especial à preparação: lixar, reparar fissuras e limpar antes de aplicar a primeira demão.",
+	],
+	listIntro: "O que inclui um trabalho de pintura connosco:",
+	listItems: [
+		{ label: "Avaliação no local", description: "Vemos o estado da superfície antes de fechar orçamento." },
+		{ label: "Preparação da superfície", description: "Reparação de fissuras, lixagem e limpeza antes de pintar." },
+		{ label: "Tintas de qualidade", description: "Escolhidas para a exposição e o tipo de superfície certos." },
+		{ label: "Proteção do espaço", description: "Móveis, pavimentos e zonas ajardinadas protegidos durante a obra." },
+	],
+	image: introImage,
+	imageAlt: "Pintor numa escada a pintar a fachada de um edifício",
+};
+
+const whyChoose = {
+	title: "Porque Escolher a Martinhago",
+	introPara: "Pintura bem feita começa antes da primeira demão de tinta.",
+	reasons: [
+		{ heading: "Preparação antes da tinta", description: "Reparamos fissuras e humidade antes de pintar, para o trabalho durar." },
+		{ heading: "Tintas certas para cada superfície", description: "Interior, exterior ou telha — cada superfície pede um tipo de tinta diferente." },
+		{ heading: "Orçamento escrito e claro", description: "Sem surpresas no fim — o orçamento reflete o trabalho combinado." },
+		{ heading: "Espaço protegido durante a obra", description: "Cobrimos móveis e protegemos zonas sensíveis antes de começar." },
+	],
+	imageOne: whyImageOne,
+	imageOneAlt: "Pintura de uma parede interior com rolo cinza",
+	imageTwo: whyImageTwo,
+	imageTwoAlt: "Dois pintores a trabalhar na fachada de um edifício",
+};
+
+const process = {
+	title: "Como Fazemos",
+	paragraph: "Pintura exterior de uma moradia em Lisboa",
+	headingThree: "Como Fizemos",
+	bullets: [
+		{ label: "Avaliação da superfície", description: "Verificámos fissuras, humidade e o estado geral do reboco." },
+		{ label: "Preparação", description: "Reparámos as zonas degradadas e lixámos a superfície antes de pintar." },
+		{ label: "Aplicação", description: "Duas demãos de tinta própria para exterior, com acabamento uniforme." },
+		{ label: "Entrega", description: "Revisão final com o cliente antes de dar o trabalho como concluído." },
+	],
+	imageOne: processImageOne,
+	imageOneAlt: "Pessoa a pintar uma parede com trincha",
+	imageTwo: processImageTwo,
+	imageTwoAlt: "Pintura de um teto a partir de uma escada",
+};
+
+const faq = {
+	title: "Perguntas Frequentes sobre Pintura Interior e Exterior",
+	questions: [
+		{ question: "Quanto tempo demora a pintar uma casa?", answer: "Depende da área e do número de divisões ou da fachada. Para uma casa típica, entre 2 a 5 dias úteis. Damos sempre uma estimativa de prazo no orçamento." },
+		{ question: "Preciso de tirar os móveis antes de pintarem?", answer: "Não é preciso retirar tudo — nós protegemos móveis e pavimentos com lonas antes de começar. Para peças grandes, ajuda se as afastarem um pouco das paredes." },
+		{ question: "A tinta exterior é diferente da interior?", answer: "Sim. Usamos tintas próprias para exterior, resistentes à chuva e ao sol, e tintas interiores adequadas a cada divisão (cozinhas e casas de banho pedem tintas mais resistentes à humidade)." },
+		{ question: "Fazem reparação de fissuras antes de pintar?", answer: "Sim, a preparação da superfície faz sempre parte do trabalho — reparamos fissuras e zonas degradadas antes de aplicar a primeira demão." },
+	],
+};
+
+const serviceSchema = buildServiceSchema({
+	name: meta.title,
+	description: meta.seoDescription,
+	slug: "pintura-interior-exterior",
+});
+const faqSchema = buildFaqSchema(faq.questions);
+const breadcrumbSchema = buildBreadcrumbSchema([
+	{ name: "Início", url: "/" },
+	{ name: "Serviços", url: "/services/" },
+	{ name: "Pintura Interior e Exterior", url: "/services/pintura-interior-exterior/" },
+]);
+---
+
+<ServiceLayout meta={meta} banner={banner} intro={intro} whyChoose={whyChoose} process={process} faq={faq}>
+	<Fragment slot="schema">
+		<script is:inline type="application/ld+json" set:html={JSON.stringify(serviceSchema)} />
+		<script is:inline type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+		<script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+	</Fragment>
+</ServiceLayout>

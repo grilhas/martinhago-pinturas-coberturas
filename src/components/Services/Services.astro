@@ -1,0 +1,377 @@
+---
+import { Picture } from "astro:assets";
+import { Icon } from "astro-icon/components";
+import { SERVICES } from "@data/services";
+---
+
+<!-- ============================================ --><!--                    Services                  --><!-- ============================================ -->
+<section id="services-1253">
+  <div class="cs-container">
+    <div class="cs-content">
+      <div class="cs-flex-group">
+        <span class="cs-topper">O Que Fazemos</span>
+        <h2 class="cs-title">Cinco serviços. Um contacto.</h2>
+      </div>
+      <p class="cs-text">
+        Da pintura interior e exterior a telhados, impermeabilização e algerozes,
+        a Martinhago Pinturas & Coberturas trata de tudo. Uma equipa, um orçamento,
+        um trabalho bem feito.
+      </p>
+    </div>
+    <div class="cs-carousel">
+      <button
+        type="button"
+        class="cs-carousel-btn cs-carousel-prev"
+        aria-label="Serviço anterior"
+        aria-controls="services-card-group"
+      >
+        <Icon name="chevron-right" class="cs-carousel-icon" aria-hidden="true" />
+      </button>
+      <ul id="services-card-group" class="cs-card-group" role="region" aria-label="Serviços" tabindex="0">
+        {
+          SERVICES.map((service) => (
+            <li class="cs-item">
+              <a href={service.href} class="cs-link">
+                <h3 class="cs-h3">{service.title}</h3>
+                <p class="cs-item-text">{service.tagline}</p>
+              </a>
+              <Picture
+                src={service.image}
+                alt={service.title}
+                widths={[413, 826]}
+                sizes="(min-width: 64rem) 240px, (min-width: 48rem) 45vw, 75vw"
+                formats={["avif", "webp"]}
+                pictureAttributes={{ class: "cs-item-background" }}
+                loading="lazy"
+                decoding="async"
+              />
+            </li>
+          ))
+        }
+      </ul>
+      <button
+        type="button"
+        class="cs-carousel-btn cs-carousel-next"
+        aria-label="Próximo serviço"
+        aria-controls="services-card-group"
+      >
+        <Icon name="chevron-right" class="cs-carousel-icon" aria-hidden="true" />
+      </button>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Scrolls the services row by roughly one card + gap per click, and hides
+  // either arrow once there's nothing left to scroll to in that direction.
+  const setupServicesCarousel = () => {
+    const carousel = document.querySelector("#services-1253 .cs-carousel");
+    if (!carousel) return;
+
+    const track = carousel.querySelector(".cs-card-group");
+    const prevBtn = carousel.querySelector(".cs-carousel-prev");
+    const nextBtn = carousel.querySelector(".cs-carousel-next");
+    if (!track || !prevBtn || !nextBtn) return;
+
+    const scrollByCard = (direction) => {
+      const card = track.querySelector(".cs-item");
+      const amount = card ? card.getBoundingClientRect().width + 20 : track.clientWidth * 0.8;
+      track.scrollBy({ left: amount * direction, behavior: "smooth" });
+    };
+
+    const updateButtons = () => {
+      const maxScroll = track.scrollWidth - track.clientWidth;
+      const atStart = track.scrollLeft <= 1;
+      const atEnd = track.scrollLeft >= maxScroll - 1;
+      carousel.classList.toggle("cs-hide-prev", atStart);
+      carousel.classList.toggle("cs-hide-next", atEnd || maxScroll <= 1);
+    };
+
+    prevBtn.addEventListener("click", () => scrollByCard(-1));
+    nextBtn.addEventListener("click", () => scrollByCard(1));
+    track.addEventListener("scroll", updateButtons, { passive: true });
+    window.addEventListener("resize", updateButtons);
+
+    updateButtons();
+  };
+
+  setupServicesCarousel();
+  document.addEventListener("astro:after-swap", setupServicesCarousel);
+</script>
+
+<style lang="less">
+  /*-- -------------------------- -->
+<---          Services          -->
+<--- -------------------------- -*/
+
+  @media only screen and (min-width: 0rem) {
+    #services-1253 {
+      padding: var(--sectionPadding);
+      position: relative;
+      z-index: 10;
+
+      .cs-container {
+        width: 100%;
+        max-width: (1280/16rem);
+        margin: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: clamp(3rem, 6vw, 4rem);
+      }
+
+      .cs-content {
+        text-align: left;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .cs-title {
+        max-width: 28ch;
+      }
+
+      .cs-carousel {
+        width: 100%;
+        position: relative;
+      }
+
+      .cs-card-group {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        display: flex;
+        flex-wrap: nowrap;
+        gap: clamp(1rem, 2.5vw, 1.25rem);
+        overflow-x: auto;
+        scroll-snap-type: x proximity;
+        -webkit-overflow-scrolling: touch;
+        /* Arrow buttons are the intended affordance now — hide the native scrollbar
+           rather than showing both. */
+        scrollbar-width: none;
+
+        &::-webkit-scrollbar {
+          display: none;
+        }
+      }
+
+      /* Overlaid on top of the card row (not sitting below it), vertically
+         centered, and semi-transparent until hovered/focused. */
+      .cs-carousel-btn {
+        width: (44/16rem);
+        height: (44/16rem);
+        margin: 0;
+        padding: 0;
+        background-color: rgba(5, 19, 43, 0.55);
+        border: none;
+        border-radius: 50%;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 0.55;
+        position: absolute;
+        top: 50%;
+        z-index: 20;
+        cursor: pointer;
+        transform: translateY(-50%);
+        transition: opacity 0.25s, background-color 0.25s, transform 0.25s;
+
+        &:hover,
+        &:focus-visible {
+          opacity: 1;
+          background-color: var(--primary);
+        }
+
+        &:active {
+          transform: translateY(-50%) scale(0.92);
+        }
+      }
+
+      .cs-carousel-prev {
+        left: (12/16rem);
+
+        .cs-carousel-icon {
+          transform: rotate(180deg);
+        }
+      }
+
+      .cs-carousel-next {
+        right: (12/16rem);
+      }
+
+      .cs-carousel-icon {
+        width: (20/16rem);
+        height: (20/16rem);
+      }
+
+      .cs-carousel.cs-hide-prev .cs-carousel-prev,
+      .cs-carousel.cs-hide-next .cs-carousel-next {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .cs-item {
+        /* Fits exactly 5 across at the container's own max-width (1280px) — as the
+           container narrows below that, the percentage term drops under 220px and
+           the floor takes over, so the row overflows and scrolls instead of the
+           cards squeezing down or wrapping to a second line. */
+        flex: 0 0 clamp(13.75rem, calc((100% - 4 * clamp(1rem, 2.5vw, 1.25rem)) / 5), 16.25rem);
+        scroll-snap-align: start;
+        text-align: left;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        background-color: #000;
+        overflow: hidden;
+        box-shadow: 0 4px 14px 0 rgba(0, 0, 0, 0.05);
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-end;
+        position: relative;
+        z-index: 1;
+
+        &:hover {
+          .cs-item-background {
+            img {
+              opacity: 0.4;
+              transform: scale(1.3);
+            }
+          }
+
+          .cs-h3 {
+            color: var(--primary);
+          }
+        }
+
+        &:before {
+          content: "";
+          width: 100%;
+          height: 100%;
+          border: 1px solid rgba(255, 255, 255, 0.4);
+          box-sizing: border-box;
+          pointer-events: none;
+          opacity: 1;
+          position: absolute;
+          display: block;
+          top: 0;
+          left: 0;
+          z-index: 10;
+        }
+      }
+
+      .cs-link {
+        text-decoration: none;
+        padding: clamp(7.8125rem, 19vw, 14.75rem) (24/16rem) (24/16rem);
+      }
+
+      .cs-h3 {
+        font-size: clamp(1.25rem, 2.5vw, 1.5625rem);
+        line-height: 1.2em;
+        font-weight: bold;
+        margin: 0 0 (12/16rem) 0;
+        color: var(--bodyTextColorWhite);
+        transition: color 0.3s;
+      }
+
+      .cs-item-text {
+        font-size: clamp(0.875rem, 1.5vw, 1rem);
+        line-height: 1.5em;
+        max-width: (450/16rem);
+        margin: 0;
+        color: var(--bodyTextColorWhite);
+        opacity: 0.9;
+      }
+
+      .cs-item-background {
+        width: 100%;
+        height: 100%;
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
+
+        &:before {
+          content: "";
+          position: absolute;
+          display: block;
+          height: 100%;
+          width: 100%;
+          background: var(--headerColor);
+          opacity: 0.3;
+          top: 0;
+          left: 0;
+          z-index: 1;
+        }
+
+        &:after {
+          content: "";
+          position: absolute;
+          display: block;
+          height: 100%;
+          width: 100%;
+          background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%);
+          opacity: 0.5;
+          bottom: 0;
+          left: 0;
+          z-index: 2;
+        }
+
+        img {
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 100%;
+          width: 100%;
+          object-fit: cover;
+          transition: transform 0.6s, opacity 0.3s;
+        }
+      }
+    }
+  }
+
+  @media only screen and (min-width: 48rem) {
+    #services-1253 {
+      .cs-content {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: (48/16rem);
+      }
+
+      .cs-title {
+        margin: 0;
+      }
+
+      .cs-flex-group {
+        width: 50%;
+      }
+    }
+  }
+
+  @media only screen and (min-width: 64rem) {
+    #services-1253 .cs-link {
+      padding: clamp(6rem, 14vw, 11rem) (20/16rem) (20/16rem);
+    }
+  }
+
+  @media only screen and (min-width: 0rem) {
+    body.dark-mode {
+      #services-1253 {
+        .cs-title,
+        .cs-text {
+          color: var(--bodyTextColorWhite);
+        }
+
+        .cs-text {
+          opacity: 0.8;
+        }
+      }
+    }
+  }
+</style>

@@ -1,0 +1,193 @@
+---
+/**
+ * * Simplified CTA component using Astro's built-in Picture component
+ **/
+
+// Utils
+import { Picture } from "astro:assets";
+
+// Images
+import ctaImage from "@assets/images/pinturas/equipa-pintores-fachada.jpg";
+---
+
+<section id="cta-403">
+  <div class="cs-container">
+    <div class="cs-content">
+      <span class="cs-topper">Orçamento Rápido</span>
+      <h2 class="cs-title">Pronto para pintar ou reparar o seu telhado?</h2>
+      <p class="cs-text">
+        Pintura interior e exterior, telhados, impermeabilização e algerozes em
+        Lisboa e região. Orçamento escrito, sem surpresas.
+      </p>
+      <a href="/contact/" class="cs-button-solid">Pedir Orçamento</a>
+    </div>
+  </div>
+  <!--Background Image-->
+  <Picture
+    src={ctaImage}
+    alt=""
+    layout="full-width"
+    formats={["avif", "webp"]}
+    pictureAttributes={{ class: "cs-background" }}
+  />
+</section>
+
+<style lang="less">
+  /*-- -------------------------- -->
+<---            CTA             -->
+<--- -------------------------- -*/
+
+  /* Mobile - 360px */
+  @media only screen and (min-width: 0rem) {
+    #cta-403 {
+      padding: var(--sectionPadding);
+      position: relative;
+
+      .cs-background {
+        width: 100%;
+        height: 100%;
+        background-blend-mode: multiply;
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
+
+        &:before {
+          /* near-black brand overlay */
+          content: "";
+          position: absolute;
+          display: block;
+          height: 100%;
+          width: 100%;
+          background: var(--headerColor);
+          opacity: 1;
+          top: 0;
+          left: 0;
+          z-index: 1;
+        }
+
+        img {
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 100%;
+          width: 100%;
+          /* Makes img tag act as a background image */
+          object-fit: cover;
+          /* positions the image inside the parent */
+          object-position: 0% 30%;
+        }
+      }
+
+      .cs-container {
+        width: 100%;
+        max-width: (1280/16rem);
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        /* 48px - 64px */
+        gap: clamp(3rem, 6vw, 4rem);
+      }
+
+      .cs-content {
+        /* set text align to left if content needs to be left aligned */
+        text-align: center;
+        width: 100%;
+        max-width: (517/16rem);
+        display: flex;
+        flex-direction: column;
+        /* centers content horizontally, set to flex-start to left align */
+        align-items: center;
+      }
+
+      .cs-title,
+      .cs-text {
+        color: var(--bodyTextColorWhite);
+      }
+
+      .cs-text {
+        opacity: 0.8;
+        margin-bottom: (16/16rem);
+        &:last-of-type {
+          margin-bottom: (32/16rem);
+        }
+      }
+    }
+  }
+
+  /* Tablet - 768px */
+  @media only screen and (min-width: 48rem) {
+    #cta-403 {
+      .cs-background {
+        overflow: hidden;
+        &:before {
+          /* near-black brand gradient on left, fades on right */
+          background: linear-gradient(
+            96.58deg,
+            #0F1113 42.66%,
+            rgba(15, 17, 19, 0.9) 50.52%,
+            rgba(15, 17, 19, 0) 76.45%
+          );
+          opacity: 1;
+        }
+
+        img {
+          width: 60%;
+          object-position: right;
+          left: auto;
+          right: 0;
+        }
+      }
+
+      .cs-container {
+        flex-direction: row;
+        justify-content: space-between;
+      }
+
+      .cs-content {
+        text-align: left;
+        align-items: flex-start;
+        width: 45%;
+      }
+
+      .cs-text,
+      .cs-title {
+        margin-left: 0;
+      }
+    }
+  }
+
+  /* Dark Mode — deepen the gradient */
+  @media only screen and (min-width: 0rem) {
+    body.dark-mode {
+      #cta-403 {
+        .cs-background {
+          &:before {
+            /* mobile: solid near-black instead of navy */
+            background: #0a0a0a;
+          }
+        }
+      }
+    }
+  }
+
+  @media only screen and (min-width: 48rem) {
+    body.dark-mode {
+      #cta-403 {
+        .cs-background {
+          &:before {
+            /* tablet+: near-black gradient fading to transparent on the right */
+            background: linear-gradient(
+              96.58deg,
+              #0a0a0a 42.66%,
+              rgba(10, 10, 10, 0.9) 50.52%,
+              rgba(10, 10, 10, 0) 76.45%
+            );
+          }
+        }
+      }
+    }
+  }
+</style>

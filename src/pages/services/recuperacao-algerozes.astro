@@ -1,0 +1,105 @@
+---
+import { getImage } from "astro:assets";
+import ServiceLayout from "@layouts/ServiceLayout.astro";
+import { buildServiceSchema, buildFaqSchema, buildBreadcrumbSchema } from "@js/serviceSchema.js";
+
+import bannerImage from "@assets/images/pinturas/algeroz-branco-parede.jpg";
+import introImage from "@assets/images/pinturas/algeroz-branco-parede.jpg";
+import whyImageOne from "@assets/images/pinturas/tubo-drenagem-parede.jpg";
+import whyImageTwo from "@assets/images/pinturas/chuva-telhado-terracota.jpg";
+import processImageOne from "@assets/images/pinturas/agua-telhado-textura.jpg";
+import processImageTwo from "@assets/images/pinturas/algeroz-branco-parede.jpg";
+
+const optimizedBanner = await getImage({ src: bannerImage, format: "webp" });
+
+const meta = {
+	title: "Recuperação de Algerozes | Martinhago Pinturas & Coberturas",
+	seoDescription:
+		"Reparação e recuperação de algerozes entupidos, deformados ou com fugas em Lisboa e região. Uma das causas mais comuns de infiltração.",
+};
+
+const banner = {
+	title: "Recuperação de Algerozes",
+	description: "Algerozes desentupidos e reparados para escoar a água certa.",
+	image: optimizedBanner,
+};
+
+const intro = {
+	titleHighlight: "Recuperação",
+	titleSuffix: " de Algerozes",
+	intro: [
+		"Um algeroz entupido ou deformado não escoa a água como deve, e a água acaba por escorrer pela parede ou infiltrar-se junto ao telhado — muitas vezes sem que se perceba logo a causa.",
+		"Fazemos limpeza, reparação e substituição de troços de algeroz danificados, e ajustamos a inclinação sempre que a água não está a escoar corretamente para o tubo de queda.",
+	],
+	listIntro: "O que inclui este serviço:",
+	listItems: [
+		{ label: "Limpeza do algeroz", description: "Remoção de folhas, musgo e sujidade acumulada." },
+		{ label: "Reparação de fugas", description: "Vedação ou substituição de troços danificados." },
+		{ label: "Ajuste de inclinação", description: "Para a água escoar corretamente até ao tubo de queda." },
+		{ label: "Verificação do tubo de queda", description: "Confirmamos que a água chega ao destino certo, sem infiltrar na parede." },
+	],
+	image: introImage,
+	imageAlt: "Algeroz branco numa parede exterior vermelha",
+};
+
+const whyChoose = {
+	title: "Porque Escolher a Martinhago",
+	introPara: "Um algeroz mal escoado é uma das causas mais comuns de infiltração em paredes e tetos.",
+	reasons: [
+		{ heading: "Identificamos a causa real", description: "Entupimento, deformação ou inclinação errada pedem soluções diferentes." },
+		{ heading: "Reparação, não só limpeza", description: "Corrigimos fugas e deformações, não só desentupimos." },
+		{ heading: "Trabalho em altura seguro", description: "Equipamento próprio para aceder ao algeroz em segurança." },
+		{ heading: "Verificação com água a correr", description: "Testamos o escoamento antes de dar o trabalho como concluído." },
+	],
+	imageOne: whyImageOne,
+	imageOneAlt: "Tubo de drenagem numa parede exterior",
+	imageTwo: whyImageTwo,
+	imageTwoAlt: "Chuva a escorrer sobre um telhado de telha",
+};
+
+const process = {
+	title: "Como Fazemos",
+	paragraph: "Reparação de um algeroz com infiltração numa moradia em Lisboa",
+	headingThree: "Como Fizemos",
+	bullets: [
+		{ label: "Inspeção", description: "Identificámos um algeroz entupido e ligeiramente deformado." },
+		{ label: "Limpeza", description: "Removemos a acumulação de folhas e sujidade." },
+		{ label: "Reparação", description: "Corrigimos a deformação e vedámos uma fuga junto a uma junta." },
+		{ label: "Teste", description: "Confirmámos o escoamento correto com água a correr antes de terminar." },
+	],
+	imageOne: processImageOne,
+	imageOneAlt: "Água acumulada sobre uma superfície de telhado",
+	imageTwo: processImageTwo,
+	imageTwoAlt: "Algeroz branco reparado numa parede",
+};
+
+const faq = {
+	title: "Perguntas Frequentes sobre Recuperação de Algerozes",
+	questions: [
+		{ question: "Como sei se o algeroz está a causar uma infiltração?", answer: "Manchas de humidade perto do telhado, água a escorrer pela parede durante a chuva, ou musgo visível no algeroz são sinais comuns. Avaliamos no local para confirmar." },
+		{ question: "Basta limpar o algeroz ou é preciso reparar?", answer: "Depende do caso. Muitas vezes a limpeza resolve, mas se houver deformação, fuga ou inclinação errada, é preciso reparar para o problema não voltar." },
+		{ question: "Com que frequência devo limpar os algerozes?", answer: "Recomendamos pelo menos uma vez por ano, idealmente antes do outono, quando há mais folhas e chuva mais intensa." },
+		{ question: "Trabalham em telhados de qualquer altura?", answer: "Sim, temos o equipamento de segurança adequado para trabalhar em altura em moradias e prédios." },
+	],
+};
+
+const serviceSchema = buildServiceSchema({
+	name: meta.title,
+	description: meta.seoDescription,
+	slug: "recuperacao-algerozes",
+});
+const faqSchema = buildFaqSchema(faq.questions);
+const breadcrumbSchema = buildBreadcrumbSchema([
+	{ name: "Início", url: "/" },
+	{ name: "Serviços", url: "/services/" },
+	{ name: "Recuperação de Algerozes", url: "/services/recuperacao-algerozes/" },
+]);
+---
+
+<ServiceLayout meta={meta} banner={banner} intro={intro} whyChoose={whyChoose} process={process} faq={faq}>
+	<Fragment slot="schema">
+		<script is:inline type="application/ld+json" set:html={JSON.stringify(serviceSchema)} />
+		<script is:inline type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+		<script is:inline type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+	</Fragment>
+</ServiceLayout>

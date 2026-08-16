@@ -1,0 +1,52 @@
+/* DARK MODE AND TOGGLE STYLES */
+
+/*-- -------------------------- -->
+<---      Core Dark Styles      -->
+<--- -------------------------- -*/
+
+/* Mobile */
+@media only screen and (min-width: 0em) {
+	// Dark Mode Color Scheme — neutral deep grays, no green tint
+	:root {
+		--dark: #0a0a0a; // page-level deepest background
+		--medium: #1a1a1a; // elevated surfaces — cards, form fields, boxes
+		--accent: #334756; // kept cool blue-gray for borders/dividers
+	}
+
+	body.dark-mode {
+		background-color: var(--dark);
+
+		p,
+		li,
+		h1,
+		h2,
+		h3,
+		h4,
+		h5,
+		h6 {
+			color: var(--bodyTextColorWhite);
+		}
+
+		// Blog content dark mode styles
+		#blog-content {
+			h1,
+			h2,
+			h3,
+			h4,
+			h5,
+			h6 {
+				color: var(--bodyTextColorWhite);
+			}
+
+			p,
+			li {
+				color: var(--bodyTextColorWhite);
+				opacity: 0.8;
+			}
+
+			a {
+				color: var(--primary);
+			}
+		}
+	}
+}

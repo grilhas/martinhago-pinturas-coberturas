@@ -1,0 +1,519 @@
+---
+// Utils
+import { getImage, Picture } from "astro:assets";
+import { Icon } from "astro-icon/components";
+
+// Components
+import BaseLayout from "@layouts/BaseLayout.astro";
+import Banner from "@components/Banner/Banner.astro";
+import CTASimple from "@components/CTA/CTASimple.astro";
+import Reviews from "@components/Reviews/Reviews.astro";
+
+// Data
+import { BUSINESS } from "@data/client";
+
+// Images
+import bannerImage from "@assets/images/pinturas/equipa-pintores-fachada.jpg";
+import aboutImage1 from "@assets/images/pinturas/pintor-escada-fachada.jpg";
+import aboutImage2 from "@assets/images/pinturas/trabalhadores-telhas-instalacao.jpg";
+// NOTE: free-license stock photo (Pexels) — a generic on-site photo, not a real photo
+// of the business owner. Kept deliberately uncaptioned with any name (see about-page
+// copy below) to avoid presenting a stock photo as if it were a real person.
+import ownerImage from "@assets/images/pinturas/tecnico-checklist-inspecao.jpg";
+
+const optimizedBanner = await getImage({ src: bannerImage, format: "webp" });
+---
+
+<BaseLayout
+  title="Sobre a Martinhago Pinturas & Coberturas"
+  description="A Martinhago Pinturas & Coberturas faz pintura interior e exterior, telhados e impermeabilização em Lisboa e região. Orçamento escrito e rápido, sem compromisso."
+  heroImage={optimizedBanner}
+>
+  <Banner
+    title="Sobre Nós"
+    description="Pintura interior e exterior, telhados e impermeabilização em Lisboa e região."
+    image={optimizedBanner}
+  />
+
+  <!-- ============================================ -->
+  <!--             Side By Side Intro               -->
+  <!-- ============================================ -->
+  <section id="ABoutRPsbs-328">
+    <div class="cs-container">
+      <!-- Left Image Section -->
+      <div class="cs-image-group">
+        <Picture
+          src={aboutImage1}
+          alt="Pintor numa escada a pintar a fachada de um edifício"
+          widths={[482, 802, 1044]}
+          sizes="(min-width: 64rem) 522px, (min-width: 48rem) 400px, 90vw"
+          formats={["avif", "webp"]}
+          pictureAttributes={{ class: "cs-picture cs-picture1" }}
+          loading="lazy"
+        />
+        <Picture
+          src={aboutImage2}
+          alt="Trabalhadores a instalar telhas num telhado"
+          widths={[366, 600, 780]}
+          sizes="(min-width: 64rem) 414px, (min-width: 48rem) 300px, 60vw"
+          formats={["avif", "webp"]}
+          pictureAttributes={{ class: "cs-picture cs-picture2" }}
+          loading="lazy"
+        />
+      </div>
+      <!-- Right Content -->
+      <div class="cs-content">
+        <span class="cs-topper">Sobre Nós</span>
+        <h2 class="cs-title">Sediados em Lisboa. A trabalhar em toda a região.</h2>
+        <p class="cs-text">
+          A Martinhago Pinturas & Coberturas nasceu de uma ideia simples: avaliar bem
+          a superfície antes de intervir, para o trabalho durar e não precisar de ser
+          repetido dali a pouco tempo. Continuamos a trabalhar assim.
+        </p>
+        <p class="cs-text">
+          Hoje servimos Lisboa, Amadora, Odivelas, Loures, Oeiras, Sintra e arredores —
+          pintura interior e exterior, lavagem e pintura de telhados, impermeabilização
+          e vedação especializada, recuperação de algerozes e substituição de vidros
+          de claraboia.
+        </p>
+        <a href="/contact/" class="cs-button-solid">Pedir Orçamento</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================ -->
+  <!--                   Stats                      -->
+  <!-- ============================================ -->
+  <div id="AboutStrip-328">
+    <ul class="cs-stat-group">
+      <li class="cs-item">
+        <span class="cs-picture">
+          <Icon
+            class="cs-icon"
+            name="about-call"
+            width="33"
+            height="33"
+            aria-hidden="true"
+          />
+        </span>
+        <div class="cs-flex-group">
+          <span class="cs-header">Telefone</span>
+          <a href={`tel:${BUSINESS.phoneForTel}`} class="cs-link"
+            >{BUSINESS.phoneFormatted}</a
+          >
+        </div>
+      </li>
+      <li class="cs-item">
+        <span class="cs-picture">
+          <Icon
+            class="cs-icon"
+            name="about-pin"
+            width="33"
+            height="33"
+            aria-hidden="true"
+          />
+        </span>
+        <div class="cs-flex-group">
+          <span class="cs-header">Área de Serviço</span>
+          <span class="cs-hours">Lisboa e Região</span>
+        </div>
+      </li>
+      <li class="cs-item">
+        <span class="cs-picture">
+          <Icon
+            class="cs-icon"
+            name="about-clock"
+            width="33"
+            height="33"
+            aria-hidden="true"
+          />
+        </span>
+        <div class="cs-flex-group">
+          <span class="cs-header">Horário</span>
+          <span class="cs-hours">Segunda a sexta</span>
+          <span class="cs-hours">08:30 – 18:00</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- ============================================ -->
+  <!--              Atendimento Direto               -->
+  <!-- ============================================ -->
+  <section id="Aboutsbs-328">
+    <div class="cs-container">
+      <Picture
+        src={ownerImage}
+        alt="Avaliação da superfície antes do orçamento"
+        widths={[520, 1040]}
+        sizes="(min-width: 64rem) 520px, 90vw"
+        formats={["avif", "webp"]}
+        pictureAttributes={{ class: "cs-picture" }}
+        loading="lazy"
+      />
+      <div class="cs-content">
+        <span class="cs-topper">Atendimento Direto</span>
+        <h2 class="cs-title">Quem avalia a superfície também acompanha o trabalho</h2>
+        <p class="cs-text">
+          Quando fala com a Martinhago, não fala com um call center. Falamos
+          diretamente consigo desde a primeira visita, e é essa mesma continuidade
+          que acompanha o trabalho até à entrega final.
+        </p>
+        <p class="cs-text">
+          Isso importa porque cada trabalho é diferente. Uma fachada com fissuras
+          não pede o mesmo que um telhado com infiltração, e um interior pede outro
+          cuidado. Avaliamos cada caso em concreto e explicamos o que esperar antes
+          de avançar.
+        </p>
+        <p class="cs-text">
+          Construído em torno de uma ideia simples: avaliar bem a superfície
+          primeiro, para o resultado durar mais do que a garantia.
+        </p>
+        <a class="cs-button-solid" aria-label="pedir orçamento" href="/contact/"
+          >Pedir Orçamento</a
+        >
+      </div>
+    </div>
+  </section>
+
+  <CTASimple />
+  <Reviews />
+</BaseLayout>
+
+<style lang="less">
+  /*-- -------------------------- -->
+<---       Side By Side         -->
+<--- -------------------------- -*/
+
+  @media only screen and (min-width: 0rem) {
+    #ABoutRPsbs-328 {
+      padding: var(--sectionPadding);
+
+      .cs-container {
+        width: 100%;
+        max-width: (1280/16rem);
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: clamp(3rem, 6vw, 4rem);
+      }
+
+      .cs-content {
+        text-align: left;
+        width: 100%;
+        max-width: (542/16rem);
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .cs-text {
+        margin-bottom: (16/16rem);
+        &:last-of-type {
+          margin-bottom: (32/16rem);
+        }
+      }
+
+      .cs-button-solid {
+        margin-top: (8/16rem);
+      }
+
+      .cs-image-group {
+        font-size: ~"min(2.31vw, .7em)";
+        width: (631/16em);
+        height: (636/16em);
+        position: relative;
+      }
+
+      .cs-picture {
+        overflow: hidden;
+        position: absolute;
+        display: block;
+
+        img {
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 100%;
+          width: 100%;
+          object-fit: cover;
+        }
+      }
+
+      .cs-picture1 {
+        width: (522/16em);
+        height: (581/16em);
+        left: 0;
+        top: 0;
+      }
+
+      .cs-picture2 {
+        width: (414/16em);
+        height: (400/16em);
+        background-color: #fff;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 40px;
+        border: clamp(0.375em, 1.5vw, 0.75em) solid #fff;
+        right: 0;
+        bottom: 0;
+      }
+    }
+  }
+
+  @media only screen and (min-width: 64rem) {
+    #ABoutRPsbs-328 {
+      .cs-container {
+        flex-flow: row;
+        justify-content: space-between;
+        gap: (52/16rem);
+      }
+
+      .cs-image-group {
+        font-size: ~"min(1.2vw, 1em)";
+        flex: none;
+      }
+
+      .cs-content {
+        margin: 0;
+      }
+    }
+  }
+
+  /*-- -------------------------- -->
+<---           Stats            -->
+<--- -------------------------- -*/
+
+  @media only screen and (min-width: 0rem) {
+    #AboutStrip-328 {
+      padding: var(--sectionPadding);
+      background-color: var(--primary);
+
+      .cs-stat-group {
+        width: 100%;
+        max-width: (600/16rem);
+        margin: auto;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: (40/16rem);
+      }
+
+      .cs-item {
+        list-style: none;
+        width: (290/16rem);
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+
+        &:hover {
+          .cs-picture {
+            background-color: #fff;
+            box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+            transform: scale(1.05);
+          }
+
+          .cs-icon {
+            color: var(--primary);
+          }
+        }
+      }
+
+      .cs-picture {
+        width: (80/16rem);
+        height: (80/16rem);
+        margin-right: clamp(0.75rem, 3vw, 1.25rem);
+        border-radius: 50%;
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex: none;
+        transition:
+          background-color 0.3s,
+          box-shadow 0.3s,
+          transform 0.6s;
+      }
+
+      .cs-flex-group {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .cs-icon {
+        width: (33/16rem);
+        height: (33/16rem);
+        color: var(--bodyTextColorWhite);
+        transition: color 0.3s;
+      }
+
+      .cs-header {
+        font-size: (20/16rem);
+        color: var(--bodyTextColorWhite);
+        font-family: var(--headerFont);
+        text-transform: uppercase;
+        font-weight: 600;
+        line-height: 1.2em;
+        margin: 0;
+        margin-bottom: (12/16rem);
+        display: block;
+      }
+
+      .cs-link,
+      .cs-hours {
+        font-size: var(--bodyFontSize);
+        line-height: 1.5em;
+        font-family: var(--bodyFont);
+        text-decoration: none;
+        color: #fff;
+        text-transform: uppercase;
+        display: block;
+        transition: color 0.3s;
+      }
+
+      .cs-link:hover {
+        color: var(--headerColor);
+      }
+    }
+  }
+
+  @media only screen and (min-width: 40.625rem) {
+    #AboutStrip-328 {
+      .cs-stat-group {
+        flex-direction: row;
+        flex-wrap: wrap;
+        column-gap: (20/16rem);
+        row-gap: (32/16rem);
+      }
+    }
+  }
+
+  @media only screen and (min-width: 64rem) {
+    #AboutStrip-328 {
+      .cs-stat-group {
+        max-width: (1280/16rem);
+        flex-wrap: nowrap;
+        justify-content: space-evenly;
+      }
+    }
+  }
+
+  /*-- -------------------------- -->
+<---     Meet The Owner SbS     -->
+<--- -------------------------- -*/
+
+  @media only screen and (min-width: 0rem) {
+    #Aboutsbs-328 {
+      padding: var(--sectionPadding);
+      background-color: var(--bgLight);
+
+      .cs-container {
+        width: 100%;
+        max-width: (550/16rem);
+        margin: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: clamp(3rem, 6vw, 4rem);
+      }
+
+      .cs-content {
+        text-align: center;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .cs-text {
+        margin-bottom: (16/16rem);
+        &:last-of-type {
+          margin-bottom: (32/16rem);
+        }
+      }
+
+      .cs-picture {
+        font-size: ~"min(2.16vw, .68em)";
+        width: (520/16em);
+        height: (520/16em);
+        margin: (48/16em) 0;
+        position: relative;
+        display: block;
+        &:before {
+          content: "";
+          width: 100%;
+          height: 100%;
+          background: var(--primary);
+          opacity: 0.18;
+          position: absolute;
+          display: block;
+          top: 0;
+          left: 0;
+          transform: rotate(8deg);
+        }
+        img {
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 100%;
+          width: 100%;
+          object-fit: cover;
+        }
+      }
+    }
+  }
+
+  @media only screen and (min-width: 64rem) {
+    #Aboutsbs-328 {
+      .cs-container {
+        max-width: (1280/16rem);
+        flex-direction: row;
+        justify-content: center;
+        gap: clamp(4.8125rem, 10vw + 1rem, 10rem);
+      }
+
+      .cs-content {
+        text-align: left;
+        align-items: flex-start;
+      }
+
+      .cs-picture {
+        font-size: ~"min(1.1vw, 1em)";
+        margin: (56/16em) 0 (56/16em) (80/16em);
+        flex: none;
+      }
+    }
+  }
+
+  /* Dark Mode */
+  @media only screen and (min-width: 0rem) {
+    body.dark-mode {
+      #Aboutsbs-328 {
+        background-color: var(--medium);
+
+        .cs-title,
+        .cs-text {
+          color: var(--bodyTextColorWhite);
+        }
+
+        .cs-text {
+          opacity: 0.85;
+        }
+
+        .cs-picture:before {
+          background-color: rgba(255, 255, 255, 0.08);
+        }
+      }
+
+      #AboutStrip-328 {
+        background-color: var(--dark);
+      }
+    }
+  }
+</style>

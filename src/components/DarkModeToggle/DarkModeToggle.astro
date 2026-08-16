@@ -1,0 +1,129 @@
+---
+import { Icon } from "astro-icon/components";
+---
+
+<button id="dark-mode-toggle" aria-label="dark mode toggle" aria-pressed="false">
+	<svg class="cs-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 480" style="enable-background:new 0 0 480 480" xml:space="preserve"
+		><path
+			d="M459.782 347.328c-4.288-5.28-11.488-7.232-17.824-4.96-17.76 6.368-37.024 9.632-57.312 9.632-97.056 0-176-78.976-176-176 0-58.4 28.832-112.768 77.12-145.472 5.472-3.712 8.096-10.4 6.624-16.832S285.638 2.4 279.078 1.44C271.59.352 264.134 0 256.646 0c-132.352 0-240 107.648-240 240s107.648 240 240 240c84 0 160.416-42.688 204.352-114.176 3.552-5.792 3.04-13.184-1.216-18.496z"
+		></path></svg
+	>
+	<Icon name="sun" class="cs-sun" />
+</button>
+
+<script>
+	// helper function to toggle aria-pressed
+	function ariaPressed(element) {
+		const isPressed = element.getAttribute("aria-pressed");
+		element.setAttribute("aria-pressed", isPressed === "false" ? "true" : "false");
+	}
+	// Creates the dark mode toggle event listener
+	const setToggleListener = () => {
+		const darkModeToggleButton = document.getElementById("dark-mode-toggle");
+		const handleToggleClick = () => {
+			document.body.classList.toggle("dark-mode");
+			ariaPressed(darkModeToggleButton);
+			const isDark = document.body.classList.contains("dark-mode");
+			localStorage.setItem("theme", isDark ? "dark" : "light");
+		};
+
+		darkModeToggleButton?.addEventListener("click", handleToggleClick);
+	};
+
+	setToggleListener();
+
+	document.addEventListener("astro:after-swap", setToggleListener); // For View Transitions purposes - astro:after-swap ensures that the listener is re-attached after navigating to a new page.
+</script>
+
+<style lang="less">
+	/*-- -------------------------- -->
+<---      Dark Mode Toggle      -->
+<--- -------------------------- -*/
+
+	/* Mobile - 360px */
+	@media only screen and (min-width: 0rem) {
+		#dark-mode-toggle {
+			width: (48/16rem);
+			height: (48/16rem);
+			padding: 0;
+			background: transparent;
+			border: none;
+			display: block;
+			position: absolute;
+			/* vertically center relative to the nav instead of pinning 10px from the top */
+			top: 50%;
+			transform: translateY(-50%);
+			/* clears the floating nav's larger 56px hamburger button + its padding */
+			right: (88/16rem);
+			z-index: 1000;
+			overflow: hidden;
+
+			/* Center children via inset + margin auto — more reliable than translate tricks */
+			img,
+			svg {
+				width: (20/16rem);
+				height: (20/16rem);
+				position: absolute;
+				inset: 0;
+				margin: auto;
+				pointer-events: none;
+			}
+
+			.cs-moon {
+				z-index: 2;
+				/* Themed: cool blue moon */
+				fill: #A4C2F4;
+				color: #A4C2F4;
+				transition:
+					transform 0.3s,
+					opacity 0.3s;
+			}
+
+			.cs-sun {
+				z-index: 1;
+				opacity: 0;
+				/* Themed: warm orange sun (astro-icon uses currentColor) */
+				color: #FFB236;
+				fill: #FFB236;
+				/* Sun parked below the centered position — slides up into view when dark mode is active */
+				transform: translateY((20/16rem));
+				transition:
+					transform 0.3s,
+					opacity 0.3s;
+			}
+		}
+
+		body.dark-mode {
+			#dark-mode-toggle {
+				.cs-sun {
+					opacity: 1;
+					transform: translateY(0);
+				}
+
+				.cs-moon {
+					opacity: 0;
+					transform: translateY((-20/16rem));
+				}
+			}
+		}
+	}
+
+	/* Tablet - 768px (also covers Desktop): once the contact group (phone/email)
+	   becomes visible at this width, absolute positioning at a fixed offset from
+	   the hamburger no longer accounts for that extra content and starts
+	   overlapping it — switching to normal flow here lets it sit as a regular
+	   item in the header's flex row instead. */
+	@media only screen and (min-width: 48rem) {
+		#dark-mode-toggle {
+			margin: 0;
+			position: relative;
+			top: auto;
+			right: auto;
+			transform: none;
+
+			&:hover {
+				cursor: pointer;
+			}
+		}
+	}
+</style>

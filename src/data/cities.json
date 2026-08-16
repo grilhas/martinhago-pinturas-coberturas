@@ -1,0 +1,172 @@
+[
+  {
+    "slug": "lisboa",
+    "name": "Lisboa",
+    "state": "Lisboa",
+    "isHomeBase": true,
+    "banner": "lisboa-telhados-rio",
+    "lead": "A Martinhago Pinturas & Coberturas faz pintura interior e exterior, telhados e impermeabilização em Lisboa, para prédios, moradias e espaços comerciais.",
+    "body": [
+      "Lisboa é a nossa base e onde fazemos a maior parte dos trabalhos. Entre prédios antigos no centro, moradias nos bairros mais afastados e apartamentos em condomínio, cada trabalho pede uma abordagem diferente — sobretudo em fachadas com vários pisos.",
+      "Fazemos pintura interior e exterior, lavagem e pintura de telhados, impermeabilização e vedação especializada, recuperação de algerozes e substituição de vidros de claraboia. Avaliamos sempre o estado da superfície no local antes de fechar orçamento.",
+      "Em Lisboa, os pedidos mais comuns são pintura de fachadas de prédios antigos e resolução de infiltrações que vêm do telhado ou de algerozes entupidos, muitas vezes antes de aparecerem manchas visíveis dentro de casa.",
+      "Se procura pintura ou reparação de telhado em Lisboa, avaliamos o espaço e entregamos orçamento por escrito, sem compromisso."
+    ],
+    "commonJobs": [
+      "Pintura de fachadas de prédios e moradias",
+      "Pintura interior de casas e escritórios",
+      "Lavagem e pintura de telhados",
+      "Impermeabilização de terraços e zonas de infiltração",
+      "Recuperação de algerozes entupidos ou danificados",
+      "Substituição de vidros de claraboia"
+    ],
+    "scenarios": [
+      {
+        "title": "Pintura de fachada num prédio antigo no centro de Lisboa",
+        "description": "Avaliámos o estado do reboco antes de pintar, reparámos as zonas mais degradadas e aplicámos tinta própria para exterior, resistente à humidade típica dos prédios antigos."
+      },
+      {
+        "title": "Reparação de algeroz com infiltração numa moradia",
+        "description": "O cliente tinha uma mancha de humidade recorrente no teto. Identificámos um algeroz entupido e deformado, reparámos e a infiltração não voltou."
+      },
+      {
+        "title": "Impermeabilização de um terraço com infiltração",
+        "description": "Água a infiltrar-se no apartamento de baixo. Impermeabilizámos o terraço e vedámos as juntas junto às paredes, resolvendo o problema na origem."
+      }
+    ],
+    "neighborhoods": ["Alvalade", "Benfica", "Areeiro", "Campo de Ourique"]
+  },
+  {
+    "slug": "amadora",
+    "name": "Amadora",
+    "state": "Lisboa",
+    "isHomeBase": false,
+    "banner": "equipa-pintura-interior",
+    "lead": "Pintura interior e exterior, telhados e impermeabilização na Amadora.",
+    "body": [
+      "A Amadora tem uma mistura de prédios de habitação e moradias mais antigas, muitas com fachadas e telhados que já não são pintados ou revistos há vários anos. Nestes casos, a preparação da superfície costuma pesar mais no resultado final do que a própria tinta.",
+      "Fazemos pintura interior e exterior, lavagem e pintura de telhados, e reparação de algerozes e infiltrações em moradias e prédios de habitação em toda a zona."
+    ],
+    "commonJobs": [
+      "Pintura de fachadas de moradias e prédios",
+      "Pintura interior de apartamentos",
+      "Lavagem e pintura de telhados",
+      "Reparação de algerozes com infiltração"
+    ],
+    "scenarios": [
+      {
+        "title": "Pintura interior de um apartamento antes de arrendar",
+        "description": "O proprietário queria o apartamento pronto a mostrar em poucos dias. Pintámos todas as divisões, com atenção especial às zonas com marcas de humidade a tapar antes de pintar."
+      },
+      {
+        "title": "Lavagem e pintura de telhado numa moradia",
+        "description": "O telhado tinha musgo acumulado há anos. Fizemos a lavagem completa e aplicámos tinta própria para telha, devolvendo cor e proteção à cobertura."
+      }
+    ],
+    "neighborhoods": ["Falagueira", "Venteira", "Reboleira", "Damaia"]
+  },
+  {
+    "slug": "odivelas",
+    "name": "Odivelas",
+    "state": "Lisboa",
+    "isHomeBase": false,
+    "banner": "fachada-andaime-trabalhador",
+    "lead": "Pintura de fachadas, telhados e impermeabilização em Odivelas.",
+    "body": [
+      "Odivelas tem crescido muito nos últimos anos, com prédios recentes ao lado de moradias mais antigas — o que significa trabalhos muito diferentes lado a lado, desde retoque de fachada recente a reparação completa de telhado antigo.",
+      "Fazemos pintura interior e exterior, lavagem e pintura de telhados, impermeabilização e recuperação de algerozes em toda a zona."
+    ],
+    "commonJobs": [
+      "Pintura de fachadas de prédios e moradias",
+      "Impermeabilização de terraços e coberturas",
+      "Recuperação de algerozes",
+      "Pintura interior de casas e escritórios"
+    ],
+    "scenarios": [
+      {
+        "title": "Impermeabilização de uma cobertura plana com infiltração",
+        "description": "A cobertura deixava passar água sempre que chovia com mais intensidade. Impermeabilizámos toda a superfície e reforçámos os remates junto às paredes."
+      }
+    ],
+    "neighborhoods": ["Póvoa de Santo Adrião", "Ramada", "Caneças", "Famões"]
+  },
+  {
+    "slug": "loures",
+    "name": "Loures",
+    "state": "Lisboa",
+    "isHomeBase": false,
+    "banner": "trabalhadores-telhas-instalacao",
+    "lead": "Pintura, telhados e impermeabilização em Loures, com atenção especial a moradias com telhado de telha.",
+    "body": [
+      "Loures tem muitas moradias com telhado de telha, algumas já com décadas — telhas partidas, deslocadas ou com musgo acumulado são o motivo mais comum de chamada nesta zona.",
+      "Fazemos lavagem e pintura de telhados, substituição de telhas danificadas, impermeabilização e recuperação de algerozes, além de pintura interior e exterior em moradias e espaços comerciais."
+    ],
+    "commonJobs": [
+      "Lavagem e pintura de telhados de telha",
+      "Substituição de telhas partidas ou deslocadas",
+      "Recuperação de algerozes",
+      "Pintura de fachadas de moradias"
+    ],
+    "scenarios": [
+      {
+        "title": "Substituição de telhas partidas após uma tempestade",
+        "description": "Várias telhas ficaram deslocadas depois de um temporal. Substituímos as danificadas e revimos toda a cobertura para evitar novas infiltrações."
+      },
+      {
+        "title": "Pintura completa de uma moradia com jardim",
+        "description": "Pintámos o exterior da casa e protegemos as zonas ajardinadas durante os trabalhos, com acabamento em tinta própria para fachadas expostas ao sol."
+      }
+    ],
+    "neighborhoods": ["Sacavém", "Santo António dos Cavaleiros", "Bucelas", "Camarate"]
+  },
+  {
+    "slug": "oeiras",
+    "name": "Oeiras",
+    "state": "Lisboa",
+    "isHomeBase": false,
+    "banner": "fachadas-coloridas-ceu",
+    "lead": "Pintura interior e exterior, telhados e impermeabilização em Oeiras, incluindo moradias de linha de água e prédios de habitação.",
+    "body": [
+      "Oeiras tem muitas moradias próximas do rio e da costa, onde a humidade e o sal do ar aceleram o desgaste da pintura exterior e das coberturas. Usamos tintas próprias para este tipo de exposição.",
+      "Fazemos pintura interior e exterior, lavagem e pintura de telhados, impermeabilização e vedação especializada, e recuperação de algerozes em toda a zona."
+    ],
+    "commonJobs": [
+      "Pintura de fachadas expostas à humidade e ao sal do ar",
+      "Impermeabilização de terraços e coberturas",
+      "Lavagem e pintura de telhados",
+      "Recuperação de algerozes"
+    ],
+    "scenarios": [
+      {
+        "title": "Repintura de fachada numa moradia perto do rio",
+        "description": "A tinta anterior tinha descascado mais depressa do que o esperado por causa da exposição à humidade. Usámos uma tinta própria para exteriores expostos e reforçámos a preparação da superfície."
+      }
+    ],
+    "neighborhoods": ["Paço de Arcos", "Carnaxide", "Algés", "Linda-a-Velha"]
+  },
+  {
+    "slug": "sintra",
+    "name": "Sintra",
+    "state": "Lisboa",
+    "isHomeBase": false,
+    "banner": "lisboa-vista-aerea-telhados",
+    "lead": "Pintura, telhados e impermeabilização em Sintra, incluindo casas antigas na zona histórica.",
+    "body": [
+      "Sintra combina casas antigas na zona histórica, muitas vezes com telhados e fachadas que pedem mais cuidado, com moradias mais recentes nas zonas em expansão. Adaptamos a abordagem ao tipo de construção.",
+      "Fazemos pintura interior e exterior, lavagem e pintura de telhados, impermeabilização e recuperação de algerozes, e substituição de vidros de claraboia em toda a zona."
+    ],
+    "commonJobs": [
+      "Pintura de fachadas de casas antigas e moradias recentes",
+      "Lavagem e pintura de telhados",
+      "Impermeabilização de zonas com infiltração",
+      "Substituição de vidros de claraboia"
+    ],
+    "scenarios": [
+      {
+        "title": "Substituição de vidro de claraboia partido numa casa antiga",
+        "description": "O vidro estava rachado e deixava entrar água em dias de chuva. Substituímos o vidro e revimos toda a vedação à volta da claraboia."
+      }
+    ],
+    "neighborhoods": ["Queluz", "Cacém", "Rio de Mouro", "Colares"]
+  }
+]

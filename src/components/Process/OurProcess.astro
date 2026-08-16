@@ -1,0 +1,307 @@
+---
+// Utils
+import { Picture } from "astro:assets";
+import { Icon } from "astro-icon/components";
+
+// Assets
+import beforeImage from "@assets/images/pinturas/fachada-andaime-trabalhador.jpg";
+import afterImage from "@assets/images/pinturas/fachadas-coloridas-ceu.jpg";
+---
+
+<section id="sbs-2295">
+  <div class="cs-container">
+    <div class="cs-image-group">
+      <!--Main Image-->
+      <div class="cs-picture-wrapper1">
+        <Picture
+          src={beforeImage}
+          alt="Antes: fachada em andaime durante os trabalhos"
+          widths={[413, 826]}
+          sizes="(min-width: 601px) 413px, 100vw"
+          formats={["avif", "webp"]}
+          pictureAttributes={{ class: "cs-picture cs-picture1" }}
+          loading="lazy"
+          decoding="async"
+        />
+        <span class="cs-tag">Antes</span>
+      </div>
+      <!--Small Image-->
+      <div class="cs-picture-wrapper2">
+        <Picture
+          src={afterImage}
+          alt="Depois: fachadas pintadas com cor viva sob céu azul"
+          widths={[413, 826]}
+          sizes="(min-width: 601px) 413px, 100vw"
+          formats={["avif", "webp"]}
+          pictureAttributes={{ class: "cs-picture cs-picture2" }}
+          loading="lazy"
+          decoding="async"
+        />
+        <span class="cs-tag">Depois</span>
+      </div>
+      <Icon name="arrow" class="cs-arrow" width="126" height="125" />
+    </div>
+    <div class="cs-content">
+      <span class="cs-topper">Como Funciona</span>
+      <h2 class="cs-title">Orçamentar, pintar, entregar. Sem surpresas.</h2>
+      <p class="cs-text">
+        Mantemos o processo simples de propósito - uma visita, um orçamento escrito,
+        um trabalho revisto antes de sair. Sem idas e vindas, sem extras surpresa.
+      </p>
+      <h3 class="cs-h3">O Nosso Processo</h3>
+      <ul class="cs-ul">
+        <li class="cs-li">
+          <strong>Envie uma foto ou ligue</strong>: Envie algumas fotografias do espaço por mensagem ou
+          ligue-nos. Marcamos a visita nos dias seguintes.
+        </li>
+        <li class="cs-li">
+          <strong>Visita ao local + orçamento escrito</strong>: Avaliamos a superfície ou a cobertura
+          e entregamos um orçamento escrito com o trabalho recomendado.
+        </li>
+        <li class="cs-li">
+          <strong>Pintura ou reparação</strong>: Preparação da superfície, pintura, impermeabilização
+          ou reparação, consoante o trabalho combinado.
+        </li>
+        <li class="cs-li">
+          <strong>Revisão e entrega final</strong>: Revemos o trabalho consigo, confirmamos que está
+          tudo conforme combinado e deixamos o espaço limpo antes de sair.
+        </li>
+      </ul>
+      <a href="/contact/" class="cs-button-solid">Pedir Orçamento</a>
+    </div>
+  </div>
+</section>
+
+<style lang="less">
+  /*-- -------------------------- -->
+<---        Side By Side        -->
+<--- -------------------------- -*/
+
+  /* Mobile - 360px */
+  @media only screen and (min-width: 0rem) {
+    #sbs-2295 {
+      padding: var(--sectionPadding);
+      background-color: #fff;
+      overflow: hidden;
+      position: relative;
+      z-index: 1;
+
+      .cs-container {
+        width: 100%;
+        /* changes to 1280px at tablet */
+        max-width: (704/16rem);
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        /* 48px - 64px */
+        gap: clamp(3rem, 4vw, 4rem);
+      }
+
+      .cs-image-group {
+        /* scales the whole section down and ties the font size to the vw and stops at 75% of the vale of 1em, changes at desktop */
+        font-size: ~"min(1.98vw, .826rem)";
+        /* everything inside this box is in ems so we can scale it all down proportionally with a font size */
+        width: (738/16em);
+        height: (578/16em);
+        order: -1;
+        position: relative;
+        z-index: 1;
+        /* prevents flexbox from squishing it */
+        flex: none;
+      }
+
+      .cs-picture {
+        width: 100%;
+        height: 100%;
+        display: block;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          top: 0;
+          left: 0;
+        }
+      }
+
+      .cs-picture2 {
+        border: (16/16em) solid var(--primaryLight);
+      }
+
+      .cs-picture-wrapper1 {
+        width: (412/16em);
+        height: (457/16em);
+        display: flex;
+        flex-direction: column;
+        gap: (16/16rem);
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+
+      .cs-picture-wrapper2 {
+        width: (413/16em);
+        height: (474/16em);
+        display: flex;
+        flex-direction: column-reverse;
+        gap: (16/16rem);
+        position: absolute;
+        right: 0;
+        bottom: 0;
+      }
+
+      .cs-tag {
+        /* 14px - 24px */
+        font-size: clamp(0.875rem, 1.4vw, 1.5rem);
+        font-weight: 700;
+        line-height: 1.2em;
+        text-align: center;
+        color: var(--headerColor);
+      }
+
+      .cs-arrow {
+        /* arrow.svg is ~1:1 (126x125) — sizing preserves its natural aspect */
+        width: (96/16em);
+        height: (96/16em);
+        position: absolute;
+        top: (220/16em);
+        left: (280/16em);
+      }
+
+      .cs-content {
+        /* set text align to center if content needs to be centrally aligned */
+        text-align: left;
+        width: 100%;
+        max-width: (586/16rem);
+        display: flex;
+        flex-direction: column;
+        /* aligns content to the left, set to center to centrally align */
+        align-items: flex-start;
+      }
+
+      .cs-title {
+        max-width: 30ch;
+      }
+
+      .cs-text {
+        margin-bottom: (16/16rem);
+
+        &:last-of-type {
+          margin-bottom: (24/16rem);
+        }
+      }
+
+      .cs-h3 {
+        font-size: (16/16rem);
+        font-weight: 700;
+        line-height: 1.5em;
+        margin: 0;
+        color: var(--headerColor);
+      }
+
+      .cs-ul {
+        margin: (12/16rem) 0 (32/16rem);
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: (12/16rem);
+      }
+
+      .cs-li {
+        font-size: (16/16rem);
+        line-height: 1.5em;
+        list-style: none;
+        /* 20px - 24px */
+        padding-left: clamp(1.25rem, 3vw, 1.5rem);
+        color: var(--bodyTextColor);
+        position: relative;
+
+        strong {
+          color: #1a1a1a;
+        }
+
+        &::before {
+          content: "";
+          width: (8/16rem);
+          height: (8/16rem);
+          margin-top: (8/16rem);
+          background-color: var(--secondary);
+          display: block;
+          position: absolute;
+          top: 0;
+          left: 0;
+          transform: rotate(45deg);
+        }
+      }
+    }
+  }
+
+  /* Tablet - 768px */
+  @media only screen and (min-width: 48rem) {
+    #sbs-2295 {
+      .cs-container {
+        max-width: (1280/16rem);
+      }
+
+      .cs-image-group {
+        order: initial;
+      }
+    }
+  }
+
+  /* Desktop - 1024px */
+  @media only screen and (min-width: 64rem) {
+    #sbs-2295 {
+      .cs-container {
+        flex-direction: row;
+        align-items: stretch;
+      }
+
+      .cs-image-group {
+        font-size: ~"min(1.03vw, 1rem)";
+        height: auto;
+      }
+
+      .cs-picture-wrapper1 {
+        height: auto;
+        bottom: (121/16em);
+      }
+
+      .cs-picture-wrapper2 {
+        height: auto;
+        top: (104/16em);
+      }
+    }
+  }
+
+  /* Dark Mode */
+  @media only screen and (min-width: 0rem) {
+    body.dark-mode {
+      #sbs-2295 {
+        background-color: rgba(0, 0, 0, 0.2);
+
+        .cs-title,
+        .cs-text,
+        .cs-h3,
+        .cs-li,
+        .cs-tag {
+          color: var(--bodyTextColorWhite);
+        }
+
+        .cs-text,
+        .cs-li {
+          opacity: 0.8;
+
+          strong {
+            color: var(--bodyTextColorWhite);
+          }
+        }
+
+        .cs-picture {
+          border-color: var(--medium);
+        }
+      }
+    }
+  }
+</style>
