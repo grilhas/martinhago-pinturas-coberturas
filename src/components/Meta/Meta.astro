@@ -41,7 +41,11 @@ const ogDescription = description;
 // page — not the page's own heroImage. A link-preview card is a business card,
 // not a page thumbnail, so it should show the logo regardless of which page
 // (or which page's stock photo) is being shared.
-const socialImage: string = Astro.url.origin + OG.image;
+// Built from BASE_URL (not a bare "/"-prefixed path) so this still resolves
+// correctly under the temporary GitHub Pages /repo-name/ base path — BASE_URL
+// isn't guaranteed to carry a trailing slash, so add one explicitly.
+const baseUrl = import.meta.env.BASE_URL.replace(/\/?$/, "/");
+const socialImage: string = Astro.url.origin + baseUrl + OG.image.replace(/^\//, "");
 ---
 
 <!-- LocalBusiness Schema (on ALL pages) - customize your JSON-LD structured data:
