@@ -214,11 +214,12 @@ import { SERVICES } from "@data/services";
       }
 
       .cs-item {
-        /* Fits exactly 5 across at the container's own max-width (1280px) — as the
-           container narrows below that, the percentage term drops under 220px and
-           the floor takes over, so the row overflows and scrolls instead of the
-           cards squeezing down or wrapping to a second line. */
-        flex: 0 0 clamp(13.75rem, calc((100% - 4 * clamp(1rem, 2.5vw, 1.25rem)) / 5), 16.25rem);
+        /* Wide enough for the longest title ("Impermeabilização e Vedação
+           Especializada") to sit on 2-3 lines instead of 4-5 with a hyphen on
+           nearly every line. At the container's own max-width (1280px) this fits
+           ~3.7 across; below that the floor takes over and the row scrolls
+           instead of the cards squeezing down or wrapping to a second line. */
+        flex: 0 0 clamp(18rem, calc((100% - 4 * clamp(1rem, 2.5vw, 1.25rem)) / 5), 21rem);
         scroll-snap-align: start;
         text-align: left;
         list-style: none;
