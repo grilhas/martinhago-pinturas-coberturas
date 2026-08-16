@@ -265,6 +265,13 @@ import { SERVICES } from "@data/services";
       }
 
       .cs-link {
+        /* .cs-item's align-items:flex-start stops the flex column from stretching
+           children to its width, so without an explicit width this shrinks-to-fit
+           its own text content — for the longest title that computed width comes
+           out wider than the card itself, and the excess silently clips under
+           .cs-item's overflow:hidden instead of wrapping. */
+        width: 100%;
+        box-sizing: border-box;
         text-decoration: none;
         padding: clamp(7.8125rem, 19vw, 14.75rem) (24/16rem) (24/16rem);
       }
@@ -276,6 +283,10 @@ import { SERVICES } from "@data/services";
         margin: 0 0 (12/16rem) 0;
         color: var(--bodyTextColorWhite);
         transition: color 0.3s;
+        /* Long unbreakable words (e.g. "Impermeabilização") would otherwise overflow
+           the card's fixed width and get clipped by .cs-item's overflow:hidden. */
+        overflow-wrap: break-word;
+        hyphens: auto;
       }
 
       .cs-item-text {
